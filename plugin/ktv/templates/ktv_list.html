@@ -94,7 +94,8 @@ function make_list(data) {
 
     tmp = data[i].created_time + '<strong> (생성)</strong><br>';
     tmp += data[i].send_command_time  + '<strong> (스캔요청)</strong><br>';
-    tmp += data[i].scan_time + '<strong> (스캔완료)</strong>';
+    if (data[i].scan_time != null && data[i].scan_time != '')
+      tmp += data[i].scan_time + '<strong> (스캔완료)</strong>';
     
     str += m_col(3, tmp);
     

@@ -287,8 +287,12 @@ function make_list(ret) {
     str += '<div class="row">';
     str += '<div class="col-sm-3">'
     if (data[i].json != null)  {
+      try {
       tmp = "http://image.tving.com" + data[i].json.body.content.info.episode.image[0].url;
       str += '<img src="' + tmp + '" class="img-fluid">'
+      } catch(e) {
+        
+      }
     }
     str += '</div>';
     str += '<div class="col-sm-9">'

@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form id="form_search" class="form-inline" style="text-align:left">
+  <div class="container-fluid">
+    <div class="row show-grid">
+      <div class="col-md-12 form-inline">
+        <div class="col-md-12 form-inline " style="align-items:left; text-align:left;">
+          <div class="col-md-2" style="align-items:left; text-align:left;">
+            <div id="type_list_div">
+              <select id="type_list" name="type_list" class="form-control form-control-sm">
+                <option value="all">all</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4" style="align-items:left; text-align:left;">
+            <input id="search_word" name="search_word" class="form-control form-control-sm w-100" type="text" placeholder="검색어. 2개 이상 일 경우 구분자 + 예)720p+NEXT " aria-label="Search">
+          </div>
+          <div class="col-md-1" style="align-items:left; text-align:left;">
+            <button id="search" class="btn btn-sm btn-outline-success">검색</button>
+          </div>
+          <div class="col-md-5" style="align-items:left; text-align:left;">
+              <div id="rss_url_div">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div id='page1'></div>
+
+{{ macros.m_hr_head_top() }}
+{{ macros.m_row_start('0') }}
+{{ macros.m_col(2,  macros.m_strong('Poster')) }}
+{{ macros.m_col(2,  macros.m_strong('Title')) }}
+{{ macros.m_col(1,  macros.m_strong('Genre')) }}
+{{ macros.m_col(1,  macros.m_strong('Status')) }}
+{{ macros.m_col(2,  macros.m_strong('Info')) }}
+{{ macros.m_col(1,  macros.m_strong('1일')) }}
+{{ macros.m_col(1,  macros.m_strong('회차정보')) }}
+{{ macros.m_col(1,  macros.m_strong('Update')) }}
+{{ macros.m_col(1,  macros.m_strong('Action')) }}
+{{ macros.m_row_end() }}
+{{ macros.m_hr_head_bottom() }}
+<div id="list_div"></div>
+<div id='page2'></div>
+
+<script type="text/javascript">
+var package_name = 'rss';
+var current_data = null;
+
+$(document).ready(function(){
+  request_search('1');
+});
+
+$("#search").click(function(e) {
+  e.preventDefault();
+  request_search('1');
+});
+
+$("body").on('click', '#page', function(e){
+  e.preventDefault();
+  request_search($(this).data('page'));
+});
+
+
+$("body").on('click', '#add_remote_btn', function(e) {
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $.ajax({
+    url: '/offcloud/ajax/cache_download_bot',
+    type: "POST", 
+    cache: false,
+    data: {hash:hash},
+    dataType: "json",
+    success: function (data) {
+      m_modal(data)
+    }
+  });
+});
+
+$("body").on('click', '#cache_btn', function(e){
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $(location).attr('href', '/offcloud/cache?magnet=' + hash)
+});
+
+
+function request_search(page) {
+  var formData = get_formdata('#form_search')
+  formData += '&page=' + page;
+  $.ajax({
+    url: '/' + package_name + '/ajax/bot_list',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      window.scrollTo(0,0);
+      make_type_list(data.type_list)
+      make_list(data.list)
+      make_page_html(data.paging)
+    }
+  });
+}  
+
+function make_type_list(data) {
+  prev = null
+  if (document.getElementById("type_list") != null) 
+    prev = document.getElementById("type_list").value
+  str = '<select id="type_list" name="type_list" class="form-control form-control-sm">'
+  for(var i in data) {
+    str += '<option value="'+ data[i][0]+'">'
+    str += data[i][0]
+    str += "</option>"
+    if ( prev == data[i][0] ) {
+      rss_url = data[i][1]
+    }
+  }
+  str += "</select>"
+  search = document.getElementById("search_word").value;
+  if (search != '') {
+    rss_url += '?search=' + search
+  }
+  document.getElementById("type_list_div").innerHTML = str;
+  if ( prev != null) {
+    document.getElementById("type_list").value = prev
+    tmp = '<a href="'+rss_url +'" target="_blank">' + rss_url + "</a>";
+    document.getElementById("rss_url_div").innerHTML = tmp;
+  }
+}
+
+/*
+$("body").on('change', '#type_list', function(e){
+  e.preventDefault();
+  t = document.getElementById("type_list").value;
+  for(var i in current_data.type_list) {
+    if (current_data.type_list[i][0] == t) {
+      tmp = '<a href="'+current_data.type_list[i][1] +'" target="_blank">' + current_data.type_list[i][1] + "</a>";
+      document.getElementById("rss_url_div").innerHTML = tmp;
+      break;
+    }
+  }
+});
+*/
+
+function make_list(data) {
+  str = ''
+  for (i in data) {
+    str += m_row_start();
+    str += m_col(1, data[i].id);
+    str += m_col(1, data[i].rss_type);
+    str += m_col(4, data[i].title);
+    //tmp = '<a href="' + data[i].magnet + ' target="_blank">' + data[i].magnet + '</a>';    
+    //str += m_col(3, tmp);
+
+    tmp1 = '<pre>';
+    for (var j in data[i].files) {
+      if (data[i].files[j].link != '') {
+        tmp1 += '<a href="/rss/download_bot/' + data[i].files[j].id+ '">' + data[i].files[j].filename + '</a><br>';
+      }
+      tmp1 += '<a href="'+data[i].files[j].magnet + '">' + data[i].files[j].magnet + '</a>';
+      
+
+      tmp = m_button('add_download_btn', '다운로드(트랜스미션)', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+      tmp = tmp.replace('<button', '<button disabled')
+      tmp += m_button('add_remote_btn', '다운로드(Offcloud)', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+      tmp += m_button('cache_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+      tmp = m_button_group(tmp)
+      tmp1 += tmp + '</pre>';
+      if (j != data[i].files.length-1) {
+        tmp1 += m_hr();
+      }
+      //str += m_col(3, tmp1);
+    }
+    str += m_col(6, tmp1);
+    str += m_row_end();
+    if (i != data.length -1) str += m_hr();
+  }
+  document.getElementById("list_div").innerHTML = str;
+}
+</script>    
+{% endblock %}

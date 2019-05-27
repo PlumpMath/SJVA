@@ -12,8 +12,8 @@
     {{ macros.setting_input_text('manual_folder_name', 'manual 폴더', value=arg['manual_folder_name'], col='3', desc=['대상 폴더가 2개 이상일 경우 파일이 이동할 폴더 이름', '다운로드 폴더안에 생성']) }}
     {{ macros.setting_input_text('no_daum_folder_name', 'no daum 폴더', value=arg['no_daum_folder_name'], col='3', desc=['Daum 쇼 정보가 없을 경우 이동할 장르레벨 폴더 이름', '첫번째 라이브러리 폴더 루트에 생성']) }}
     {{ macros.setting_input_text('download_path', '다운로드 폴더', value=arg['download_path'], col='9', desc=['다운로드 감시 폴더','라이브러리 정보가 있고 값 변경시 RClone 플러그인 정보는 수동으로 변경해야합니다.']) }}
-    
-    {{ macros.setting_button([['setting_save_btn', '저장']]) }}
+    {{ macros.setting_checkbox('telegram', '텔레그램', value=arg['telegram']) }}
+    {{ macros.setting_button([['setting_save_btn', '저장'], ['reset_db_btn', '저장된 목록 지우기']]) }}
     {{ macros.m_hr() }}
     {{ macros.setting_button([['add_library_btn', '라이브러리 폴더 정보 추가']]) }}
     {{ macros.setting_top('라이브러리') }}
@@ -200,7 +200,28 @@ $(document).ready(function(){
     });
   });
 
-  
+  $("body").on('click', '#reset_db_btn', function(e){
+    e.preventDefault();
+    $.ajax({
+      url: '/' + package_name + '/ajax/reset_db',
+      type: "POST", 
+      cache: false,
+      data: {},
+      dataType: "json",
+      success: function (data) {
+        if (data) {
+          $.notify('<strong>삭제하였습니다.</strong>', {
+	          type: 'success'
+          });
+        } else {
+          $.notify('<strong>삭제에 실패하였습니다.</strong>',{
+	          type: 'warning'
+          });
+        }
+      }
+    });
+  });
+
 
   $('input[type=radio][name=library_type]').change(function() {
     set_library_type(this.value);
