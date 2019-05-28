@@ -22,8 +22,9 @@
 {{ macros.m_hr_head_top() }}
 {{ macros.m_row_start('0') }}
 {{ macros.m_col(1,  macros.m_strong('ID')) }}
-{{ macros.m_col(2,  macros.m_strong('IDP')) }}
-{{ macros.m_col(2,  macros.m_strong('Name')) }}
+{{ macros.m_col(2,  macros.m_strong('Unique')) }}
+{{ macros.m_col(1,  macros.m_strong('Name')) }}
+{{ macros.m_col(1,  macros.m_strong('Count')) }}
 {{ macros.m_col(2,  macros.m_strong('Update')) }}
 {{ macros.m_col(2,  macros.m_strong('Created')) }}
 {{ macros.m_col(1,  macros.m_strong('Type')) }}
@@ -87,7 +88,8 @@ function make_list(data) {
     str += m_row_start();
     str += m_col(1, data[i].id);
     str += m_col(2, data[i].ip);
-    str += m_col(2, data[i].user);
+    str += m_col(1, data[i].user);
+    str += m_col(1, data[i].count);    
     str += m_col(2, data[i].update_time);
     str += m_col(2, data[i].created_time);
     str += m_col(1, data[i].running_type);
