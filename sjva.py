@@ -31,10 +31,16 @@ except:
 
 def start_app():
     try:
-        framework.socketio.run(app, host='0.0.0.0', port=app.config['config']['port'])
-        print 'EXIT CODE : %s' % framework.exit_code
-        if framework.exit_code != -1:
-            sys.exit(framework.exit_code)
+        for i in range(5):
+            framework.socketio.run(app, host='0.0.0.0', port=app.config['config']['port'])
+            print 'EXIT CODE : %s' % framework.exit_code
+            if framework.exit_code != -1:
+                sys.exit(framework.exit_code)
+                break
+            else:
+                import time
+                sleep(3)
+                continue
     except Exception as e:
         print e
     except KeyboardInterrupt:
