@@ -12,9 +12,31 @@ try:
 except:
     print 'not monkey'
 
+
+######################################
+# docker_start.sh 에 site.db로 되어 있어 migration 안되고 있음
+try:
+    import os
+    site_db = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'db', 'site.db')
+    
+    print site_db
+    if not os.path.exists(site_db):
+        print 'site.db file not exist!!'
+        f = open(site_db, 'w')
+        f.close()
+        sys.exit("1")
+    else:
+        print 'site.db file exist!!'
+except Exception, e:
+    print('Exception:%s', e)
+
+
+
 import framework
 import system
 
+
+   
 app = framework.app
 #celery = framework.celery
 #socketio = framework.socketio
@@ -28,6 +50,8 @@ except:
 """
 # update:1
 # restart:2
+
+
 
 def start_app():
     try:

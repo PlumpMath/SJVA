@@ -9,7 +9,7 @@ do
         pip install -r update_requirements.txt
     fi
     export FLASK_APP=sjva.py
-    if [[ ! -d "./migrations" ] && [ -f "./data/db/sjva.db" ]]; then
+    if [ ! -d "./migrations" ] && [ -f "./data/db/sjva.db" ]; then
         python -OO -m flask db init
     fi
     if [ -d "./migrations" ]; then
