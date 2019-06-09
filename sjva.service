@@ -4,7 +4,7 @@ Description=SJVA
 [Service]
 Environment=
 WorkingDirectory=/root/SJVA/
-ExecStart=/root/SJVA/start.sh
+ExecStart=/root/SJVA/my_start.sh
 Restart=always
 
 [Install]
