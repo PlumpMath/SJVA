@@ -156,7 +156,7 @@ function make_list(data) {
         tmp1 += '<a href="/rss/download_bot/' + data[i].files[j].id+ '">' + data[i].files[j].filename + '</a><br>';
       }
       tmp1 += '<a href="'+data[i].files[j].magnet + '">' + data[i].files[j].magnet + '</a>';
-      
+      tmp1 += '<br>'
 
       tmp = m_button('add_download_btn', '다운로드(트랜스미션)', [{'key':'hash', 'value':data[i].files[j].magnet}]);
       tmp = tmp.replace('<button', '<button disabled')
