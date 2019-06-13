@@ -19,7 +19,7 @@ do
     python -OO sjva.py 0 ${COUNT}
     RESULT=$?
     echo "PYTHON EXIT CODE : ${RESULT}.............."
-    if [[ "$RESULT" = "1" ] || [ "$RESULT" = "2" ]]; then
+    if [ "$RESULT" = "1" ] || [ "$RESULT" = "2" ]; then
         echo 'REPEAT....'
     else
         echo 'FINISH....'
