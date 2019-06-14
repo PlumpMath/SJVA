@@ -129,17 +129,10 @@ $(document).ready(function(){
   $("body").on('click', '#reset_db_btn', function(e){
     e.preventDefault();
     document.getElementById("confirm_title").innerHTML = "DB 삭제";
-    document.getElementById("confirm_body").innerHTML = "전체 DB 내용을 삭제 하시겠습니까?ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ";
-    //document.getElementById("modal_body").innerHTML = "<pre>"+JSON.stringify(data, null, 2) + "</pre>";
-    
-    //btn = document.getElementById("confirm_button")
-    //btn.attr
+    document.getElementById("confirm_body").innerHTML = "전체 처리결과 내용을 삭제 하시겠습니까?";
     $('#confirm_button').attr('onclick', "db_delete();");
-
     $("#confirm_modal").modal();
-    
     return;
-    
   });
   
 
@@ -148,32 +141,26 @@ $(document).ready(function(){
 
 
 function db_delete() {
-  $.notify('<strong>삭제하였습니다.</strong>', {
-            type: 'success'
-          });
-
-  /*
-    $.ajax({
-      url: '/' + package_name + '/ajax/reset_db',
-      type: "POST", 
-      cache: false,
-      data: {},
-      dataType: "json",
-      success: function (data) {
-        if (data) {
-          $.notify('<strong>삭제하였습니다.</strong>', {
-            type: 'success'
-          });
-        } else {
-          $.notify('<strong>삭제에 실패하였습니다.</strong>',{
-            type: 'warning'
-          });
-        }
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_db',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>삭제하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>삭제에 실패하였습니다.</strong>',{
+          type: 'warning'
+        });
       }
-    });
-  */
-  }
-  
+    }
+  });
+}
+
 
 
 function use_collapse(div) {
