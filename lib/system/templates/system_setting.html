@@ -46,7 +46,7 @@ var current_data;
 
 $(document).ready(function(){
 
-  function setting_save_func(formData, default) {
+  function setting_save_func(formData, noti) {
     $.ajax({
       url: '/' + package_name + '/ajax/setting_save',
       type: "POST", 
@@ -55,7 +55,7 @@ $(document).ready(function(){
       dataType: "json",
       success: function (ret) {
         if (ret) {
-          if (default) {
+          if (noti) {
             $.notify('<strong>설정을 저장하였습니다.</strong>', {
               type: 'success'
             });
