@@ -58,7 +58,7 @@
       <div id="qvod_download_div" class="collapse">
       {{ macros.setting_input_text('download_program_in_qvod', 'Quick VOD 중 다운받을 프로그램', value=arg['download_program_in_qvod'], desc=['Quick VOD 받기가 Off 일때, 다운받을 프로그램 이름', 'Quick VOD가 On일 경우에는 이 설정과 상관없이 모두 다운', ',로 구분']) }}
       </div>
-      {{ macros.setting_radio('download_mode', '다운로드 모드', ['블랙리스트', '화이트리스트'], value=arg['mode']) }}
+      {{ macros.setting_radio('download_mode', '다운로드 모드', ['블랙리스트', '화이트리스트'], value=arg['download_mode']) }}
       <div id="blacklist_div" class="collapse">
       {{ macros.setting_input_text('except_channel', '제외 채널', value=arg['except_channel'], desc=['채널 이름과 일치하면 제외합니다.', ',로 구분']) }}
       {{ macros.setting_input_text('except_program', '제외 프로그램', value=arg['except_program'], desc=['이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 제외합니다.', ',로 구분']) }}
