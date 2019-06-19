@@ -11,6 +11,8 @@
         
         <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+        {% set theme = get_theme() %}
+        <link href="{{ url_for('static', filename='css/theme/'+theme[0]+'_bootstrap.min.css') }}" rel="stylesheet">                
         <link href="{{ url_for('static', filename='css/animate.min.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
 
@@ -51,7 +53,7 @@
           .fixed-top-2 { margin-top: 0px; }          
         -->
         <style type="text/css">
-          body { padding-top: 56px; font-size: .850rem; }
+          body { padding-top: {{theme[1]}}px; font-size: .850rem; }
           .table>tbody>tr.collapse>td { background-color:#ecf3f8; }
           .tableRowHover tbody tr:not(.tableRowHoverOff):hover td {
             background-color: #ffff00;

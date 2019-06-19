@@ -6,12 +6,13 @@
   <nav>  
     {{ macros.m_tab_head_start() }}
       {{ macros.m_tab_head('일반', true) }}
+      {{ macros.m_tab_head('웹', false) }}
     {{ macros.m_tab_head_end() }}
   </nav>  
 
   <div class="tab-content" id="nav-tabContent">
-    {{ macros.m_tab_content_start('일반', true) }}
     
+    {{ macros.m_tab_content_start('일반', true) }}
       <form id='setting' name='setting'>
         {{ macros.setting_input_text('id', '로그인 ID', value=arg['id'], desc=['초기값은 admin입니다.'], col='3') }}
 
@@ -24,10 +25,17 @@
         {{ macros.setting_input_int('auto_restart_hour', '자동 재시작 시간', value=arg['auto_restart_hour'], min='0', desc=['자동 재시작 시간입니다.', '0이면 재시작 안함.']) }}
 
         {{ macros.setting_button([['setting_save', '저장']]) }}
-
-        
-      </form>   
+      </form>
+      
     {{ macros.m_tab_content_end() }}   
+
+    {{ macros.m_tab_content_start('웹', false) }}
+      <form id='setting2' name='setting2'>
+        {{ macros.setting_select('theme', '테마 선택', [['Default','Default'], ['Cerulean','Cerulean'], ['Cosmo','Cosmo'], ['Cyborg','Cyborg'], ['Darkly','Darkly'], ['Flatly','Flatly'], ['Journal','Journal'], ['Litera','Litera'], ['Lumen','Lumen'], ['Lux','Lux'], ['Materia','Materia'], ['Minty','Minty'], ['Pulse','Pulse'], ['Sandstone','Sandstone'], ['Simplex','Simplex'], ['Sketchy','Sketchy'], ['Slate','Slate'], ['Solar','Solar'], ['Spacelab','Spacelab'], ['Superhero','Superhero'], ['United','United'], ['Yeti','Yeti']], value=arg['theme'], desc=['https://bootswatch.com'], col='6') }}
+        {{ macros.setting_button([['setting_save2', '저장']]) }}
+      </form>
+    {{ macros.m_tab_content_end() }} 
+
   </div><!--tab-content-->
 </div> <!--전체-->
 
@@ -38,10 +46,7 @@ var current_data;
 
 $(document).ready(function(){
 
-  //설정 저장
-  $("#setting_save").click(function(e) {
-    e.preventDefault();
-    var formData = get_formdata('#setting');
+  function setting_save_func(formData) {
     $.ajax({
       url: '/' + package_name + '/ajax/setting_save',
       type: "POST", 
@@ -60,6 +65,21 @@ $(document).ready(function(){
         }
       }
     });
+  }
+
+  //설정 저장
+  $("#setting_save").click(function(e) {
+    e.preventDefault();
+    var formData = get_formdata('#setting');
+    setting_save_func(formData)
+  });
+
+  //설정 저장
+  $("#setting_save2").click(function(e) {
+    e.preventDefault();
+    var formData = get_formdata('#setting2');
+    setting_save_func(formData)
+    window.location.href = "/"
   });
 
   $("body").on('click', '#ddns_test_btn', function(e){ 
