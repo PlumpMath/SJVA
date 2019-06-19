@@ -46,7 +46,7 @@ var current_data;
 
 $(document).ready(function(){
 
-  function setting_save_func(formData) {
+  function setting_save_func(formData, default) {
     $.ajax({
       url: '/' + package_name + '/ajax/setting_save',
       type: "POST", 
@@ -55,9 +55,13 @@ $(document).ready(function(){
       dataType: "json",
       success: function (ret) {
         if (ret) {
-          $.notify('<strong>설정을 저장하였습니다.</strong>', {
-	          type: 'success'
-          });
+          if (default) {
+            $.notify('<strong>설정을 저장하였습니다.</strong>', {
+              type: 'success'
+            });
+          } else {
+            window.location.href = "/"
+          }
         } else {
           $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
 	          type: 'warning'
@@ -71,15 +75,15 @@ $(document).ready(function(){
   $("#setting_save").click(function(e) {
     e.preventDefault();
     var formData = get_formdata('#setting');
-    setting_save_func(formData)
+    setting_save_func(formData, true)
   });
 
   //설정 저장
   $("#setting_save2").click(function(e) {
     e.preventDefault();
     var formData = get_formdata('#setting2');
-    setting_save_func(formData)
-    window.location.href = "/"
+    setting_save_func(formData, false)
+    //
   });
 
   $("body").on('click', '#ddns_test_btn', function(e){ 
