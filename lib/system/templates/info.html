@@ -7,7 +7,7 @@
   {{ macros.info_text('python_version', 'Python 버전') }}
   {{ macros.info_text('platform', 'Platform') }}
   {{ macros.info_text('processor', 'Processor') }}
-  {{ macros.info_text('version', 'SJVA 버전') }}
+  {{ macros.info_text_and_buttons('version', 'SJVA 버전', [['changelog_btn', '업데이트 내역']]) }}
   {{ macros.info_text('path_app_root', 'SJVA 폴더') }}
   {{ macros.info_text('running_type', '실행타입') }}
   <div class="d-inline-block"></div>
@@ -79,21 +79,35 @@ $(document).ready(function(){
     data:{},
     dataType: "json",
     success: function (data) {
-      for(var key in data.system) {
-        document.getElementById(key).innerHTML = data.system[key];
-      }
+      make_system(data);
     }
   });
 
   var protocol = window.location.protocol;
   var socket = io.connect(protocol + "//" + document.domain + ":" + location.port + "/system")
   socket.on('status', function(data) {
-    for(var key in data.system) {
-      document.getElementById(key).innerHTML = data.system[key];
-    }
+    make_system(data);
     make_scheduler_list(data.scheduler);
   });
+
+  $("body").on('click', '#changelog_btn', function(e){
+    e.preventDefault();
+    window.location.href='/system/information';
+  });
+
 });
+
+
+
+function make_system(data) {
+  for(var key in data.system) {
+    //console.log(key)
+    //if (key != 'version')
+    document.getElementById(key).innerHTML = data.system[key];
+  }
+}
+
+
 
   
 </script>    
