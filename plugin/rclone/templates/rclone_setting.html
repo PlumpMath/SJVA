@@ -94,7 +94,6 @@
 
 <script type="text/javascript">
 var current_data = null;
-
 $(document).ready(function(){
   var package_name = 'rclone';
   
@@ -105,7 +104,6 @@ $(document).ready(function(){
   $('#job_option_static').attr("readonly", "readonly");
   set_command_type('move')
   
-
   // 페이지 로딩
   $.ajax({
     url: '/' + package_name + '/ajax/load_remotes',
@@ -119,7 +117,6 @@ $(document).ready(function(){
       make_job_list(data.jobs);
     }
   });
-
   // rclone 버전 버튼
   $("body").on('click', '#rclone_path_test_btn', function(e){
     e.preventDefault();
@@ -140,7 +137,6 @@ $(document).ready(function(){
       }
     });
   });
-
   // config 버튼
   $("body").on('click', '#rclone_config_btn', function(e){
     e.preventDefault();
@@ -157,8 +153,6 @@ $(document).ready(function(){
       }
     });
   });
-
-
   // 작업추가 버튼
   $("body").on('click', '#job_add_btn', function(e){
     e.preventDefault();
@@ -178,7 +172,6 @@ $(document).ready(function(){
     document.getElementById('job_add_modal_title').innerHTML = "작업 추가"   
     $("#job_add_modal").modal();
   }); 
-
   // 작업 수정 버튼
   $("body").on('click', '#job_setting_btn', function(e) {
     e.preventDefault();
@@ -224,7 +217,6 @@ $(document).ready(function(){
     } else {
       $('#is_scheduling').bootstrapToggle('off')
     }
-
     //document.getElementById('is_scheduling').checked = select_job.is_scheduling;
     document.getElementById('job_remove_btn').disabled = false;  
     document.getElementById('job_add_modal_title').innerHTML = "작업 수정"
@@ -237,8 +229,6 @@ $(document).ready(function(){
     $("#job_add_modal").modal();
     
   });
-
-
   // 작업 실행 버튼
   $("body").on('click', '#job_execute_btn', function(e) {
     e.preventDefault();
@@ -256,15 +246,8 @@ $(document).ready(function(){
       }
     });
   });
-
   
-
   
-
-
-
-
-
   /******************************************************
     작업추가 모달
   *******************************************************/
@@ -285,7 +268,6 @@ $(document).ready(function(){
       }
     });
   }); 
-
   // ls 버튼
   $("body").on('click', '#job_local_ls_btn', function(e){
     e.preventDefault();
@@ -308,7 +290,6 @@ $(document).ready(function(){
     e.preventDefault();
     $('#ls_div').collapse('toggle');
   }); 
-
   // local ls 토글 버튼
   $("body").on('click', '#job_local_ls_toggle_btn', function(e){
     e.preventDefault();
@@ -350,7 +331,6 @@ $(document).ready(function(){
       }
     });
   });
-
   // 작업 삭제 버튼
   $("body").on('click', '#job_remove_btn', function(e) {
     e.preventDefault();
@@ -378,23 +358,17 @@ $(document).ready(function(){
       }
     });
   });
-
   // 작업 모달창에서 명령 변경
   $('#job_command').change(function() {
     set_command_type(this.value);
   });
-
-  
-
-
   
   
-
+  
   
   /******************************************************
     일반 (스케쥴링)
   *******************************************************/
-
   //설정 저장
   $("#setting_save_btn").click(function(e) {
     e.preventDefault();
@@ -418,7 +392,6 @@ $(document).ready(function(){
       }
     });
   });
-
   // 스케쥴링 on / off
   $('#scheduler').change(function() {
     var ret = $(this).prop('checked');
@@ -433,18 +406,6 @@ $(document).ready(function(){
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 function make_remotes_list(data) {
   str = ''
   for (i in data) {
@@ -467,7 +428,6 @@ function make_remotes_list(data) {
   }
   document.getElementById("remotes_list_div").innerHTML = str;
 }
-
 function make_job_list(data) {
   console.log(data)
   str = ''
@@ -487,7 +447,6 @@ function make_job_list(data) {
     }
     str += m_col(1, tmp);
     str += m_col(1, data[i].command);
-
     tmp = data[i].local_path + '<br>' + data[i].remote + ':' + data[i].remote_path
     str += m_col(3, tmp);
     
@@ -499,7 +458,6 @@ function make_job_list(data) {
       tmp = '미포함'
     }
     str += m_col(1, tmp)
-
     tmp = m_button('job_execute_btn', '실행', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('job_setting_btn', '수정', [{'key':'id', 'value':data[i].id}]);
     tmp = m_button_group(tmp)
@@ -510,7 +468,6 @@ function make_job_list(data) {
   }
   document.getElementById("job_list_div").innerHTML = str;
 }
-
 function set_command_type(type) {
   var user = "{{ arg['default_rclone_setting']['user'] }}";
   var data = {
@@ -518,22 +475,8 @@ function set_command_type(type) {
     "copy":"{{ arg['default_rclone_setting']['copy'] }}",
     "sync":"{{ arg['default_rclone_setting']['sync'] }}"
   };
-
   //$('input[name=job_command]')[parseInt(type)].checked = true;
-
   document.getElementById("job_option_user").value = user + ' ' + data[type];
 }
-
-
-
-
-
-
-
-
-
-
-
-
 </script>    
 {% endblock %}

@@ -68,6 +68,8 @@
 
 <script type="text/javascript">
 var currentData = null;
+var ddns = "{{arg['ddns']}}"
+var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
 
 $(document).ready(function(){
   $.ajax({
@@ -130,6 +132,63 @@ $(document).ready(function(){
     }
   });
 
+  $("body").on('click', '#add_download_btn', function(e) {
+  e.preventDefault();
+  download_url = $(this).data('hash');
+  $.ajax({
+    url: '/downloader/ajax/add_download',
+    type: "POST", 
+    cache: false,
+    data: {download_url:download_url},
+    dataType: "json",
+    success: function (data) {
+      show_result_add_download(data);
+    }
+  });
+
+  $("body").on('click', '#add_remote_btn', function(e) {
+    e.preventDefault();
+    hash = $(this).data('hash');
+    $.ajax({
+      url: '/offcloud/ajax/cache_download_bot',
+      type: "POST", 
+      cache: false,
+      data: {hash:hash},
+      dataType: "json",
+      success: function (data) {
+        m_modal(data)
+      }
+    });
+  });
+
+  $("body").on('click', '#cache_btn', function(e){
+    e.preventDefault();
+    hash = $(this).data('hash');
+    $.ajax({
+      url: '/offcloud/ajax/hash',
+      type: "POST", 
+      cache: false,
+      data:{hash:hash},
+      dataType: "json",
+      success: function (data) {
+        if (data) {
+          $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
+            type: 'success'
+          });
+        } else {
+          $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
+            type: 'warning'
+          });
+        }
+      }
+    });
+    //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
+  });
+
+});
+
+
+
 
 
 
@@ -145,7 +204,7 @@ function make_list_html(data) {
     str += m_col(1, data[i].site);
     str += m_col(2, data[i].board + '<br>' + data[i].board_id);
 
-    tmp = '<pre>';
+    tmp = '';
     tmp += '<a href="'+data[i].url +'" target="_blank">' + data[i].title + '</a>'
     tmp += '<br><hr style="width: 100%; margin-bottom:4px; margin-top:4px; bottom=0px;" />';
 
@@ -153,12 +212,30 @@ function make_list_html(data) {
       if (data[i].files[j].link != '') {
         tmp += '<a href="/rss/download/' + data[i].files[j].id+ '">' + data[i].files[j].filename + '</a><br>';
       }
-      tmp += '<a href="'+data[i].files[j].magnet + '">' + data[i].files[j].magnet + '</a>';
+      if (data[i].files[j].magnet != '') {
+        tmp += '<a href="'+data[i].files[j].magnet + '">' + data[i].files[j].magnet + '</a><br>';
+      }
+        
+      tmp1 = ''
+      if ( data[i].files[j].magnet != '') {
+        tmp1 += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+        tmp1 += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+        tmp1 += m_button('cache_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+      } else {
+        if (is_available_normal_download) {
+          tmp1 += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].files[j].id }]);
+        }
+        tmp1 += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].files[j].id}]);
+      }
+
+      tmp1 = m_button_group(tmp1)
+      tmp += tmp1
+
       if (j != data[i].files.length-1) {
         tmp += m_hr();
       }
     }
-    tmp += '</pre>';
+    //tmp += '</pre>';
     str += m_col(6, tmp);
     str += m_row_end();
     if (i != data.length -1) str += m_hr();

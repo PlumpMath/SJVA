@@ -318,6 +318,30 @@ function make_page_html(data) {
   document.getElementById("page2").innerHTML = str;  
 }
 
-
-
+// 토렌트 프로그램에 다운로드 추가할 결과를 보여주는
+function show_result_add_download(data) {
+  try {
+    program = '토렌트'
+    if (data.default_torrent_program == '0') {
+      program = '트랜스미션에 토렌트'
+    } else if (data.default_torrent_program == '1') {
+      program = '다운로드스테이션에 토렌트'
+    }
+  }
+  catch {
+  }
+  if (data.ret == 'success') {
+    $.notify('<strong>'+ program +'를 추가하였습니다.</strong>', {
+      type: 'success'
+    });
+  } else if (data.ret == 'fail') {
+    $.notify('<strong>'+ program +' 추가에 실패하였습니다.</strong>', {
+      type: 'warning'
+    });
+  } else {
+    $.notify('<strong>'+ program +' 추가 에러<br>'+data.error+'</strong>', {
+      type: 'warning'
+    });
+  }
+}
 </script>

@@ -109,7 +109,9 @@ function make_list(data) {
     tmp = data[i].title + '<br>'
     tmp += '<a href="'+data[i].link+'" target="_blank">'+ data[i].link +'</a><br>'
     tmp2 = m_button('download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
-    tmp2 += m_button('cache_test_btn', '캐쉬여부 확인', [{'key':'id', 'value':data[i].link}]);
+    if (data[i].link.startsWith('magnet')) {
+      tmp2 += m_button('cache_test_btn', '캐쉬여부 확인', [{'key':'id', 'value':data[i].link}]);
+    }
     tmp2 = m_button_group(tmp2)
     str += m_col(4, tmp+tmp2);
 
