@@ -288,16 +288,16 @@ $(document).ready(function(){
   });
 
   function set_download_mode(type) {
-  $('input[name=download_mode]')[parseInt(type)].checked = true;
+    $('input[name=download_mode]')[parseInt(type)].checked = true;
 
-  if ( type == '0') {
-    $('#blacklist_div').collapse('show')
-    $('#whitelist_div').collapse('hide')
-  } else {
-    $('#blacklist_div').collapse('hide')
-    $('#whitelist_div').collapse('show')
+    if ( type == '0') {
+      $('#blacklist_div').collapse('show')
+      $('#whitelist_div').collapse('hide')
+    } else {
+      $('#blacklist_div').collapse('hide')
+      $('#whitelist_div').collapse('show')
+    }
   }
-}
 
 });
 

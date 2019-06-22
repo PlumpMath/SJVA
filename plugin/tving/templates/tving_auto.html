@@ -29,6 +29,7 @@
               <option value="etc_abort_11">패스 - QVOD</option>
               <option value="etc_abort_12">패스 - 제외 채널</option>
               <option value="etc_abort_13">패스 - 제외 프로그램</option>
+              <option value="etc_abort_14">화이트리스트 제외</option>
             </select>
           </span>
           <span class="col-md-8">
@@ -53,8 +54,15 @@
       {{ macros.setting_select('auto_quality', '기본 화질', [['FHD', 'FHD'], ['HD', 'HD'], ['SD', 'SD']], col='3', value=arg['auto_quality']) }}
       {{ macros.setting_input_int('auto_page', '탐색 페이지수', value=arg['auto_page'], min='1', placeholder='2') }}
       {{ macros.setting_checkbox('retry_user_abort', '사용자 중지 항목 다시 받기', value=arg['retry_user_abort'], desc='On : 다음 스케쥴링 때 다시 받습니다.') }}
+      {{ macros.setting_radio('download_mode', '다운로드 모드', ['블랙리스트', '화이트리스트'], value=arg['download_mode']) }}
+      <div id="blacklist_div" class="collapse">
       {{ macros.setting_input_text('except_channel', '제외 채널', value=arg['except_channel'], desc=[',로 구분', '채널 이름과 일치하면 제외합니다.']) }}
       {{ macros.setting_input_text('except_program', '제외 프로그램', value=arg['except_program'], desc=[',로 구분', '이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 제외합니다.']) }}
+      
+      </div>
+      <div id="whitelist_div" class="collapse">
+      {{ macros.setting_input_text('whitelist_program', '포함 프로그램', value=arg['whitelist_program'], desc=['이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 다운로드합니다.', ',로 구분']) }}
+      </div>
       {{ macros.setting_button([['setting_save', '저장']]) }}
     </form>
     {{ macros.m_tab_content_end() }}
@@ -65,6 +73,21 @@ var current_data = null;
 var package_name = 'tving';
 
 $(document).ready(function(){
+  // 로딩
+  $(function() {
+    set_download_mode({{arg['download_mode']}})
+    $.ajax({
+      url: '/' + package_name + '/ajax/auto_list',
+      type: "POST", 
+      cache: false,
+      data: {},
+      dataType: "json",
+      success: function (data) {
+        make_list(data);
+      }
+    });
+  });
+
   // 스케쥴링 on / off
   $('#scheduler').change(function() {
     var ret = $(this).prop('checked');
@@ -118,6 +141,21 @@ $(document).ready(function(){
     });
   });
 
+  $("body").on('click', '#whitelist_program_btn', function(e){
+    e.preventDefault();
+    var program = $(this).data('program');
+    $.ajax({
+      url: '/' + package_name + '/ajax/whitelist',
+      type: "POST", 
+      cache: false,
+      data: {program:program},
+      dataType: "json",
+      success: function (data) {
+        except_result_process(data);
+      }
+    });
+  });
+
   $("body").on('click', '#except_channel_btn', function(e){
     e.preventDefault();
     var channel = $(this).data('channel');
@@ -157,19 +195,7 @@ $(document).ready(function(){
 
 
 
-  // 로딩
-  $(function() {
-    $.ajax({
-      url: '/' + package_name + '/ajax/auto_list',
-      type: "POST", 
-      cache: false,
-      data: {},
-      dataType: "json",
-      success: function (data) {
-        make_list(data);
-      }
-    });
-  });
+  
 
   $("#search").click(function(e) {
     e.preventDefault();
@@ -256,6 +282,22 @@ $(document).ready(function(){
       }
     });
   });
+  
+  $('input[type=radio][name=download_mode]').change(function() {
+    set_download_mode(this.value);
+  });
+
+  function set_download_mode(type) {
+    $('input[name=download_mode]')[parseInt(type)].checked = true;
+
+    if ( type == '0') {
+      $('#blacklist_div').collapse('show')
+      $('#whitelist_div').collapse('hide')
+    } else {
+      $('#blacklist_div').collapse('hide')
+      $('#whitelist_div').collapse('show')
+    }
+  }
 
 });
 
@@ -351,6 +393,8 @@ function make_list(ret) {
         str += '패스 - 제외 채널';
       } else if (data[i].etc_abort == 13) {
         str += '패스 - 제외 프로그램';
+      } else if (data[i].etc_abort == 14) {
+        str += '화이트리스트 제외';
       }
       str += '</span>';
     }
@@ -379,8 +423,9 @@ function make_list(ret) {
     str += '<button id="basic_search" name="submit" class="btn btn-sm  btn-outline-success" data-code="'+data[i].program_code+ '">프로그램 검색</button>';
     str += '<button id="json" name="submit" class="btn btn-sm  btn-outline-success" data-idx="'+i+ '">JSON</button>';
     str += '<button id="program_search" class="btn btn-sm btn-outline-success" data-program="'+data[i].program_name+ '">목록 검색</button>';
-    str += '<button id="except_channel_btn" class="btn btn-sm btn-outline-success" data-channel="'+data[i].channel_name+ '">제외채널 추가</button>';
-    str += '<button id="except_program_btn" class="btn btn-sm btn-outline-success" data-program="'+data[i].program_name+ '">제외프로그램 추가</button>';
+    str += '<button id="except_channel_btn" class="btn btn-sm btn-outline-success" data-channel="'+data[i].channel_name+ '">제외채널</button>';
+    str += '<button id="except_program_btn" class="btn btn-sm btn-outline-success" data-program="'+data[i].program_name+ '">제외프로그램</button>';
+    str += '<button id="whitelist_program_btn" class="btn btn-sm btn-outline-success" data-program="'+data[i].program_name+ '">포함프로그램</button>';
     str += '</div>';
     str += '</div>';
     str += '</div>';
