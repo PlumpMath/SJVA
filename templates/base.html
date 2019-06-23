@@ -352,6 +352,10 @@ function show_result_add_download(data) {
     $.notify('<strong>'+ program +'를 추가하였습니다.</strong>', {
       type: 'success'
     });
+  } else if (data.ret == 'success2') {
+    $.notify('<strong>일반 파일 다운로드를 시작하였습니다.</strong>', {
+      type: 'success'
+    });
   } else if (data.ret == 'fail') {
     $.notify('<strong>'+ program +' 추가에 실패하였습니다.</strong>', {
       type: 'warning'
