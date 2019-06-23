@@ -318,6 +318,24 @@ function make_page_html(data) {
   document.getElementById("page2").innerHTML = str;  
 }
 
+function use_collapse(div, reverse=false) {
+  var ret = $('#' + div).prop('checked'); 
+  if (reverse) {
+    if (ret) {
+      $('#' + div + '_div').collapse('hide')
+    } else {
+      $('#' + div + '_div').collapse('show')
+    }
+  } else {
+    if (ret) {
+      $('#' + div + '_div').collapse('show')
+    } else {
+      $('#' + div + '_div').collapse('hide')
+    }
+  }
+}
+
+
 // 토렌트 프로그램에 다운로드 추가할 결과를 보여주는
 function show_result_add_download(data) {
   try {

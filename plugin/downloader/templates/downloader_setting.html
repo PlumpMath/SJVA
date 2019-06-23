@@ -23,7 +23,10 @@
         {{ macros.setting_input_text('transmission_id', 'ID', value=arg['transmission_id'], col='3') }}
         {{ macros.setting_input_text_and_buttons('transmission_pw', '암호', [['transmission_test_btn', '접속 확인']], value=arg['transmission_pw'], col='4', type='password') }}
         {{ macros.setting_input_text('transmission_default_path', '다운로드 경로', value=arg['transmission_default_path'], desc=['기본 다운로드 경로. 생략시 트랜스미션의 기본 경로를 사용', '트랜스미션 설치 기기의 경로를 입력해야 합니다.']) }}
-        
+        {{ macros.setting_checkbox('transmission_normal_file_download', '일반 파일 다운로드', value=arg['transmission_normal_file_download'], desc=['On : 트랜스미션은 토렌트 파일이 아닌 파일은 다운로드가 안됩니다.', ' 자막 등 일반 파일을 SJVA 대신 다운로드합니다.']) }}
+        <div id="transmission_normal_file_download_div" class="collapse">
+        {{ macros.setting_input_text('transmission_normal_file_download_path', '일반 파일 다운로드 경로', value=arg['transmission_normal_file_download_path'], desc=['SJVA 상의 경로입니다.']) }}
+        </div>
         </div>
         <div id="downloadstation_div" class="collapse">
         {{ macros.setting_input_text_and_buttons('downloadstation_url', 'URL', [['downloadstation_web_btn', 'GO']], placeholder='http://xxx.synology.me:5000', value=arg['downloadstation_url'], desc='다운로드스테이션 URL') }}
@@ -49,6 +52,7 @@ var current_data = null;
 $(document).ready(function(){
   $(function() {
     set_default_torrent_program({{arg['default_torrent_program']}})
+    use_collapse("transmission_normal_file_download")
     /*
     $.ajax({
       url: '/pooq/ajax/auto_list',
@@ -166,6 +170,9 @@ $(document).ready(function(){
     });
   });
 
+  $('#transmission_normal_file_download').change(function() {
+    use_collapse('transmission_normal_file_download');
+  });
 });
 
 

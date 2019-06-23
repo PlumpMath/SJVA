@@ -284,22 +284,6 @@ $(document).ready(function(){
 });
 
 
-function use_collapse(div, reverse=false) {
-  var ret = $('#' + div).prop('checked'); 
-  if (reverse) {
-    if (ret) {
-      $('#' + div + '_div').collapse('hide')
-    } else {
-      $('#' + div + '_div').collapse('show')
-    }
-  } else {
-    if (ret) {
-      $('#' + div + '_div').collapse('show')
-    } else {
-      $('#' + div + '_div').collapse('hide')
-    }
-  }
-}
 
 
 function except_result_process(data) {
