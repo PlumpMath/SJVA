@@ -133,23 +133,25 @@ $(document).ready(function(){
   });
 
   $("body").on('click', '#add_download_btn', function(e) {
-  e.preventDefault();
-  download_url = $(this).data('hash');
-  $.ajax({
-    url: '/downloader/ajax/add_download',
-    type: "POST", 
-    cache: false,
-    data: {download_url:download_url},
-    dataType: "json",
-    success: function (data) {
-      show_result_add_download(data);
-    }
+    e.preventDefault();
+    download_url = $(this).data('hash');
+    $.ajax({
+      url: '/downloader/ajax/add_download',
+      type: "POST", 
+      cache: false,
+      data: {download_url:download_url},
+      dataType: "json",
+      success: function (data) {
+        show_result_add_download(data);
+      }
+    });
   });
 
   $("body").on('click', '#add_remote_btn', function(e) {
     e.preventDefault();
     hash = $(this).data('hash');
     $.ajax({
+      // 봇 맞음
       url: '/offcloud/ajax/cache_download_bot',
       type: "POST", 
       cache: false,
@@ -190,9 +192,6 @@ $(document).ready(function(){
 
 
 
-
-
-});
 
 
 function make_list_html(data) {
