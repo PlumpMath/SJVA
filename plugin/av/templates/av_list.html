@@ -22,9 +22,10 @@
 {{ macros.m_hr_head_top() }}
 {{ macros.m_row_start('0') }}
 {{ macros.m_col(2,  macros.m_strong('Type')) }}
+{{ macros.m_col(2,  macros.m_strong('Created Time')) }}
 {{ macros.m_col(2,  macros.m_strong('Move')) }}
-{{ macros.m_col(4,  macros.m_strong('Source')) }}
-{{ macros.m_col(4,  macros.m_strong('Target')) }}
+{{ macros.m_col(3,  macros.m_strong('Source')) }}
+{{ macros.m_col(3,  macros.m_strong('Target')) }}
 {{ macros.m_row_end() }}
 {{ macros.m_hr_head_bottom() }}
 <div id="list_div"></div>
@@ -81,6 +82,7 @@ function make_list(data) {
     tmp = data[i].id;
     //str += m_col(1, tmp);
     str += m_col(2, data[i].av_type);
+    str += m_col(2, data[i].created_time);
     if (data[i].move_type == 0) {
       tmp = '정상'
     } else if (data[i].move_type == 1) {
@@ -98,11 +100,11 @@ function make_list(data) {
 
     tmp = data[i].source_dir + '<br>';
     tmp += data[i].source_filename;
-    str += m_col(4, tmp);
+    str += m_col(3, tmp);
 
     tmp = data[i].target_dir + '<br>';
     tmp += data[i].target_filename;
-    str += m_col(4, tmp);
+    str += m_col(3, tmp);
    
     str += m_row_end();
     if (i != data.length -1) str += m_hr();
