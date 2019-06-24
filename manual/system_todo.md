@@ -4,6 +4,8 @@
 - 토렌트 - 국내TV
 
 - 파일처리 - SMI to SRT
+
+- 파일처리 - 영화
   
 - Plex - Watchdog 스캔
 
