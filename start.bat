@@ -13,7 +13,7 @@ set COUNT=0
     set FLASK_APP=sjva.py
     set res=T
     if exist ".\migrations\" set res=F
-    if not exist ".\data\db\site.db" set res=F
+    if not exist ".\data\db\sjva.db" set res=F
     if "%res%"=="T" (
         python -OO -m flask db init
     )
