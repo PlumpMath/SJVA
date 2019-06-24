@@ -41,6 +41,21 @@ var current_data = null;
 
 $(document).ready(function(){
   request_search('1');
+    // 새로고침
+  $("body").on('click', '#refresh_btn', function(e){
+    e.preventDefault();
+    title = $(this).data('title')
+    $.ajax({
+      url: '/' + package_name + '/ajax/refresh',
+      type: "POST", 
+      cache: false,
+      data: {title:title},
+      dataType: "json",
+      success: function (data) {
+        request_search(current_data.paging.current_page)
+      }
+    });
+  });
 });
 
 $("#search").click(function(e) {
@@ -111,6 +126,7 @@ function make_list(data) {
 
     tmp = 'https://search.daum.net/search?w=tv&q='+ data[i].title +'&irk='+data[i].daum_id+'&irt=tv-program&DA=TVP';
     tmp = m_button('open_url_btn', 'DAUM', [{'key':'url', 'value':tmp}]);
+    tmp += m_button('refresh_btn', 'Refresh', [{'key':'title', 'value':data[i].title}]);
     tmp = m_button_group(tmp)
     str += m_col(1, tmp);
 
