@@ -27,7 +27,7 @@
         {{ macros.setting_radio('fail_action', '변환 실패시', ['아무것도 하지 않음', '특정 폴더로 이동'], value=arg['fail_action']) }}
         <div id="fail_action0_div" class="collapse"></div>
         <div id="fail_action1_div" class="collapse">
-        {{ macros.setting_input_text('fail_move_path', '실패시 이동 폴더', desc=['변환 실패시 특정 폴더로 이동 옵션일 경우 smi 파일이 이동할 폴더입니다.'], value=arg['fail_action']) }}
+        {{ macros.setting_input_text('fail_move_path', '실패시 이동 폴더', desc=['변환 실패시 smi 파일이 이동할 폴더입니다.'], value=arg['fail_move_path']) }}
         </div>
         {{ macros.setting_button([['setting_save_btn', '저장']]) }}
         {{ macros.m_hr() }}
