@@ -22,12 +22,12 @@
 
         {{ macros.setting_checkbox('flag_attach_ko', 'ko 삽입', value=arg['flag_attach_ko'], desc=['On : .smi 를 .ko.srt 로 변환합니다.']) }}
 
-        {{ macros.setting_checkbox('flag_srt_to_kosrt', '.srt => .ko.srt 변환', value=arg['flag_srt_to_kosrt'], desc=['On : .ko.srt 파일이 아닌 srt파일에 한글이 포함되어 있는 경우 .ko.srt 로 변환합니다.']) }}
+        {{ macros.setting_checkbox('flag_srt_to_kosrt', '.srt => .[언어].srt 변환', value=arg['flag_srt_to_kosrt'], desc=['On : 이미 만들어진 srt파일을 언어에 따라 ko.srt, en.srt 등으로 변환합니다.']) }}
 
         {{ macros.setting_radio('fail_action', '변환 실패시', ['아무것도 하지 않음', '특정 폴더로 이동'], value=arg['fail_action']) }}
         <div id="fail_action0_div" class="collapse"></div>
         <div id="fail_action1_div" class="collapse">
-        {{ macros.setting_input_text('fail_move_path', '실패시 이동 폴더', desc=['변환 실패시 특정 폴더로 이동 옵션일 경우 smi 파일이 이동할 폴더입니다.'], value=arg['fail_move_path']) }}
+        {{ macros.setting_input_text('fail_move_path', '실패시 이동 폴더', desc=['변환 실패시 특정 폴더로 이동 옵션일 경우 smi 파일이 이동할 폴더입니다.'], value=arg['fail_action']) }}
         </div>
         {{ macros.setting_button([['setting_save_btn', '저장']]) }}
         {{ macros.m_hr() }}
@@ -43,26 +43,12 @@
 <script type="text/javascript">
 var package_name = 'smi2srt';
 var current_data = null;
-
+var fail_action = "{{arg['fail_action']}}"
 $(document).ready(function(){
-  use_collapse("censored_use")
-  use_collapse("uncensored_use")
-  use_collapse("normal1_use")
-  use_collapse("normal2_use")
-  
-  $('#censored_use').change(function() {
-    use_collapse('censored_use');
+  $(function() {
+    set_radio(fail_action)
   });
-  $('#uncensored_use').change(function() {
-    use_collapse('uncensored_use');
-  });
-  $('#normal1_use').change(function() {
-    use_collapse('normal1_use');
-  });
-  $('#normal2_use').change(function() {
-    use_collapse('normal2_use');
-  });
-  
+
   // 스케쥴링 on / off
   $('#scheduler').change(function() {
     var ret = $(this).prop('checked');
@@ -100,6 +86,22 @@ $(document).ready(function(){
       }
     });
   });
+
+  $('input[type=radio][name=fail_action]').change(function() {
+    set_radio(this.value);
+  });
+
+  function set_radio(type) {
+    $('input[name=fail_action]')[parseInt(type)].checked = true;
+
+    if ( type == '0') {
+      $('#fail_action0_div').collapse('show')
+      $('#fail_action1_div').collapse('hide')
+    } else {
+      $('#fail_action0_div').collapse('hide')
+      $('#fail_action1_div').collapse('show')
+    }
+  }
 
   
   $("body").on('click', '#reset_db_btn', function(e){
