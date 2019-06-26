@@ -48,10 +48,11 @@
 <script type="text/javascript">
 var package_name = 'downloader';
 var current_data = null;
+var default_torrent_program = '{{arg['default_torrent_program']}}'
 
 $(document).ready(function(){
   $(function() {
-    set_default_torrent_program({{arg['default_torrent_program']}})
+    set_default_torrent_program(default_torrent_program)
     use_collapse("transmission_normal_file_download")
     /*
     $.ajax({
@@ -72,6 +73,20 @@ $(document).ready(function(){
   $("#setting_save_btn").click(function(e) {
     e.preventDefault();
     var formData = get_formdata('#setting');
+    downloadstation_default_path = document.getElementById("downloadstation_default_path").value
+    if (downloadstation_default_path.startsWith('/')) {
+      $.notify('<strong>다운로드 경로는 / 로 시작하면 안됩니다.</strong>', {
+        type: 'warning'
+      });
+      return
+    }
+    if (downloadstation_default_path.startsWith('volume')) {
+      $.notify('<strong>공유폴더 이름부터 시작해야 합니다.</strong>', {
+        type: 'warning'
+      });
+      return
+    }
+
     $.ajax({
       url: '/' + package_name + '/ajax/setting_save',
       type: "POST", 
