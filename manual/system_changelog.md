@@ -17,12 +17,10 @@
   안정화 되신 분들은 DEBUG 상위 옵션을 사용하여 속도 개선<br><br>
   ![](https://cdn.discordapp.com/attachments/590833735197261874/593416440225202187/unknown.png)
 
-
-
-
-
 - 🐞: offcloud cache 확인 화면에서 hash로 다운로드 안 되는 문제 수정<br>
+
 - 🐞: 텔레그램 RSS 수신 메시지중 다음 링크가 작동안하는 문제 수정<br>
+
 
 ##### ■ 0.1.4.9 (2019-06-25) #####
 - 🐞: Trnasmission 다운로드 안 되는 문제 수정<br>
