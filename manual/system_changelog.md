@@ -1,5 +1,23 @@
 ##### <span style="color:red">■ 0.1.5 (2019-06-26)</span> #####
-- SMI to SRT 플러그인 추가
+- SMI to SRT 플러그인 추가<br>
+  [(메뉴얼 : SMI to SRT (SJVA, Plex plugin, shell))](https://soju6jan.com/archives/510)
+
+- 플러그인 : 파일처리 - 국내TV<br><br>
+  회차 삭제 예외 장르 옵션 추가<br>
+  파일처리시 Daum에서 검색은 되나 에피소드 정보가 없는 방송은 파일명에서 회차 정보를 없애고 있음.<br>애니메이션 등과 같은 장르는 회차 정보가 거의 없어서 항상 회차 정보를 없애는 문제가 있어 옵션 추가.<br>all 입력시 회차 정보를 제거하지 않음.<br><br>
+  ![](https://cdn.discordapp.com/attachments/590833735197261874/593343517904994304/unknown.png)
+
+- 플러그인 : 토렌트 - Offcloud<br><br>
+  http링크 리모트 추가 옵션 추가<br>
+  주로 자막을 같이 받는 용도<br><br>
+  ![](https://cdn.discordapp.com/attachments/590833735197261874/593343034092158977/unknown.png)<br><br>
+  ![](https://cdn.discordapp.com/attachments/590833735197261874/593342835659636736/unknown.png)
+
+- 시스템 - 설정 로그 레벨 옵션 추가<br>
+  안정화 되신 분들은 DEBUG 상위 옵션을 사용하여 속도 개선<br><br>
+  ![](https://cdn.discordapp.com/attachments/590833735197261874/593416440225202187/unknown.png)
+
+
 
 
 
@@ -11,6 +29,7 @@
 
 ##### ■ 0.1.4.6 (2019-06-24) #####
 - 🐞: Trnasmission 접속 URL 버그 수정<br>
+
 - Plex SJVA 플러그인 업데이트<br>
   🐞: 윈도우 Plex 서버에서 '보좌관 – 세상을~~' 스캔 안되는 문제 대응.<br>
        특수문자로 인해 부분 스캔이 안되며 드라마 폴더를 스캔함.
@@ -32,7 +51,6 @@
 - 툴 - DaumTV Refresh 버튼 추가 및 1일 다회차 방송 버그 수정<br>
   ※ "슬플 때 사랑한다" Daum 회차 정보를 보면 22(3.28) 21(3.30) 23(3.30) 순으로 나옴. 회차 정보가 잘못 되어 있고, 이로 인해 1일 1회로 인식하는 문제가 있어 반올림 방식으로 변경. 방송종료 + DB에 저장된 방송은 크롤링 하지 않고 DB에서 바로 읽어 사용하는 데 잘못된 정보가 있을 경우 수정할 방법이 없어 Refresh 버튼 추가.<br>
   ※ 1일 다회차 인식을 못했을 때 발생하는 현상. (상단 정상, 하단 1일 1회)
-
   ![](https://cdn.discordapp.com/attachments/590833735197261874/592548005987483671/unknown.png)
 
   
@@ -44,7 +62,6 @@
 - 티빙 다운로드모드 추가
   
 - 푹, 티빙 화이트리스트 모드시 첫회 받기 옵션 추가
-
 ![](https://cdn.discordapp.com/attachments/590833735197261874/592028501092073503/unknown.png)    
     
 
@@ -53,7 +70,6 @@
 
 ##### ■ 0.1.3.17 (2019-06-19) #####
 - 시스템 - 설정 - 웹 설정에서 테마 기능 추가<br>
-
 ![](https://cdn.discordapp.com/attachments/590833735197261874/590975960250187852/unknown.png)
 
 
@@ -64,10 +80,8 @@
 
 ##### ■ 0.1.3.15 (2019-06-19) #####
 - 푹 다운로드 모드 선택 추가. <br>
-  화이트리스트일 경우 포함 프로그램에 있는 방송만 다운로드
-
-![](https://cdn.discordapp.com/attachments/590833735197261874/590833908107575301/unknown.png)
-
+  화이트리스트일 경우 포함 프로그램에 있는 방송만 다운로드<br><br>
+![](https://cdn.discordapp.com/attachments/590833735197261874/590833908107575301/unknown.png)<br>
 ![](https://cdn.discordapp.com/attachments/590833735197261874/590835040259145738/unknown.png)
 
 ##### ■ 0.1.3.14 (2019-06-19) #####
