@@ -13,7 +13,7 @@
     {{ macros.setting_input_text('no_daum_folder_name', 'no daum 폴더', value=arg['no_daum_folder_name'], col='3', desc=['Daum 쇼 정보가 없을 경우 이동할 장르레벨 폴더 이름', '첫번째 라이브러리 폴더 루트에 생성']) }}
     {{ macros.setting_input_text('download_path', '다운로드 폴더', value=arg['download_path'], col='9', desc=['다운로드 감시 폴더','라이브러리 정보가 있고 값 변경시 RClone 플러그인 정보는 수동으로 변경해야합니다.']) }}
     {{ macros.setting_input_text('except_partial', '파일처리 예외', value=arg['except_partial'], col='9', desc=['이 값이 포함된 파일은 파일처리를 하지 않습니다.', '구분자 ,']) }}
-    {{ macros.setting_input_text('except_partial', '회차 삭제 예외 장르', value=arg['except_genre_remove_epi_number'], col='9', desc=['설정된 장르는 Daum에 회차정보가 없어도 파일명에서 회차 정보를 삭제하지 않습니다. ', 'all 입력시 항상 회차 정보를 삭제하지 않습니다.', '구분자 ,']) }}
+    {{ macros.setting_input_text('except_genre_remove_epi_number', '회차 삭제 예외 장르', value=arg['except_genre_remove_epi_number'], col='9', desc=['설정된 장르는 Daum에 회차정보가 없어도 파일명에서 회차 정보를 삭제하지 않습니다. ', 'all 입력시 항상 회차 정보를 삭제하지 않습니다.', '구분자 ,']) }}
     {{ macros.setting_checkbox('telegram', '텔레그램', value=arg['telegram']) }}
     {{ macros.setting_button([['setting_save_btn', '저장']]) }}
     {{ macros.m_hr() }}
