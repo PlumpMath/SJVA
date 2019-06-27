@@ -1,3 +1,7 @@
+##### ■ 0.1.5.2 (2019-06-26) #####
+- 플러그인 : 토렌트 - Offcloud<br>
+  목록화면에서 다운로드 프로그램에 다운로드 요청할 수 있도록 버튼 추가
+
 ##### <span style="color:red">■ 0.1.5 (2019-06-26)</span> #####
 - SMI to SRT 플러그인 추가<br>
   [(메뉴얼 : SMI to SRT (SJVA, Plex plugin, shell))](https://soju6jan.com/archives/510)
