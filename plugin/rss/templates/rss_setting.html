@@ -325,32 +325,7 @@ $(document).ready(function(){
     });
   });
 
-  // 스케쥴러 삭제 버튼
-  $("body").on('click', '#remove_scheduler_btn', function(e){
-    e.preventDefault();
-    db_id = $(this).data('id');
-    $.ajax({
-      url: '/rss/ajax/remove_scheduler',
-      type: "POST", 
-      cache: false,
-      data:{db_id:db_id},
-      dataType: "json",
-      success: function (data) {
-        current_data = data;
-        if (data.ret == 'success') {
-          $.notify('<strong>삭제 하였습니다.</strong>', {
-	          type: 'success'
-          });
-        } else {
-          $.notify('<strong>실패하였습니다.</strong>', {
-	          type: 'warning'
-          });
-        }
-        make_scheduler_list(data.scheduler);
-        make_group_list(data.group);
-      }
-    });
-  });
+  
 
 
   ////////////////////////////////////////////// 그룹
@@ -603,17 +578,86 @@ function make_scheduler_list(data) {
       str += '데이터 없음';
     }
     str += '</pre>';
+    tmp = m_button('remove_scheduler_btn', '스케쥴 삭제', [{'key':'id', 'value':data[i].id}]);
+    tmp += m_button('remove_db_btn', 'DB 삭제', [{'key':'id', 'value':data[i].id}]);
+    tmp = m_button_group(tmp)
+    str += tmp
     str += ' \
-          <div class="input-group col-sm-6" style="padding-left:0px"> \
-            <span class="text-left" > \
-              <button id="remove_scheduler_btn" class="btn btn-sm btn-outline-success" data-id="' + data[i].id + '">스케쥴 삭제</button> \
-            </span> \
-          </div> \
         </div> \
       </div> \
       <hr>';
   }
   document.getElementById("scheduler_list_div").innerHTML = str;
+}
+
+$("body").on('click', '#remove_scheduler_btn', function(e){
+  e.preventDefault();
+  db_id = $(this).data('id');
+  document.getElementById("confirm_title").innerHTML = "스케쥴 삭제";
+  document.getElementById("confirm_body").innerHTML = "스케쥴과 관련 DB를 삭제 하시겠습니까?";
+  $('#confirm_button').attr('onclick', "do_delete_scheduler(db_id);");
+  $("#confirm_modal").modal();
+  return;
+});
+
+$("body").on('click', '#remove_db_btn', function(e){
+  e.preventDefault();
+  db_id = $(this).data('id');
+  document.getElementById("confirm_title").innerHTML = "DB 초기화";
+  document.getElementById("confirm_body").innerHTML = "DB에 저장된 해당 게시판 데이터를 삭제 하시겠습니까?";
+  $('#confirm_button').attr('onclick', "do_delete_scheduler_db(db_id);");
+  $("#confirm_modal").modal();
+  return;
+});
+
+// 스케쥴러 삭제 버튼
+function do_delete_scheduler(db_id) {
+  $.ajax({
+    url: '/rss/ajax/remove_scheduler',
+    type: "POST", 
+    cache: false,
+    data:{db_id:db_id},
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      if (data.ret == 'success') {
+        $.notify('<strong>삭제 하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+      make_scheduler_list(data.scheduler);
+      make_group_list(data.group);
+    }
+  });
+}
+
+// db 삭제 버튼
+function do_delete_scheduler_db(db_id) {
+  $.ajax({
+    url: '/rss/ajax/remove_scheduler_db',
+    type: "POST", 
+    cache: false,
+    data:{db_id:db_id},
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      if (data.ret == 'success') {
+        $.notify('<strong>DB를 초기화 하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>DB 초기화에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+      make_scheduler_list(data.scheduler);
+      make_group_list(data.group);
+    }
+  });
 }
 
 

@@ -11,7 +11,7 @@
 
   <div class="tab-content" id="nav-tabContent">
     {{ macros.m_tab_content_start('설정', false) }}
-      {{ macros.setting_checkbox('ktv_auto_start', '시작시 자동실행', value=arg['ktv_auto_start'], desc='On : 시작시 자동으로 사용 설정됩니다.') }}
+      {{ macros.setting_checkbox('use', '사용', value=arg['use'], desc='On : 시작시 자동으로 사용 설정됩니다.') }}
       <form id='setting' name='setting'>
       {{ macros.setting_input_int('ktv_listup_day', '', value=arg['auto_interval'], min='1', placeholder='10', desc='minute 단위') }}
       {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 스케쥴러에 등록됩니다.') }}
