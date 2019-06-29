@@ -61,7 +61,9 @@ function make_scheduler_list(data) {
     tmp = ''+''+'' + data[i].count + ' 번<br>';
     str += m_col(1, tmp);
     tmp = ''+''+'' + ((data[i].is_running) ?'실행중':'대기중') + '';
-
+    if (data[i].run == false) {
+      tmp += '(F)'
+    }
     str += m_col(1, tmp);
     str += m_col(3, data[i].description);
     str += m_row_end();

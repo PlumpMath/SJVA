@@ -89,6 +89,30 @@ $("body").on('click', '#tm_json_btn', function(e){
   }
 });
 
+
+$("body").on('click', '#ds_remove_btn', function(e){
+  e.preventDefault();
+  id = $(this).data('id')
+  $.ajax({
+    url: '/' + package_name + '/ajax/ds_remove',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data[0].error == 0) {
+        $.notify('<strong>삭제하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>삭제 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
 $("body").on('click', '#tm_remove_btn', function(e){
   e.preventDefault();
   id = $(this).data('id')
