@@ -15,7 +15,7 @@
         {{ macros.setting_input_int('interval', '스케쥴링 실행 주기', value=arg['interval'], min='1', placeholder='10', desc='minute 단위') }}
         {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 스케쥴러에 등록됩니다.') }}
         {{ macros.setting_input_int('web_page_size', '웹 페이지당 게시물 수', value=arg['web_page_size'], min='1', placeholder='30') }}
-
+        {{ macros.m_hr() }}
         {{ macros.setting_radio('default_torrent_program', '기본 토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['default_torrent_program']) }}
         <div id="transmission_div" class="collapse">
         {{ macros.setting_input_text_and_buttons('transmission_url', 'URL', [['transmission_web_btn', 'GO']], placeholder='http://localhost:9091', value=arg['transmission_url'], desc='트랜스미션 URL. Port 필수') }}
@@ -24,6 +24,7 @@
         {{ macros.setting_input_text_and_buttons('transmission_pw', '암호', [['transmission_test_btn', '접속 확인']], value=arg['transmission_pw'], col='4', type='password') }}
         {{ macros.setting_input_text('transmission_default_path', '다운로드 경로', value=arg['transmission_default_path'], desc=['기본 다운로드 경로. 생략시 트랜스미션의 기본 경로를 사용', '트랜스미션 설치 기기의 경로를 입력해야 합니다.']) }}
         {{ macros.setting_checkbox('transmission_normal_file_download', '일반 파일 다운로드', value=arg['transmission_normal_file_download'], desc=['On : 트랜스미션은 토렌트 파일이 아닌 파일은 다운로드가 안됩니다.', ' 자막 등 일반 파일을 SJVA 대신 다운로드합니다.']) }}
+        
         <div id="transmission_normal_file_download_div" class="collapse">
         {{ macros.setting_input_text('transmission_normal_file_download_path', '일반 파일 다운로드 경로', value=arg['transmission_normal_file_download_path'], desc=['SJVA 상의 경로입니다.']) }}
         </div>
@@ -34,7 +35,9 @@
         {{ macros.setting_input_text_and_buttons('downloadstation_pw', '암호', [['downloadstation_test_btn', '접속 확인']], value=arg['downloadstation_pw'], col='4', type='password') }}
         {{ macros.setting_input_text('downloadstation_default_path', '다운로드 경로', value=arg['downloadstation_default_path'], placeholder='예) video/download', desc=['기본 다운로드 경로. 생략시 다운로드스테이션 기본 경로를 사용', '/volume 으로 시작하면 안되며, 공유폴더부터 시작해야 합니다.']) }}
         </div>
-
+        {{ macros.m_hr() }}
+        {{ macros.setting_checkbox('auto_remove_completed', '프로그램에서 완료 목록 삭제', value=arg['auto_remove_completed'], desc='On : 스케쥴러 동작시 혹은 상태 화면 요청시 삭제합니다.') }}
+        {{ macros.setting_input_int('status_interval', '상태 화면 갱신 주기', value=arg['status_interval'], min='1', placeholder='5', desc='second 단위') }}
         {{ macros.setting_button([['setting_save_btn', '저장']]) }}
       </form>
     {{ macros.m_tab_content_end() }}
@@ -69,6 +72,20 @@ $(document).ready(function(){
     */
   });
 
+  // 스케쥴링 on / off
+  $('#scheduler').change(function() {
+    var ret = $(this).prop('checked');
+    $.ajax({
+      url: '/' + package_name + '/ajax/scheduler',
+      type: "POST", 
+      cache: false,
+      data: {scheduler : ret},
+      dataType: "json",
+      success: function (list) {
+      }
+    });
+  });
+  
   //설정 저장
   $("#setting_save_btn").click(function(e) {
     e.preventDefault();

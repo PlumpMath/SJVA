@@ -207,6 +207,13 @@ function m_col(w, h, align='left') {
   return str
 }
 
+function m_col2(w, h, align='left') {
+  var str = '<div class="col-sm-' + w + ' " style="padding:5px; margin:0px; text-align: '+align+'; word-break:break-all;">';
+  str += h
+  str += '</div>';
+  return str
+}
+
 
 function m_button_group(h) {
   var str = '<div class="btn-group btn-group-sm flex-wrap mr-2" role="group">';
@@ -272,6 +279,15 @@ function m_progress(id, width, label) {
   return str;
 }
 
+
+function m_progress2(id, width, label) {
+  var str = '';
+  str += '<div class="progress" style="height: 25px;">'
+  str += '<div id="'+id+'" class="progress-bar"  style="background-color:yellow;width:'+width+'%"></div>';
+  str += '<div id="'+id+'_label" class="justify-content-center d-flex w-100 position-absolute" style="margin:0px; margin-top:2px">'+label+'</div>';
+  str += '</div>'
+  return str;
+}
 
 
 
@@ -365,5 +381,21 @@ function show_result_add_download(data) {
       type: 'warning'
     });
   }
+}
+
+function humanFileSize(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['KB','MB','GB','TB','PB','EB','ZB','YB']
+        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
 }
 </script>
