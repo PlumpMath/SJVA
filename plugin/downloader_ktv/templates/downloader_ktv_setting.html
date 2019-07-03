@@ -28,6 +28,7 @@
       {{ macros.m_hr() }}
       {{ macros.setting_button([['one_execute_btn', '1회 실행']], left='1회 실행' ) }}
       {{ macros.setting_button([['reset_db_btn', '목록 전체 지우기']], left='DB정리' ) }}
+      {{ macros.setting_button([['reset_last_index_btn', 'Index 초기화']], left='Index 초기화', desc=['DB에 저장된 Index를 지웁니다', '최초 시작처럼 7일 이내 데이터를 모두 처리합니다.']) }}
     
 
 <script type="text/javascript">
@@ -125,6 +126,32 @@ $("#one_execute_btn").click(function(e) {
     }
   });
 });
+
+$("#reset_last_index_btn").click(function(e) {
+//$("body").on('click', '#one_execute_btn', function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_last_index',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>초기화 하였습니다. ('+ret+')</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+
+
 
 $("body").on('click', '#reset_db_btn', function(e){
   e.preventDefault();
