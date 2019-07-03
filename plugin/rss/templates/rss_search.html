@@ -70,13 +70,16 @@
 var currentData = null;
 var ddns = "{{arg['ddns']}}"
 var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
-
+var first_search_word = "{{arg['search_word']}}"
 $(document).ready(function(){
+  if ( first_search_word != "None" ) {
+    document.getElementById("search_word").value = first_search_word;
+  }
   $.ajax({
     url: '/rss/ajax/list',
     type: "POST",
     cache: false,
-    data: {load:true},
+    data: {load:true, search_word:first_search_word},
     dataType: "json",
     success: function (data) {
       currentData = data;
@@ -186,6 +189,8 @@ $(document).ready(function(){
     });
     //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
   });
+
+  
 
 });
 

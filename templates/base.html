@@ -352,6 +352,7 @@ function use_collapse(div, reverse=false) {
 }
 
 
+
 // 토렌트 프로그램에 다운로드 추가할 결과를 보여주는
 function show_result_add_download(data) {
   try {
@@ -365,8 +366,9 @@ function show_result_add_download(data) {
   catch {
   }
   if (data.ret == 'success') {
-    $.notify('<strong>'+ program +'를 추가하였습니다.</strong>', {
-      type: 'success'
+    $.notify({message:'<strong>'+ program +'를 추가하였습니다.</strong><br>클릭시 다운로드 상태창으로 이동', url:'/downloader/status',
+      target: '_self'}, {
+      type: 'success',
     });
   } else if (data.ret == 'success2') {
     $.notify('<strong>일반 파일 다운로드를 시작하였습니다.</strong>', {
@@ -383,6 +385,27 @@ function show_result_add_download(data) {
   }
 }
 
+function humanFileSize(bytes) {
+    var thresh = 1024;
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = ['KB','MB','GB','TB','PB','EB','ZB','YB']
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
+}
+
+$("body").on('click', '#link_btn', function(e) {
+  e.preventDefault();
+  url = $(this).data('url')
+  window.open(url, "_blank");
+});
+
+/*
 function humanFileSize(bytes, si) {
     var thresh = si ? 1000 : 1024;
     if(Math.abs(bytes) < thresh) {
@@ -398,4 +421,5 @@ function humanFileSize(bytes, si) {
     } while(Math.abs(bytes) >= thresh && u < units.length - 1);
     return bytes.toFixed(1)+' '+units[u];
 }
+*/
 </script>
