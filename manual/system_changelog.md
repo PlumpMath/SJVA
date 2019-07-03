@@ -1,5 +1,7 @@
 ##### <span style="color:red">■ 0.1.6.0 (2019-07-03)</span> #####
 - 플러그인 : 토렌트 - 다운로드 국내TV 추가<br>
+  [메뉴얼 : RSS 설정 없이 토렌트 받기 (국내TV)](https://soju6jan.com/archives/560)
+
 
 - 플러그인 : 토렌트 - 다운로드<br>
   목록 화면 추가
