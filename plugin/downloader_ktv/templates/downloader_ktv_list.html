@@ -236,22 +236,41 @@ function make_list(data) {
       data[i].status = data[i].status.replace('True_manual_', '')
       manual = ' - 수동요청'
     }
+    if (data[i].status.startsWith('True')) {
+      tmp = '✔요청 '
+    } else {
+      tmp = '⛔패스 '
+    }
+
+    if (data[i].plex_key != null) {
+      if (data[i].plex_key.startsWith('/')) {
+        tmp += '(PLEX 프로그램⭕) '
+      } else if (data[i].plex_key.startsWith('P')) {
+        tmp += '(PLEX 프로그램⭕ 에피소드❌) '
+        data[i].plex_key = data[i].plex_key.substring(1)
+      } else if (data[i].plex_key.startsWith('E')) {
+        tmp += '(PLEX 프로그램⭕ 에피소드⭕) '
+        data[i].plex_key = data[i].plex_key.substring(1)
+      }
+    } else {
+      tmp += '(PLEX 프로그램❌) '
+    }
     if (data[i].status == 'True_by_plex_in_lib_multi_epi') {
-      tmp = '✔요청 (PLEX ⭕ 에피소드 멀티파일)'
+      tmp += '에피소드 멀티파일'
     } else if (data[i].status == 'False_by_plex_in_one_epi') {
-      tmp = '⛔패스 (PLEX ⭕ 에피소드 이미 있음)'
+      tmp += '에피소드 이미 있음'
     } else if (data[i].status == 'True_by_plex_in_lib_no_epi') {
-      tmp = '✔요청 (PLEX ⭕ 에피소드 없음)'
+      tmp += '에피소드 없음'
     } else if (data[i].status == 'True_blacklist') {
-      tmp = '✔요청 (PLEX ❌ 블랙리스트에 없음)'
+      tmp += '블랙리스트에 없음'
     } else if (data[i].status == 'False_whitelist') {
-      tmp = '⛔패스 (PLEX ❌ 화이트리스트에 없음)'
+      tmp += '화이트리스트에 없음'
     } else if (data[i].status == 'False_except_program') {
-      tmp = '⛔패스 (PLEX ❌ 블랙리스트)'
+      tmp += '블랙리스트'
     } else if (data[i].status == 'True_whitelist_program') {
-      tmp = '✔요청 (PLEX ❌ 화이트리스트)'
+      tmp += '화이트리스트'
     } else if (data[i].status == 'True_whitelist_first_epi') {
-      tmp = '✔요청 (PLEX ❌ 첫번째 에피소드)'
+      tmp += '첫번째 에피소드'
     } else {
       tmp = ''
     }
@@ -291,7 +310,8 @@ function make_list(data) {
     right += m_row_start();
     
     tmp = ''
-    tmp += m_button('link_btn', 'PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
+    if (data[i].plex_key != null)
+      tmp += m_button('link_btn', 'PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
     tmp += m_button('link_btn', 'Daum', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
     tmp += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
