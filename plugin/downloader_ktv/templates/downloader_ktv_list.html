@@ -176,9 +176,33 @@ $("body").on('click', '#add_download_btn', function(e) {
         $.notify('<strong>다운로드 추가하였습니다.</strong>', {
           type: 'success'
         });
-        request_search(current_data.paging.current_page)
+        request_search(current_data.paging.current_page, false)
       } else {
         $.notify('<strong>다운로드 추가에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+$("body").on('click', '#plex_refresh_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id');
+  $.ajax({
+    url: '/'+package_name+'/ajax/plex_refresh',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>변경되었습니다.</strong>', {
+          type: 'success'
+        });
+        request_search(current_data.paging.current_page, false)
+      } else {
+        $.notify('<strong>변경되지 않았습니다.</strong>', {
           type: 'warning'
         });
       }
@@ -189,7 +213,10 @@ $("body").on('click', '#add_download_btn', function(e) {
 
 
 
-function request_search(page) {
+
+
+
+function request_search(page, move_top=true) {
   var formData = get_formdata('#form_search')
   formData += '&page=' + page;
   $.ajax({
@@ -200,7 +227,8 @@ function request_search(page) {
     dataType: "json",
     success: function (data) {
       current_data = data;
-      window.scrollTo(0,0);
+      if (move_top)
+        window.scrollTo(0,0);
       make_list(data.list)
       make_page_html(data.paging)
     }
@@ -312,20 +340,22 @@ function make_list(data) {
     
     tmp = ''
     if (data[i].plex_key != null)
-      tmp += m_button('link_btn', 'PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
-    tmp += m_button('link_btn', 'Daum', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
+      tmp += m_button('link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
+    tmp += m_button('link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
     tmp += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
     tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('except_program_btn', '제외프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
+    tmp += m_button('plex_refresh_btn', 'PLEX 정보 새로고침', [{'key':'id', 'value':data[i].id}]);
+    tmp2 = m_button_group(tmp)
+
+    tmp = m_button('except_program_btn', '제외프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
     tmp += m_button('whitelist_program_btn', '포함프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
     
     tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.magnet}]);
     tmp += m_button('cache_btn', 'Offcloud 캐쉬', [{'key':'hash', 'value':data[i].feed.magnet}]);
-
-    tmp = m_button_group(tmp)
-    right += m_col(12, tmp)
+    tmp2 += m_button_group(tmp)
+    right += m_col(12, tmp2)
 
     right += m_row_end();
 
