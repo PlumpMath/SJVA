@@ -111,9 +111,16 @@ function make_list(data) {
       if (data[i].title != '')
         tmp2 = '<span class="text-info"><strong>'+data[i].title+'</strong></span><br>'
     } else {
-      tmp = '<span class="text-warning"><strong>'+data[i].status+'</strong></span><br>'
+      if (data[i].status == 'stopped') {
+        tmp = '정지'
+      } else if (data[i].status == 'request') {
+        tmp = '요청'
+      } else {
+        tmp = data[i].status
+      }
+      tmp = '<span class="text-warning"><strong>'+tmp+'</strong></span><br>'
       if (data[i].title != '')
-        tmp2 = '<span class="text-warning"><strong>'+data[i].title+'</strong></span>'
+        tmp2 = '<span class="text-warning"><strong>'+data[i].title+'</strong></span><br>'
     }
     tmp2 +='<a href="'+data[i].download_url +'">' + data[i].download_url + '</a>'
     str += m_col2(1, tmp);

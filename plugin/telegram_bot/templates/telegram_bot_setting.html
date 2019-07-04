@@ -14,14 +14,16 @@
       <form id='setting' name='setting'>
         {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 스케쥴러에 등록됩니다.') }}
         {{ macros.setting_checkbox('process_rss', '토렌트', value=arg['process_rss'], desc='On : 토렌트 데이터를 수신하여 저장') }}
+        <div id="process_rss_div" class="collapse">
+        {{ macros.setting_input_text('process_rss_type', '수신 타입', value=arg['process_rss_type'], desc=['all인 경우 모두 받음. 구분자 ,', 'TV : drama, ent, dacu, etc', '영화 : movie', 'AV : av_censored, av_uncensored, av_west', '기타 : music' ]) }}
+        </div>
         {{ macros.setting_checkbox('process_offcloud', 'Offcloud 캐쉬 정보', value=arg['process_offcloud'], desc='On : Offcloud 캐쉬 데이터를 수신하여 저장') }}
         {{ macros.setting_checkbox('send_notify', '수신정보 알림', value=arg['send_notify'], desc='On : On 상태인 데이터가 수신될 때 알림.') }}
-
         {{ macros.m_hr() }}
         {{ macros.setting_input_text('bot_token', 'Bot Token', value=arg['bot_token']) }}
         {{ macros.setting_input_text_and_buttons('chat_id', 'My Chat ID', [['test_btn', '테스트']], value=arg['chat_id'], col='9', desc=['사용자가 먼저 봇과 대화를 시작하여야 합니다.', '(대화창이 있을 경우에만 알림 수신)']) }}
         {{ macros.setting_button([['setting_save_btn', '저장']]) }}
-      </form>
+        </form>
         {{ macros.m_hr() }}
         {{ macros.setting_button([['open_url1_btn', 'BotFather'], ['open_url2_btn', 'SJVA Bot Channel'], ['open_url3_btn', 'SJVA Bot Channel 관리 봇']]) }}
     {{ macros.m_tab_content_end() }}
@@ -30,10 +32,15 @@
 
 <script type="text/javascript">
 var current_data = null;
+var package_name = 'telegram_bot';
 
 $(document).ready(function(){
-  var package_name = 'telegram_bot';
+  
+  use_collapse("process_rss")
 
+  $('#process_rss').change(function() {
+    use_collapse('process_rss');
+  });
   // 스케쥴링 on / off
   $('#scheduler').change(function() {
     var ret = $(this).prop('checked');
