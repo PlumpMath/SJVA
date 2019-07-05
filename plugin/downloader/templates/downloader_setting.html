@@ -33,7 +33,7 @@
         {{ macros.setting_input_text_and_buttons('downloadstation_url', 'URL', [['downloadstation_web_btn', 'GO']], placeholder='http://xxx.synology.me:5000', value=arg['downloadstation_url'], desc='다운로드스테이션 URL') }}
         {{ macros.setting_input_text('downloadstation_id', 'ID', value=arg['downloadstation_id'], col='3') }}
         {{ macros.setting_input_text_and_buttons('downloadstation_pw', '암호', [['downloadstation_test_btn', '접속 확인']], value=arg['downloadstation_pw'], col='4', type='password') }}
-        {{ macros.setting_input_text('downloadstation_default_path', '다운로드 경로', value=arg['downloadstation_default_path'], placeholder='예) video/download', desc=['기본 다운로드 경로. 생략시 다운로드스테이션 기본 경로를 사용', '/volume 으로 시작하면 안되며, 공유폴더부터 시작해야 합니다.']) }}
+        {{ macros.setting_input_text('downloadstation_default_path', '다운로드 경로', value=arg['downloadstation_default_path'], placeholder='예) video/download', desc=['기본 다운로드 경로. 생략 시 다운로드스테이션 기본 경로를 사용', '/volume 으로 시작하면 안되며, 공유폴더부터 시작해야 합니다.', '경로에 한글이 포함되어 있으면 안 됩니다.']) }}
         </div>
         {{ macros.m_hr() }}
         {{ macros.setting_checkbox('auto_remove_completed', '프로그램에서 완료 목록 삭제', value=arg['auto_remove_completed'], desc='On : 스케쥴러 동작시 혹은 상태 화면 요청시 삭제합니다.') }}
