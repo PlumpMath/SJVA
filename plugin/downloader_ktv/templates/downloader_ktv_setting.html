@@ -12,7 +12,7 @@
 
       {{ macros.setting_radio('torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['torrent_program']) }}
       {{ macros.setting_input_text('path', '다운로드 경로', value=arg['path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
-      {{ macros.setting_checkbox('use_plex_data', 'Plex 연동', value=arg['use_plex_data'], desc=['On : Plex와 연동하여 다운여부를 판단합니다.', '라이브러리에 있는 방송 중 비어있는 에피소드 자동 다운로드. 이미 있는 에피소드 다운로드 안함.', '다운로드 모드 설정과 무관합니다.']) }}
+      {{ macros.setting_checkbox('use_plex_data', 'Plex 연동', value=arg['use_plex_data'], desc=['On : Plex와 연동하여 다운여부를 판단합니다.', '1. 라이브러리에 있는 방송', ' - 비어 있는 에피소드 : 자동 다운로드', ' - 이미 있는 에피소드 : 다운로드 안함', '2. 라이브러리에 없는 방송 : 다운로드 모드의 설정에 따라 다운로드 판단']) }}
       <div id="use_plex_data_div" class="collapse">
       {{ macros.setting_checkbox('one_episode_multifile', '에피소드 파일 중복 허용', value=arg['one_episode_multifile'], desc='On : 이미 에피소드 파일이 있더라도 다시 받습니다.') }}
       </div>
