@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block content %}
+ 
+<div>
+  
+      {{ macros.setting_scheduler_button(arg['scheduler'], arg['is_running']) }}
+      <form id='setting' name='setting'>
+      {{ macros.setting_input_int('interval', '스케쥴링 실행 주기', value=arg['interval'], min='1', placeholder='10', desc='minute 단위') }}
+      {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 사용 설정합니다.') }}
+      
+      {{ macros.setting_radio('telegram_invoke_action', '텔레그램 수신시', ['실행하지 않음', '스케쥴링 중에만 실행', '스케쥴링 상태가 아니더라도 실행']) }}
+
+      {{ macros.setting_radio('torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['torrent_program']) }}
+      {{ macros.setting_input_text('path', '다운로드 경로', value=arg['path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
+
+
+      
+      {{ macros.setting_checkbox('send_telegram', '텔레그램 메시지', value=arg['send_telegram']) }}
+      {{ macros.setting_button([['setting_save', '저장']]) }}
+      </form>
+      {{ macros.m_hr() }}
+      {{ macros.setting_button([['one_execute_btn', '1회 실행']], left='1회 실행' ) }}
+      {{ macros.setting_button([['reset_db_btn', '목록 전체 지우기']], left='DB정리' ) }}
+      {{ macros.setting_button([['reset_last_index_btn', 'Index 초기화']], left='Index 초기화', desc=['DB에 저장된 Index를 지웁니다', '최초 시작처럼 7일 이내 데이터를 모두 처리합니다.']) }}
+    
+
+<script type="text/javascript">
+var package_name = 'downloader_movie';
+var current_data = null;
+var download_mode = "{{arg['download_mode']}}";
+var telegram_invoke_action = "{{arg['telegram_invoke_action']}}"
+$(document).ready(function(){
+  // 로딩
+  //set_download_mode(download_mode)
+  use_collapse("use_plex_data")
+  set_telegram_action_radio(telegram_invoke_action);
+});
+
+// 사용 on / off
+$('#scheduler').change(function() {
+  var ret = $(this).prop('checked');
+  $.ajax({
+    url: '/'+package_name+'/ajax/scheduler',
+    type: "POST", 
+    cache: false,
+    data: {scheduler : ret},
+    dataType: "json",
+    success: function (list) {
+    }
+  });
+});
+
+//설정 저장
+$("#setting_save").click(function(e) {
+  e.preventDefault();
+  var formData = get_formdata('#setting');
+  $.ajax({
+    url: '/'+package_name+'/ajax/setting_save',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>설정을 저장하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+$('input[type=radio][name=download_mode]').change(function() {
+  set_download_mode(this.value);
+});
+
+$('#use_plex_data').change(function() {
+  use_collapse('use_plex_data');
+});
+
+function set_download_mode(type) {
+  $('input[name=download_mode]')[parseInt(type)].checked = true;
+
+  if ( type == '0') {
+    $('#blacklist_div').collapse('show')
+    $('#whitelist_div').collapse('hide')
+  } else {
+    $('#blacklist_div').collapse('hide')
+    $('#whitelist_div').collapse('show')
+  }
+}
+
+$("#one_execute_btn").click(function(e) {
+//$("body").on('click', '#one_execute_btn', function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/' + package_name + '/ajax/one_execute',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (ret) {
+      if (ret=='scheduler' || ret=='thread') {
+        $.notify('<strong>작업을 시작하였습니다. ('+ret+')</strong>', {
+          type: 'success'
+        });
+      } else if (ret == 'is_running') {
+        $.notify('<strong>작업중입니다.</strong>', {
+          type: 'warning'
+        });
+      } else {
+        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+$("#reset_last_index_btn").click(function(e) {
+//$("body").on('click', '#one_execute_btn', function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_last_index',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>초기화 하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+
+
+
+$("body").on('click', '#reset_db_btn', function(e){
+  e.preventDefault();
+  document.getElementById("confirm_title").innerHTML = "DB 삭제";
+  document.getElementById("confirm_body").innerHTML = "전체 목록을 삭제 하시겠습니까?";
+  $('#confirm_button').attr('onclick', "db_delete();");
+  $("#confirm_modal").modal();
+  return;
+});
+
+function db_delete() {
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_db',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>삭제하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>삭제에 실패하였습니다.</strong>',{
+          type: 'warning'
+        });
+      }
+    }
+  });
+}
+
+$('input[type=radio][name=telegram_invoke_action]').change(function() {
+  set_telegram_action_radio(this.value);
+});
+
+function set_telegram_action_radio(type) {
+  $('input[name=telegram_invoke_action]')[parseInt(type)].checked = true;
+}
+
+
+
+</script>    
+{% endblock %}
