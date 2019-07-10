@@ -257,7 +257,10 @@ function make_list(data) {
   for (i in data) {
     //console.log(data[i])
     str += m_row_start();
-    tmp = '<img src="' + data[i].feed.json.movie.more.poster + '" class="img-fluid">'
+    if (data[i].feed.json.movie != null)
+      tmp = '<img src="' + data[i].feed.json.movie.more.poster + '" class="img-fluid">'
+    else
+      tmp = ''
     str += m_col(2, tmp);
     right = m_row_start();
     manual = ''
@@ -310,12 +313,13 @@ function make_list(data) {
       tmp += ', ' + data[i].feed.file_number + '회'
     }
     tmp += ', ' + data[i].feed.file_date
-
+    if (data[i].feed.json.movie != null) {
     tmp += '<br><b>'+data[i].feed.json.movie.title+'</b>' + data[i].feed.json.movie.more.title
     tmp += '<br>' + data[i].feed.json.movie.more.info[0].replace('요약', '').trim()
     tmp += m_hr()
+    }
 
-    tmp += '<b>예상 : </b>' + data[i].feed.json.guessit.screen_size + ' | ' + data[i].feed.json.guessit.source
+    //tmp += '<b>예상 : </b>' + data[i].feed.json.guessit.screen_size + ' | ' + data[i].feed.json.guessit.source
     //for (j in data[i].feed.json.movie.more.info) {
     //  tmp += '<br>' + data[i].feed.json.movie.more.info[j]
     //}
