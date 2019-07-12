@@ -104,6 +104,13 @@ function play_video(video_id, url) {
   }
 }
 
+$("body").on('click', '#close_btn', function(e) {
+  e.preventDefault();
+  stop_video();
+});
+
+
+
 
 
 
@@ -331,7 +338,7 @@ function make_list(data) {
     console.log(data[i])
     str += m_row_start(0);
     tmp = '<img src="' + data[i].icon + '" class="img-fluid">'
-    str += m_col(2, tmp);
+    str += m_col(1, tmp);
     str += m_col(1, data[i].source);
     str += m_col(2, data[i].title);
     
@@ -371,8 +378,11 @@ function make_list(data) {
     video_id = "video_" + data[i].source+'_'+data[i].source_id
     tmp = '<div id="'+video_id+'_div" class="collapse">'
     tmp += m_row_start();
+    
     tmp2 = '<center><video height="500" id="'+video_id+'" controls></video></center>'
-    tmp += m_col(12, tmp2);
+    tmp += m_col(1, '');
+    tmp += m_col(10, tmp2);
+    tmp += m_col(1, m_button('close_btn', '닫기', []));
     tmp += m_row_end();
 
     tmp += '</div>'
