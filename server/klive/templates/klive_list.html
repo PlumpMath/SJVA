@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <script src="{{ url_for('static', filename='js/hls.js') }}"></script>  
+<style type="text/css">
+  .my_hover:hover{
+    background-color: #ffff00;
+    transition: all 0.01s ease-in-out;
+  }
+</style>
 <div>
   
     <form id="form_search" class="form-inline" style="text-align:left">
@@ -335,44 +341,23 @@ function make_list(data) {
   //console.log(data)
   str = '';
   for (i in data) {
-    console.log(data[i])
-    str += m_row_start(0);
-    tmp = '<img src="' + data[i].icon + '" class="img-fluid">'
+    str += m_row_start_hover(0);
+    str += m_col(1, parseInt(i)+1 + data[i].source);
+    //tmp = '<img src="' + data[i].icon + '" class="img-fluid img-thumbnail">'
+    tmp = '<img src="' + data[i].icon + '" height="30px">'
+    //tmp = '<img src="' + data[i].icon + '" class="">'
     str += m_col(1, tmp);
-    str += m_col(1, data[i].source);
-    str += m_col(2, data[i].title);
+    str += m_col(3, data[i].title);
+    str += m_col(1, data[i].source_id)
+    str += m_col(4, data[i].current)
     
-
     tmp = ''
     tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
     url = ddns + "/klive/api/url?m=url&s=" + data[i].source + "&i=" + data[i].source_id
     tmp += m_button('link_btn', 'Open', [{'key':'url', 'value':url}]);
-    
-
-    /*
-    if (data[i].plex_key != null)
-      tmp += m_button('link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
-    tmp += m_button('link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
-    tmp += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
-    tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('plex_refresh_btn', 'PLEX 정보 새로고침', [{'key':'id', 'value':data[i].id}]);
-    tmp2 = m_button_group(tmp)
-
-    tmp = m_button('except_program_btn', '제외프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('whitelist_program_btn', '포함프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    
-    tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
-    tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.magnet}]);
-    tmp += m_button('cache_btn', 'Offcloud 캐쉬', [{'key':'hash', 'value':data[i].feed.magnet}]);
-    */
     tmp = m_button_group(tmp)
-    
-
     str += m_col(2, tmp)
-    
-    
-    
+
     str += m_row_end();
     
     video_id = "video_" + data[i].source+'_'+data[i].source_id
@@ -389,7 +374,7 @@ function make_list(data) {
     //str += m_col(12, tmp);
     //str += m_row_end();
     str += tmp
-    //if (i != data.length -1) str += m_hr(0);
+    if (i != data.length -1) str += m_hr(0);
   }
   document.getElementById("list_div").innerHTML = str;
 }
