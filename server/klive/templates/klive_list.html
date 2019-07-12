@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
- 
+<script src="{{ url_for('static', filename='js/hls.js') }}"></script>  
 <div>
   
     <form id="form_search" class="form-inline" style="text-align:left">
@@ -45,8 +45,78 @@
 </div>
 
 <script type="text/javascript">
-var package_name = 'downloader_movie';
+var package_name = 'klive';
 var current_data = null;
+var ddns = "{{arg['ddns']}}"
+var current_video_id = null
+var hls = null
+/*
+$("body").on('click', '#web_play_btn', function(e) {
+  e.preventDefault();
+  source = $(this).data('source')
+  source_id = $(this).data('source_id')
+  url = ddns + "/klive/api/url?m=url&s=" + source + "&i=" + source_id
+
+  window.open(url, "_blank");
+});
+*/
+
+$("body").on('click', '#web_play_btn', function(e) {
+  e.preventDefault();
+  source = $(this).data('source')
+  source_id = $(this).data('source_id')
+  video_id = "video_"+source+"_"+source_id
+  url = ddns + "/klive/api/url?m=url&s=" + source + "&i=" + source_id
+  play_video(video_id, url)
+});
+
+function stop_video() {
+  if (hls != null) {
+    hls.destroy();
+  }
+  if (current_video_id != null) {
+    $('#' + current_video_id + "_div").collapse('hide')
+  }
+  current_video_id = null
+}
+
+function play_video(video_id, url) {
+  console.log(url)
+  stop_video();
+  current_video_id = video_id;
+  $('#' + current_video_id + "_div").collapse('show')
+  if(Hls.isSupported()) {
+    var video = document.getElementById(current_video_id);
+    hls = new Hls();
+    hls.on(Hls.Events.ERROR, function(event,data) {
+      var msg = "Player error: " + data.type + " - " + data.details;
+      stop_video()
+      $.notify('<strong>'+msg+'</strong>', {
+        type: 'warning'
+      });
+    });
+    hls.loadSource(url);
+    
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.play();
+    });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $(document).ready(function(){
   request_search('1');
@@ -227,10 +297,13 @@ function request_search(page, move_top=true) {
     dataType: "json",
     success: function (data) {
       current_data = data;
+      /*
       if (move_top)
         window.scrollTo(0,0);
       make_list(data.list)
       make_page_html(data.paging)
+      */
+      make_list(data)
     }
   });
 }
@@ -252,109 +325,24 @@ function except_result_process(data) {
 }
 
 function make_list(data) {
-  console.log(data)
+  //console.log(data)
   str = '';
   for (i in data) {
-    //console.log(data[i])
-    str += m_row_start();
-    tmp = '<img src="' + data[i].feed.json.movie.more.poster + '" class="img-fluid">'
+    console.log(data[i])
+    str += m_row_start(0);
+    tmp = '<img src="' + data[i].icon + '" class="img-fluid">'
     str += m_col(2, tmp);
-    right = m_row_start();
-    manual = ''
-    if (data[i].status.startsWith('True_manual_')) {
-      data[i].status = data[i].status.replace('True_manual_', '')
-      manual = ' - 수동요청'
-    }
-    if (data[i].status.startsWith('True')) {
-      tmp = '✔요청 '
-    } else {
-      tmp = '⛔패스 '
-    }
-
-    if (data[i].plex_key != null) {
-      if (data[i].plex_key.startsWith('/')) {
-        tmp += '(PLEX 프로그램⭕) '
-      } else if (data[i].plex_key.startsWith('P')) {
-        tmp += '(PLEX 프로그램⭕ 에피소드❌) '
-        data[i].plex_key = data[i].plex_key.substring(1)
-      } else if (data[i].plex_key.startsWith('E')) {
-        tmp += '(PLEX 프로그램⭕ 에피소드⭕) '
-        data[i].plex_key = data[i].plex_key.substring(1)
-      }
-    } else {
-      tmp += '(PLEX 프로그램❌) '
-    }
-    if (data[i].status == 'True_by_plex_in_lib_multi_epi') {
-      tmp += '에피소드 멀티파일'
-    } else if (data[i].status == 'False_by_plex_in_one_epi') {
-      tmp += '에피소드 이미 있음'
-    } else if (data[i].status == 'True_by_plex_in_lib_no_epi') {
-      tmp += '에피소드 없음'
-    } else if (data[i].status == 'True_blacklist') {
-      tmp += '블랙리스트에 없음'
-    } else if (data[i].status == 'False_whitelist') {
-      tmp += '화이트리스트에 없음'
-    } else if (data[i].status == 'False_except_program') {
-      tmp += '블랙리스트'
-    } else if (data[i].status == 'True_whitelist_program') {
-      tmp += '화이트리스트'
-    } else if (data[i].status == 'True_whitelist_first_epi') {
-      tmp += '첫번째 에피소드'
-    } else {
-      tmp = ''
-    }
-    tmp += manual
-    tmp = '<b>상태 : </b>' + tmp
-    tmp += '<br><b>방송 : </b>' + data[i].feed.daum_title + '(' + data[i].feed.daum_genre + ')'
-    if (data[i].feed.file_number != -1) {
-      tmp += ', ' + data[i].feed.file_number + '회'
-    }
-    tmp += ', ' + data[i].feed.file_date
-
-    tmp += '<br><b>'+data[i].feed.json.movie.title+'</b>' + data[i].feed.json.movie.more.title
-    tmp += '<br>' + data[i].feed.json.movie.more.info[0].replace('요약', '').trim()
-    tmp += m_hr()
-
-    tmp += '<b>예상 : </b>' + data[i].feed.json.guessit.screen_size + ' | ' + data[i].feed.json.guessit.source
-    //for (j in data[i].feed.json.movie.more.info) {
-    //  tmp += '<br>' + data[i].feed.json.movie.more.info[j]
-    //}
+    str += m_col(1, data[i].source);
+    str += m_col(2, data[i].title);
     
 
-    tmp += '<br><b>Feed 제목 : </b>' + data[i].feed.title
-    tmp += '<br><b>Feed URL : </b>' + '<a href="' + data[i].feed.url + '" target="_blank">' + data[i].feed.url + '</a>'
-    //tmp += '<br><b></b>' + '<a href="' + data[i].feed.magnet + '" target="_blank">' + data[i].feed.magnet + '</a>'
-
-    for (j in data[i].feed.files) {
-      tmp += '<br><b>' + data[i].feed.files[j].filename + '</b>'
-    }
-
-    right += m_col(6, tmp);
     tmp = ''
-    if (data[i].downloader_item != null) {
-      if (data[i].downloader_item.status=='completed') status = '완료';
-      else if (data[i].downloader_item.status=='downloading') status = '다운로드중';
-      else if (data[i].downloader_item.status=='request') status = '요청';
-      else if (data[i].downloader_item.status=='download pending') status = '대기';
-      else status = data[i].downloader_item.status
-      tmp += '<br><b>다운로드 상태 : </b>' + status
-      tmp += '<br><b>다운로드 경로 : </b>' + data[i].downloader_item.download_path
-    }
-    right += m_col(3, tmp);
-    tmp = data[i].feed.created_time + ' (텔레그램 수신)'
-    tmp += '<br>' + data[i].created_time + ' (다운여부 판단)'
-    if (data[i].downloader_item != null) {
-      tmp += '<br>' + data[i].downloader_item.created_time + ' (다운로드 요청)'
-      if (data[i].downloader_item.completed_time != '') {
-        tmp += '<br>' + data[i].downloader_item.completed_time + ' (다운로드 완료)' 
-        tmp += '<br>' + data[i].downloader_item.timedelta + ' (다운로드 시간)'
-      }
-    } 
-    right += m_col(3, tmp);
-    right += m_row_end();
-    right += m_row_start();
+    tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
+    url = ddns + "/klive/api/url?m=url&s=" + data[i].source + "&i=" + data[i].source_id
+    tmp += m_button('link_btn', 'Open', [{'key':'url', 'value':url}]);
     
-    tmp = ''
+
+    /*
     if (data[i].plex_key != null)
       tmp += m_button('link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
     tmp += m_button('link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
@@ -370,15 +358,28 @@ function make_list(data) {
     tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.magnet}]);
     tmp += m_button('cache_btn', 'Offcloud 캐쉬', [{'key':'hash', 'value':data[i].feed.magnet}]);
-    tmp2 += m_button_group(tmp)
-    right += m_col(12, tmp2)
+    */
+    tmp = m_button_group(tmp)
+    
 
-    right += m_row_end();
-
-    str += m_col(10, right)
-
+    str += m_col(2, tmp)
+    
+    
+    
     str += m_row_end();
-    if (i != data.length -1) str += m_hr();
+    
+    video_id = "video_" + data[i].source+'_'+data[i].source_id
+    tmp = '<div id="'+video_id+'_div" class="collapse">'
+    tmp += m_row_start();
+    tmp2 = '<center><video height="500" id="'+video_id+'" controls></video></center>'
+    tmp += m_col(12, tmp2);
+    tmp += m_row_end();
+
+    tmp += '</div>'
+    //str += m_col(12, tmp);
+    //str += m_row_end();
+    str += tmp
+    //if (i != data.length -1) str += m_hr(0);
   }
   document.getElementById("list_div").innerHTML = str;
 }

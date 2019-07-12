@@ -5,17 +5,7 @@
   
       {{ macros.setting_scheduler_button(arg['scheduler'], arg['is_running']) }}
       <form id='setting' name='setting'>
-      {{ macros.setting_input_int('interval', '스케쥴링 실행 주기', value=arg['interval'], min='1', placeholder='10', desc='minute 단위') }}
-      {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 사용 설정합니다.') }}
-      
-      {{ macros.setting_radio('telegram_invoke_action', '텔레그램 수신시', ['실행하지 않음', '스케쥴링 중에만 실행', '스케쥴링 상태가 아니더라도 실행']) }}
 
-      {{ macros.setting_radio('torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['torrent_program']) }}
-      {{ macros.setting_input_text('path', '다운로드 경로', value=arg['path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
-
-
-      
-      {{ macros.setting_checkbox('send_telegram', '텔레그램 메시지', value=arg['send_telegram']) }}
       {{ macros.setting_button([['setting_save', '저장']]) }}
       </form>
       {{ macros.m_hr() }}
@@ -25,15 +15,13 @@
     
 
 <script type="text/javascript">
-var package_name = 'downloader_movie';
+var package_name = 'klive';
 var current_data = null;
-var download_mode = "{{arg['download_mode']}}";
-var telegram_invoke_action = "{{arg['telegram_invoke_action']}}"
+
 $(document).ready(function(){
   // 로딩
   //set_download_mode(download_mode)
   use_collapse("use_plex_data")
-  set_telegram_action_radio(telegram_invoke_action);
 });
 
 // 사용 on / off
@@ -177,13 +165,6 @@ function db_delete() {
   });
 }
 
-$('input[type=radio][name=telegram_invoke_action]').change(function() {
-  set_telegram_action_radio(this.value);
-});
-
-function set_telegram_action_radio(type) {
-  $('input[name=telegram_invoke_action]')[parseInt(type)].checked = true;
-}
 
 
 
