@@ -122,45 +122,6 @@ $("body").on('click', '#whitelist_program_btn', function(e){
   });
 });
 
-$("body").on('click', '#add_remote_btn', function(e) {
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/cache_download_bot',
-    type: "POST", 
-    cache: false,
-    data: {hash:hash},
-    dataType: "json",
-    success: function (data) {
-      m_modal(data)
-    }
-  });
-});
-
-$("body").on('click', '#cache_btn', function(e){
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/hash',
-    type: "POST", 
-    cache: false,
-    data:{hash:hash},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-  //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
-});
-
 $("body").on('click', '#add_download_btn', function(e) {
   e.preventDefault();
   id = $(this).data('id');
@@ -339,8 +300,8 @@ function make_list(data) {
     
     tmp = ''
     if (data[i].plex_key != null)
-      tmp += m_button('link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
-    tmp += m_button('link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
+      tmp += m_button('global_link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
+    tmp += m_button('global_link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
     tmp += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
     tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
@@ -351,8 +312,8 @@ function make_list(data) {
     tmp += m_button('whitelist_program_btn', '포함프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
     
     tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
-    tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.magnet}]);
-    tmp += m_button('cache_btn', 'Offcloud 캐쉬', [{'key':'hash', 'value':data[i].feed.magnet}]);
+    tmp += m_button('global_add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.magnet}]);
+    tmp += m_button('global_cache_confirm_btn', 'Offcloud 캐쉬', [{'key':'hash', 'value':data[i].feed.magnet}]);
     tmp2 += m_button_group(tmp)
     right += m_col(12, tmp2)
 

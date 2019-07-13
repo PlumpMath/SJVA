@@ -75,44 +75,6 @@ $("body").on('click', '#add_download_btn', function(e) {
   });
 });
 
-$("body").on('click', '#add_remote_btn', function(e) {
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/cache_download_bot',
-    type: "POST", 
-    cache: false,
-    data: {hash:hash},
-    dataType: "json",
-    success: function (data) {
-      m_modal(data)
-    }
-  });
-});
-
-$("body").on('click', '#cache_btn', function(e){
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/hash',
-    type: "POST", 
-    cache: false,
-    data:{hash:hash},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-  //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
-});
 
 
 function request_search(page) {
@@ -197,13 +159,13 @@ function make_list(data) {
       tmp = ''
       if ( data[i].files[j].magnet != '') {
         tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':data[i].files[j].magnet}]);
-        tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].files[j].magnet}]);
-        tmp += m_button('cache_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+        tmp += m_button('global_add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].files[j].magnet}]);
+        tmp += m_button('global_cache_confirm_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].files[j].magnet}]);
       } else {
         if (is_available_normal_download) {
           tmp += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].files[j].id }]);
         }
-        tmp += m_button('add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].files[j].id}]);
+        tmp += m_button('global_add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].files[j].id}]);
       }
 
       tmp = m_button_group(tmp)

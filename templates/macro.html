@@ -174,7 +174,7 @@
 
 
 <!-- 라디오버튼 -->
-{% macro setting_radio(id, title, radios, value=None) %}
+{% macro setting_radio(id, title, radios, value=None, desc=None) %}
   {{ setting_top(title) }}
     <div class="input-group col-sm-9">
     {% for r in radios %}
@@ -188,7 +188,7 @@
       </div>
     {% endfor %}
     </div>
-  {{ setting_bottom() }}
+  {{ setting_bottom(desc) }}
 {% endmacro %}
 
 <!-- select  -->

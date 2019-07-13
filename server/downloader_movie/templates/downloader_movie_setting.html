@@ -12,9 +12,16 @@
 
       {{ macros.setting_radio('torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['torrent_program']) }}
       {{ macros.setting_input_text('path', '다운로드 경로', value=arg['path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
-
-
       
+      {{ macros.setting_checkbox('use_auto_download', '자동 다운로드 사용', value=arg['use_auto_download'], desc='On : 조건에 맞는 영화를 자동으로 다운로드합니다.') }}
+      <div id="use_auto_download_div" class="collapse">
+        {{ macros.setting_radio('option_meta', '(조건) Meta', ['전체', 'Daum 정보가 있는 영화'], value=arg['option_meta']) }}
+        {{ macros.setting_radio('option_country', '(조건) 나라', ['전체', '국내영화', '외국영화'], value=arg['option_country']) }}
+        {{ macros.setting_radio('option_source', '(조건) 소스', ['전체', 'VOD', 'Blueray or 외국 web'], value=arg['option_source']) }}
+        {{ macros.setting_radio('option_sub', '(조건) 외국영화+VOD아닌경우', ['전체', '자막파일이 있는 영화'], value=arg['option_sub']) }}
+
+        {{ macros.setting_radio('option_plex', '(조건) PLEX', ['연동안함(중복허용)', '이미 있는 경우 받지 않음', '더 좋은 화질로 예상되는 경우 다운로드'], value=arg['option_plex']) }}
+      </div>
       {{ macros.setting_checkbox('send_telegram', '텔레그램 메시지', value=arg['send_telegram']) }}
       {{ macros.setting_button([['setting_save', '저장']]) }}
       </form>
@@ -32,7 +39,7 @@ var telegram_invoke_action = "{{arg['telegram_invoke_action']}}"
 $(document).ready(function(){
   // 로딩
   //set_download_mode(download_mode)
-  use_collapse("use_plex_data")
+  use_collapse("use_auto_download")
   set_telegram_action_radio(telegram_invoke_action);
 });
 
@@ -74,13 +81,27 @@ $("#setting_save").click(function(e) {
   });
 });
 
+$('#use_auto_download').change(function() {
+  use_collapse('use_auto_download');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 $('input[type=radio][name=download_mode]').change(function() {
   set_download_mode(this.value);
 });
 
-$('#use_plex_data').change(function() {
-  use_collapse('use_plex_data');
-});
+
 
 function set_download_mode(type) {
   $('input[name=download_mode]')[parseInt(type)].checked = true;

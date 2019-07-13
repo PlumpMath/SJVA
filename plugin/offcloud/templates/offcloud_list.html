@@ -49,12 +49,6 @@ $("body").on('click', '#page', function(e){
   request_search($(this).data('page'));
 });
 
-// 재생 버튼
-$("body").on('click', '#link_btn', function(e) {
-  e.preventDefault();
-  url = $(this).data('url')
-  window.open(url, "_blank");
-});
 
 // 다운로드 추가
 $("body").on('click', '#download_btn', function(e) {

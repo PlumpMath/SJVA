@@ -33,12 +33,16 @@ $(document).ready(function(){
       data:{hash:hash},
       dataType: "json",
       success: function (data) {
-        if (data) {
+        if (data == 'true') {
           $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
             type: 'success'
           });
-        } else {
+        } else if (data == 'false') {
           $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
+            type: 'warning'
+          });
+        } else if (data == 'fail') {
+          $.notify('<strong>캐쉬 확인 실패</strong>', {
             type: 'warning'
           });
         }

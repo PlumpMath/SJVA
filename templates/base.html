@@ -403,11 +403,6 @@ function humanFileSize(bytes) {
     return bytes.toFixed(1)+' '+units[u];
 }
 
-$("body").on('click', '#link_btn', function(e) {
-  e.preventDefault();
-  url = $(this).data('url')
-  window.open(url, "_blank");
-});
 
 /*
 function humanFileSize(bytes, si) {
@@ -428,7 +423,56 @@ function humanFileSize(bytes, si) {
 */
 
 ///////////////////////////////////////////////////////////////////////////////
-// 사용 on / off
+// 공용 버튼
+///////////////////////////////////////////////////////////////////////////////
+
+$("body").on('click', '#global_link_btn', function(e) {
+  e.preventDefault();
+  url = $(this).data('url')
+  window.open(url, "_blank");
+});
 
 
+$("body").on('click', '#global_cache_confirm_btn', function(e){
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $.ajax({
+    url: '/offcloud/ajax/hash',
+    type: "POST", 
+    cache: false,
+    data:{hash:hash},
+    dataType: "json",
+    success: function (data) {
+      if (data == 'true') {
+        $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
+          type: 'success'
+        });
+      } else if (data == 'false') {
+        $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
+          type: 'warning'
+        });
+      } else if (data == 'fail') {
+        $.notify('<strong>캐쉬 확인 실패</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+  //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
+});
+
+$("body").on('click', '#global_add_remote_btn', function(e) {
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $.ajax({
+    url: '/offcloud/ajax/cache_download_bot',
+    type: "POST", 
+    cache: false,
+    data: {hash:hash},
+    dataType: "json",
+    success: function (data) {
+      m_modal(data)
+    }
+  });
+});
 </script>
