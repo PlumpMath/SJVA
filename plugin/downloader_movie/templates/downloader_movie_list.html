@@ -2,46 +2,40 @@
 {% block content %}
  
 <div>
-  
-    <form id="form_search" class="form-inline" style="text-align:left">
-      <div class="container-fluid">
-        <div class="row show-grid">
-          <span class="col-md-4">
-            <select id="order" name="order" class="form-control form-control-sm">
-              <option value="desc">최근순</option>
-              <option value="asc">오래된순</option>
-            </select>
-            <select id="option" name="option" class="form-control form-control-sm">
-              <option value="all">전체</option>
-              <option value="request_True">요청</option>
-              <option value="request_False">패스</option>
-              <option value="by_plex_on">PLEX 프로그램⭕</option>
-              <option value="by_plex_off">PLEX 프로그램❌</option>
-              <option value="by_plex_episode_off">PLEX 에피소드❌</option>
-            </select>
-          </span>
-          <span class="col-md-8">
-            <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="프로그램명" aria-label="Search">
-            <button id="search" class="btn btn-sm btn-outline-success">검색</button>
-            <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
-          </span>
-        </div>
+  <form id="form_search" class="form-inline" style="text-align:left">
+    <div class="container-fluid">
+      <div class="row show-grid">
+        <span class="col-md-4">
+          <select id="order" name="order" class="form-control form-control-sm">
+            <option value="desc">최근순</option>
+            <option value="asc">오래된순</option>
+          </select>
+          <select id="option" name="option" class="form-control form-control-sm">
+            <option value="all">전체</option>
+            <option value="request_True">요청</option>
+            <option value="request_False">패스</option>
+            <option value="by_plex_on">PLEX ⭕</option>
+            <option value="by_plex_off">PLEX ❌</option>
+          </select>
+        </span>
+        <span class="col-md-8">
+          <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="" aria-label="Search">
+          <button id="search" class="btn btn-sm btn-outline-success">검색</button>
+          <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
+        </span>
       </div>
-    </form>
-    <div id='page1'></div>
-    {{ macros.m_hr_head_top() }}
-    {{ macros.m_row_start('0') }}
-    {{ macros.m_col(2,  macros.m_strong('Info')) }}
-    {{ macros.m_col(1,  macros.m_strong('Status')) }}
-    {{ macros.m_col(5,  macros.m_strong('Title')) }}
-    {{ macros.m_col(2,  macros.m_strong('Time')) }}
-    {{ macros.m_col(2,  macros.m_strong('Path')) }}
-    {{ macros.m_row_end() }}
-    {{ macros.m_hr_head_bottom() }}
-    <div id="list_div"></div>
-    <div id='page2'></div>
-    
-   
+    </div>
+  </form>
+  <div id='page1'></div>
+  {{ macros.m_hr_head_top() }}
+  {{ macros.m_row_start('0') }}
+  {{ macros.m_col(2,  macros.m_strong('Poster')) }}
+  {{ macros.m_col(8,  macros.m_strong('Info')) }}
+  {{ macros.m_col(2,  macros.m_strong('Time')) }}
+  {{ macros.m_row_end() }}
+  {{ macros.m_hr_head_bottom() }}
+  <div id="list_div"></div>
+  <div id='page2'></div>
 </div>
 
 <script type="text/javascript">
@@ -95,54 +89,33 @@ $("body").on('click', '#self_search_btn', function(e){
   request_search('1')
 });
 
-$("body").on('click', '#except_program_btn', function(e){
-  e.preventDefault();
-  var program = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/add_program',
-    type: "POST", 
-    cache: false,
-    data: {except_program:program},
-    dataType: "json",
-    success: function (data) {
-      except_result_process(data);
-    }
-  });
-});
-
-$("body").on('click', '#whitelist_program_btn', function(e){
-  e.preventDefault();
-  var program = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/add_program',
-    type: "POST", 
-    cache: false,
-    data: {whitelist_program:program},
-    dataType: "json",
-    success: function (data) {
-      except_result_process(data);
-    }
-  });
-});
-
-
-
-$("body").on('click', '#add_download_btn', function(e) {
+//한건씩 추가
+$("body").on('click', '#bot_file_add_download_btn', function(e) {
   e.preventDefault();
   id = $(this).data('id');
+  bot_file_id = $(this).data('bot_file_id');
   $.ajax({
-    url: '/'+package_name+'/ajax/add_download',
+    url: '/'+package_name+'/ajax/bot_file_add_download',
     type: "POST", 
     cache: false,
-    data: {id:id},
+    data: {id:id, bot_file_id:bot_file_id},
     dataType: "json",
     success: function (data) {
-      if (data) {
-        $.notify('<strong>다운로드 추가하였습니다.</strong>', {
+      //console.log(data)
+      if (data == 'torrent_add') {
+        $.notify('<strong>토렌트 다운로드 추가하였습니다.</strong>', {
           type: 'success'
         });
         request_search(current_data.paging.current_page, false)
-      } else {
+      } else if (data == 'file_add') {
+        $.notify('<strong>일반파일 다운로드 추가하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else if (data == 'file_not_add') {
+        $.notify('<strong>일반파일 다운로드 설정이 없습니다.</strong>', {
+          type: 'warning'
+        });
+      } else if (data == 'fail') {
         $.notify('<strong>다운로드 추가에 실패하였습니다.</strong>', {
           type: 'warning'
         });
@@ -150,6 +123,8 @@ $("body").on('click', '#add_download_btn', function(e) {
     }
   });
 });
+
+
 
 $("body").on('click', '#plex_refresh_btn', function(e) {
   e.preventDefault();
@@ -162,24 +137,18 @@ $("body").on('click', '#plex_refresh_btn', function(e) {
     dataType: "json",
     success: function (data) {
       if (data) {
-        $.notify('<strong>변경되었습니다.</strong>', {
+        $.notify('<strong>새로고침 하였습니다.</strong>', {
           type: 'success'
         });
         request_search(current_data.paging.current_page, false)
       } else {
-        $.notify('<strong>변경되지 않았습니다.</strong>', {
+        $.notify('<strong>새로고침 실패</strong>', {
           type: 'warning'
         });
       }
     }
   });
 });
-
-
-
-
-
-
 
 function request_search(page, move_top=true) {
   var formData = get_formdata('#form_search')
@@ -198,22 +167,6 @@ function request_search(page, move_top=true) {
       make_page_html(data.paging)
     }
   });
-}
-
-function except_result_process(data) {
-  if ( data == 1) {
-    $.notify('<strong>추가하였습니다.</strong>', {
-      type: 'success'
-    });
-  } else if ( data == 0) {
-    $.notify('<strong>이미 설정되어 있습니다.</strong>', {
-      type: 'warning'
-    });
-  } else {
-    $.notify('<strong>Exception</strong>', {
-      type: 'warning'
-    });
-  }
 }
 
 function make_list(data) {
@@ -239,7 +192,10 @@ function make_list(data) {
     if (data[i].status.startsWith('True')) {
       tmp = '✔요청 '
     } else {
-      tmp = '⛔패스 (' + data[i].json.log + ')'
+      tmp = '⛔패스 '
+    }
+    if (data[i].json.log != '') {
+      tmp += '(' + data[i].json.log + ')'
     }
     tmp += manual
     tmp = '<b>상태 : </b>' + tmp
@@ -288,18 +244,18 @@ function make_list(data) {
       }
       tmp2 =''
       if ( data[i].feed.files[j].magnet != '') {
-        tmp2 += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':data[i].feed.files[j].magnet}]);
+        tmp2 += m_button('bot_file_add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}, {'key':'bot_file_id', 'value':data[i].feed.files[j].id}]);
         tmp2 += m_button('global_add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].feed.files[j].magnet}]);
         tmp2 += m_button('global_cache_confirm_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].feed.files[j].magnet}]);
       } else {
         if (is_available_normal_download) {
-          tmp2 += m_button('add_download_btn', '다운로드 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].feed.files[j].id }]);
+          tmp2 += m_button('bot_file_add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}, {'key':'bot_file_id', 'value':data[i].feed.files[j].id}]);
         }
         tmp2 += m_button('global_add_remote_btn', 'Offcloud 추가', [{'key':'hash', 'value':ddns+'/rss/download_bot/' + data[i].feed.files[j].id}]);
       }
       tmp += m_button_group(tmp2) + '<br>'
     }
-    tmp += m_hr()
+    //tmp += m_hr()
 
     
     
@@ -335,26 +291,26 @@ function make_list(data) {
     
     //https://app.plex.tv/desktop#!/server/2dc7e04aea6799873e010c58689235d44eb82c5d/search/%ED%98%B8%EC%8A%A4%ED%8B%B0%EC%A7%80
     tmp = ''
-    if (data[i].plex_key != null)
-      tmp += m_button('global_link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].plex_key}]);
-    tmp += m_button('global_link_btn', 'Daum 검색', [{'key':'url', 'value':'https://search.daum.net/search?w=tv&q='+data[i].feed.daum_title+'&irk='+data[i].feed.daum_id+'&irt=tv-program&DA=TVP'}]);
+    if (info) {
+      if (data[i].json.plex.length == 1)
+        tmp += m_button('global_link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/details?key=' + data[i].json.plex[0].key}]);
+      else if (data[i].json.plex.length > 1)
+        tmp += m_button('global_link_btn', 'Open PLEX', [{'key':'url', 'value':'https://app.plex.tv/desktop#!/server/' + current_data.plex_server_hash + '/search/' + data[i].feed.json.movie.title}]);
+    } 
+
+    if (data[i].feed.json.movie != null && data[i].feed.json.movie.more != null)
+      tmp += m_button('global_link_btn', 'Daum 검색', [{'key':'url', 'value':'https://movie.daum.net/moviedb/main?movieId='+data[i].feed.json.movie.id}]);
     tmp += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
-    tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('plex_refresh_btn', 'PLEX 정보 새로고침', [{'key':'id', 'value':data[i].id}]);
+    if (info) {
+      tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.json.movie.title}]);
+      tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.json.movie.title}]);
+      tmp += m_button('plex_refresh_btn', 'PLEX 정보 새로고침', [{'key':'id', 'value':data[i].id}]);
+    }
+    
     tmp2 = m_button_group(tmp)
-
-    tmp = m_button('except_program_btn', '제외프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    tmp += m_button('whitelist_program_btn', '포함프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
-    
-    
-    tmp2 += m_button_group(tmp)
     right += m_col(12, tmp2)
-
     right += m_row_end();
-
     str += m_col(10, right)
-
     str += m_row_end();
     if (i != data.length -1) str += m_hr();
   }

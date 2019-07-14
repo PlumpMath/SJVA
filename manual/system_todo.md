@@ -1,10 +1,6 @@
 ##### **■ 플러그인** #####
 - 토렌트 - 다운로드
 
-- 토렌트 - 다운로드 영화
-
-- 파일처리 - 영화
-  
 - Plex - Watchdog 스캔
 
 - Plex - ATV 연동
@@ -20,6 +16,10 @@
 <br>
 
 ##### **■ 기능** #####
+- RSS 스케쥴링과 다운로드 플러그인과 직접 연동. <br>
+크롤링과 동시에 다운로드 작업 선택하도록<br>
+
+- [Plex Dupefinder](https://github.com/Cloudbox/Cloudbox/wiki/Extras:-Plex-Dupefinder) Plex 툴에 적용 <br>
 
 - PLEX 서버가 꺼져 있을 경우 사용자에게 알림. <br>
   텔레그램 5초 단위로 사용자가 확인 할 때까지 지속적인 메시지 전송
