@@ -8,7 +8,6 @@
   }
 </style>
 <div>
-  
     <form id="form_search" class="form-inline" style="text-align:left">
       <div class="container-fluid">
         <div class="row show-grid">
@@ -56,6 +55,8 @@ var current_data = null;
 var ddns = "{{arg['ddns']}}"
 var current_video_id = null
 var hls = null
+var current_url = null
+var error_count = 0
 /*
 $("body").on('click', '#web_play_btn', function(e) {
   e.preventDefault();
@@ -73,30 +74,39 @@ $("body").on('click', '#web_play_btn', function(e) {
   source_id = $(this).data('source_id')
   video_id = "video_"+source+"_"+source_id
   url = ddns + "/klive/api/url?m=url&s=" + source + "&i=" + source_id
-  play_video(video_id, url)
+  error_count = 0
+  play_video(video_id, url, true)
 });
 
-function stop_video() {
+function stop_video(by_user) {
   if (hls != null) {
     hls.destroy();
   }
-  if (current_video_id != null) {
-    $('#' + current_video_id + "_div").collapse('hide')
+  if (by_user || error_count > -1) {
+    if (current_video_id != null) {
+      $('#' + current_video_id + "_div").collapse('hide')
+    }
+    current_video_id = null
+  } else {
+    error_count += 1
+    setTimeout(function() {play_video(current_video_id, current_url, false);}, 2000)
   }
-  current_video_id = null
 }
 
-function play_video(video_id, url) {
-  console.log(url)
-  stop_video();
+function play_video(video_id, url, by_user) {
+  if (by_user) {
+    stop_video(true)
+  }
+
   current_video_id = video_id;
+  current_url = url
   $('#' + current_video_id + "_div").collapse('show')
   if(Hls.isSupported()) {
     var video = document.getElementById(current_video_id);
     hls = new Hls();
     hls.on(Hls.Events.ERROR, function(event,data) {
-      var msg = "Player error: " + data.type + " - " + data.details;
-      stop_video()
+      var msg = "Player error: " + data.type + " - " + data.details + '<br>Retry...' + (error_count+1);
+      stop_video(false)
       $.notify('<strong>'+msg+'</strong>', {
         type: 'warning'
       });
@@ -112,7 +122,7 @@ function play_video(video_id, url) {
 
 $("body").on('click', '#close_btn', function(e) {
   e.preventDefault();
-  stop_video();
+  stop_video(true);
 });
 
 
@@ -306,14 +316,16 @@ function make_list(data) {
   str = '';
   for (i in data) {
     str += m_row_start_hover(0);
-    str += m_col(1, parseInt(i)+1 + data[i].source);
+    str += m_col(1, parseInt(i)+1);
     //tmp = '<img src="' + data[i].icon + '" class="img-fluid img-thumbnail">'
     tmp = '<img src="' + data[i].icon + '" height="30px">'
     //tmp = '<img src="' + data[i].icon + '" class="">'
     str += m_col(1, tmp);
+    str += m_col(1, data[i].source);
+    str += m_col(1, data[i].is_tv);
     str += m_col(3, data[i].title);
     str += m_col(1, data[i].source_id)
-    str += m_col(4, data[i].current)
+    str += m_col(2, data[i].current)
     
     tmp = ''
     tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
