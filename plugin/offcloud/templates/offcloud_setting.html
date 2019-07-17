@@ -53,8 +53,6 @@
   <input type="hidden" id="job_id" name="job_id"/>
   {{ macros.setting_input_text_and_buttons('job_rss_url', 'RSS URL', [['job_test_rss_btn', '링크']]) }}
 
-  {{ macros.setting_input_int('job_interval', 'RSS 갱신 주기', min='1', placeholder='10', desc='minute 단위', value='10') }}
-
   {{ macros.setting_input_text('job_account', 'Account', col='4', desc=['Offcloud Remote accounts의 Username']) }}
   
   {{ macros.setting_input_text('job_default_folderid', '기본 Folder ID') }}
@@ -151,7 +149,6 @@ $(document).ready(function(){
     e.preventDefault();
     document.getElementById("job_id").value = -1
     document.getElementById("job_rss_url").value = ''
-    document.getElementById("job_interval").value = 10
     document.getElementById("job_account").value = ''
     document.getElementById("job_default_folderid").value = ''
     document.getElementById("job_remove_btn").disabled = true;
@@ -194,7 +191,6 @@ $(document).ready(function(){
       if (id == current_data.jobs[i].id) {
         document.getElementById("job_id").value = current_data.jobs[i].id;
         document.getElementById("job_rss_url").value = current_data.jobs[i].rss_url;
-        document.getElementById("job_interval").value = current_data.jobs[i].interval;
         document.getElementById("job_account").value = current_data.jobs[i].account;
         document.getElementById("job_default_folderid").value = current_data.jobs[i].default_folderid;
         document.getElementById("job_remove_btn").disabled = false;
