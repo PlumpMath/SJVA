@@ -56,12 +56,12 @@
       {{ macros.setting_checkbox('retry_user_abort', '사용자 중지 항목 다시 받기', value=arg['retry_user_abort'], desc='On : 다음 스케쥴링 때 다시 받습니다.') }}
       {{ macros.setting_radio('download_mode', '다운로드 모드', ['블랙리스트', '화이트리스트'], value=arg['download_mode']) }}
       <div id="blacklist_div" class="collapse">
-      {{ macros.setting_input_text('except_channel', '제외 채널', value=arg['except_channel'], desc=[',로 구분', '채널 이름과 일치하면 제외합니다.']) }}
-      {{ macros.setting_input_text('except_program', '제외 프로그램', value=arg['except_program'], desc=[',로 구분', '이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 제외합니다.']) }}
+      {{ macros.setting_input_textarea('except_channel', '제외 채널', value=arg['except_channel'], desc=['채널 이름과 일치하면 제외합니다.', ', 또는 Enter로 구분']) }}
+      {{ macros.setting_input_textarea('except_program', '제외 프로그램', value=arg['except_program'], desc=['이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 제외합니다.', ', 또는 Enter로 구분']) }}
       
       </div>
       <div id="whitelist_div" class="collapse">
-      {{ macros.setting_input_text('whitelist_program', '포함 프로그램', value=arg['whitelist_program'], desc=['이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 다운로드합니다.', ',로 구분']) }}
+      {{ macros.setting_input_textarea('whitelist_program', '포함 프로그램', value=arg['whitelist_program'], desc=['이 곳에 있는 항목이 프로그램에 이름에 포함되어 있으면 다운로드합니다.', ', 또는 Enter로 구분']) }}
       {{ macros.setting_checkbox('whitelist_first_episode_download', '첫회 받기', value=arg['whitelist_first_episode_download'], desc='On : 포함 프로그램에 방송이 없어도 첫 에피소드를 다운로드합니다.') }}
       </div>
       {{ macros.setting_button([['setting_save', '저장']]) }}
