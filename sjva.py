@@ -27,11 +27,12 @@ try:
         sys.exit("1")
     else:
         print 'site.db file exist!!'
-    tmp = '/app/bin/Linux'
-    if os.path.exists(tmp):
-        for t in os.listdir(tmp):
-            os.chmod(os.path.join(tmp, t), 0755)
-            print 'CHMOD : %s' % t
+    if sys.argv[0].startswith('sjva.py'):
+        tmp = '/app/bin/Linux'
+        if os.path.exists(tmp):
+            for t in os.listdir(tmp):
+                os.chmod(os.path.join(tmp, t), 0755)
+                print 'CHMOD : %s' % t
 except Exception, e:
     print('Exception:%s', e)
 

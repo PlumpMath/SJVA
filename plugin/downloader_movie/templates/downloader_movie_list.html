@@ -184,25 +184,7 @@ function make_list(data) {
     str += m_col(2, tmp);
     
     right = m_row_start();
-    manual = ''
-    if (data[i].status.startsWith('True_manual_')) {
-      data[i].status = data[i].status.replace('True_manual_', '')
-      manual = ' - 수동요청'
-    }
-    if (data[i].status.startsWith('True')) {
-      tmp = '✔요청 '
-    } else {
-      tmp = '⛔패스 '
-    }
-    if (data[i].json.log != '') {
-      tmp += '(' + data[i].json.log + ')'
-    }
-    tmp += manual
-    tmp = '<b>상태 : </b>' + tmp
-    if (info) 
-      tmp += '<br><b>예상 : </b>' + data[i].json.guessit.screen_size + ' | ' + data[i].json.guessit.source + ' | ' + data[i].json.target_str
-    tmp += m_hr()
-    
+    tmp = ''
     // 다음정보
     if (data[i].feed.json.movie != null) {
       tmp += '<b>'+data[i].feed.json.movie.title+'</b>'
@@ -212,6 +194,27 @@ function make_list(data) {
       }
       tmp += m_hr()
     }
+
+    manual = ''
+    if (data[i].status.startsWith('True_manual_')) {
+      data[i].status = data[i].status.replace('True_manual_', '')
+      manual = ' - 수동요청'
+    }
+    if (data[i].status.startsWith('True')) {
+      tmp2 = '✔요청 '
+    } else {
+      tmp2 = '⛔패스 '
+    }
+    if (data[i].json.log != '') {
+      tmp2 += '(' + data[i].json.log + ')'
+    }
+    tmp2 += manual
+    tmp += '<b>상태 : </b>' + tmp2
+    if (info) 
+      tmp += '<br><b>예상 : </b>' + data[i].json.guessit.screen_size + ' | ' + data[i].json.guessit.source + ' | ' + data[i].json.target_str
+    tmp += m_hr()
+    
+    
 
     // PLEX 정보
     if (info) {
