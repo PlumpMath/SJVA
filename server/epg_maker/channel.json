@@ -1,5 +1,5 @@
 {
-"time" : "2019-07-23 00:48:09.589000",
+"time" : "2019-07-25 01:19:18.947000",
 "list": [{
     "name" : "SBS",
     "category" : "지상파",
@@ -67,7 +67,8 @@
     "name" : "MBC",
     "category" : "지상파",
     "search_name_list" : [
-        "mbc"
+        "mbc",
+        "mbcdtv"
     ],
     "site_info" : {
         "kt" : ["MBC", "11"],
@@ -267,7 +268,8 @@
     "category" : "드라마",
     "search_name_list" : [
         "skydrama",
-        "스카이드라마"
+        "스카이드라마",
+        "sky드라마"
     ],
     "site_info" : {
         "kt" : ["SkyDrama", "30"],
@@ -930,7 +932,8 @@
     "category" : "교양",
     "search_name_list" : [
         "실버아이tv",
-        "silveritv"
+        "silveritv",
+        "실버아이"
     ],
     "site_info" : {
         "kt" : ["실버아이TV", "266"],
@@ -1853,7 +1856,8 @@
     "category" : "레저",
     "search_name_list" : [
         "skypetpark",
-        "스카이펫파크"
+        "스카이펫파크",
+        "sky펫파크"
     ],
     "site_info" : {
         "kt" : ["SkyPetPark", "49"],
@@ -1939,7 +1943,6 @@
     "site_info" : {
         "kt" : ["Tooniverse", "996"],
         "skb" : ["Tooniverse", "376"],
-        "tving" : ["투니버스", "C06941"],
         "lgu" : ["투니버스", "693"],
         "daum" : ["투니버스", "%ED%88%AC%EB%8B%88%EB%B2%84%EC%8A%A4 편성표"]
     }
@@ -2070,7 +2073,8 @@
     "search_name_list" : [
         "디즈니채널",
         "disney",
-        "disneychannel"
+        "disneychannel",
+        "디즈니"
     ],
     "site_info" : {
         "oksusu" : ["디즈니채널", "334"],
@@ -2164,7 +2168,8 @@
     "name" : "대한생활체육TV",
     "category" : "스포츠",
     "search_name_list" : [
-        "대한생활체육tv"
+        "대한생활체육tv",
+        "대한생활체육"
     ],
     "site_info" : {
         "everyon" : ["대한생활체육TV", "1371"]
@@ -2175,7 +2180,8 @@
     "category" : "스포츠",
     "search_name_list" : [
         "spotvgames",
-        "스포티비게임즈"
+        "스포티비게임즈",
+        "spotv게임"
     ],
     "site_info" : {
         "oksusu" : ["SPOTV GAMES", "254"],
@@ -2269,6 +2275,7 @@
     "search_name_list" : [
         "golfchannelkorea",
         "더골프채널코리아",
+        "골프채널코리아",
         "thegolfchannelkorea",
         "thegolfchannel"
     ],
@@ -2387,7 +2394,8 @@
     "category" : "스포츠",
     "search_name_list" : [
         "skysports",
-        "스카이스포츠"
+        "스카이스포츠",
+        "sky스포츠"
     ],
     "site_info" : {
         "kt" : ["SkySports", "54"],
@@ -2413,14 +2421,15 @@
         "키즈톡톡"
     ],
     "site_info" : {
-        "lgu" : ["키즈톡톡", "805"]
+
     }
 },
 {
     "name" : "JEI 재능TV",
     "category" : "어린이",
     "search_name_list" : [
-        "jei재능tv"
+        "jei재능tv",
+        "재능tv"
     ],
     "site_info" : {
         "kt" : ["JEI 재능TV", "986"],
@@ -2855,7 +2864,8 @@
     "category" : "연예/오락",
     "search_name_list" : [
         "smiletvplus",
-        "스마일티브이플러스"
+        "스마일티브이플러스",
+        "스마일tv+"
     ],
     "site_info" : {
         "kt" : ["스마일티브이플러스", "84"],
@@ -2937,7 +2947,8 @@
     "category" : "연예/오락",
     "search_name_list" : [
         "tvchosun2",
-        "tv조선2"
+        "tv조선2",
+        "티브이조선2"
     ],
     "site_info" : {
         "tving" : ["TV CHOSUN 2", "C00585"],
@@ -3713,10 +3724,9 @@
     ],
     "site_info" : {
         "oksusu" : ["라이프타임", "271"],
-        "tving" : ["LIFETIME", "C00611"],
+        "pooq" : ["LIFETIME", "C5902"],
         "skb" : ["라이프타임", "271"],
         "videoportal" : ["라이프타임", "603"],
-        "pooq" : ["LIFETIME", "C5902"],
         "kt" : ["Lifetime", "78"],
         "daum" : ["라이프타임채널", "%EB%9D%BC%EC%9D%B4%ED%94%84%ED%83%80%EC%9E%84%EC%B1%84%EB%84%90 편성표"],
         "everyon" : ["라이프타임", "1015"],
@@ -3739,7 +3749,8 @@
     "category" : "종교",
     "search_name_list" : [
         "btn불교tv",
-        "btn"
+        "btn",
+        "불교tv"
     ],
     "site_info" : {
         "kt" : ["BTN불교TV", "233"],
@@ -4019,7 +4030,8 @@
     "category" : "홈쇼핑",
     "search_name_list" : [
         "쇼핑엔티",
-        "쇼핑엔t"
+        "쇼핑엔t",
+        "쇼핑앤티"
     ],
     "site_info" : {
         "pooq" : ["쇼핑엔T", "C4901"],
@@ -4169,7 +4181,8 @@
     "name" : "DW-TV Asia+",
     "category" : "해외위성",
     "search_name_list" : [
-        "dwtvasia+"
+        "dwtvasia+",
+        "tvasia+"
     ],
     "site_info" : {
         "kt" : ["DW-TV Asia+", "257"]
@@ -4224,7 +4237,8 @@
     "name" : "NHK WORLD-JAPAN",
     "category" : "해외위성",
     "search_name_list" : [
-        "nhkworldjapan"
+        "nhkworldjapan",
+        "nhk월드"
     ],
     "site_info" : {
         "skb" : ["NHK WORLD JAPAN", "783"],
@@ -4253,7 +4267,8 @@
     "name" : "Animal Planet",
     "category" : "해외위성",
     "search_name_list" : [
-        "animalplanet"
+        "animalplanet",
+        "애니멀플래닛"
     ],
     "site_info" : {
         "kt" : ["Animal Planet", "179"],
