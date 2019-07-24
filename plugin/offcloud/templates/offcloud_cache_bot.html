@@ -102,20 +102,5 @@ function make_list(data) {
   document.getElementById("list_div").innerHTML = str;
 }
 
-$("body").on('click', '#add_remote_btn', function(e) {
-  e.preventDefault();
-  id = $(this).data('id');
-  $.ajax({
-    url: '/offcloud/ajax/cache_download_bot',
-    type: "POST", 
-    cache: false,
-    data: {id:id},
-    dataType: "json",
-    success: function (data) {
-      m_modal(data)
-    }
-  });
-});
-
 </script>    
 {% endblock %}
