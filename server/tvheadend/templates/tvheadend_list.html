@@ -21,11 +21,10 @@
   <div id='page1'></div>
   {{ macros.m_hr_head_top() }}
   {{ macros.m_row_start('0') }}
-  {{ macros.m_col(2,  macros.m_strong('Info')) }}
-  {{ macros.m_col(1,  macros.m_strong('Status')) }}
-  {{ macros.m_col(5,  macros.m_strong('Title')) }}
-  {{ macros.m_col(2,  macros.m_strong('Time')) }}
-  {{ macros.m_col(2,  macros.m_strong('Path')) }}
+  {{ macros.m_col(2,  macros.m_strong('NO')) }}
+  {{ macros.m_col(2,  macros.m_strong('Title')) }}
+  {{ macros.m_col(6,  macros.m_strong('Current')) }}
+  {{ macros.m_col(2,  macros.m_strong('Action')) }}
   {{ macros.m_row_end() }}
   {{ macros.m_hr_head_bottom() }}
   <div id="list_div"></div>
@@ -46,7 +45,7 @@ $(document).ready(function(){
     data: {},
     dataType: "json",
     success: function (data) {
-      console.log(data)
+      //console.log(data)
       current_data = data
       make_list(data.lineup)
       make_profile(data.profile)
@@ -67,7 +66,7 @@ $("body").on('click', '#web_play_btn', function(e) {
 
   profile = document.getElementById('profile_select').value;
   url += '&profile=' + profile
-  console.log(profile)
+  //console.log(profile)
 
   //tmp2 = '<center><video height="500" id="'+video_id+'" controls><source src="'+ data[i].URL+'"></video></center>'
   //document.getElementById(video_id+'_tag_div').innerHTML = '<source src="'+ url + '">';
@@ -76,6 +75,13 @@ $("body").on('click', '#web_play_btn', function(e) {
 
   play_video(video_id, url, true)
 });
+
+function onError() {
+  $.notify('<strong>Error</strong>', {
+    type: 'warning'
+  });
+  stop_video()
+};
 
 
 function play_video(video_id, url) {
@@ -88,6 +94,10 @@ function play_video(video_id, url) {
   $('#' + current_video_id + "_div").collapse('show')
   video = document.getElementById(current_video_id);
   //video.play();
+  
+  video.addEventListener('error', onError, true);
+  
+
   video.load();
   
 }
@@ -96,6 +106,7 @@ function play_video(video_id, url) {
 function stop_video() {
   if (current_video_id != null) {
     video = document.getElementById(current_video_id);
+    video.removeEventListener('error', onError, true);
     video.pause()
     video.src="";
     $('#' + current_video_id + "_div").collapse('hide')
@@ -112,7 +123,6 @@ $("body").on('click', '#close_btn', function(e) {
 
 
 function make_list(data) {
-  //console.log(data)
   str = '';
   for (i in data) {
     str += m_row_start_hover(0);
@@ -127,7 +137,6 @@ function make_list(data) {
     tmp = ''
     tmp += m_button('web_play_btn', 'Play', [{'key':'url', 'value':data[i].URL}, {'key':'uuid', 'value':data[i].uuid}]);
     //url = ddns + "/klive/api/url?m=url&s=" + data[i].source + "&i=" + data[i].source_id
-    tmp += m_button('global_link_btn', 'Open', [{'key':'url', 'value':data[i].URL}]);
     tmp = m_button_group(tmp)
     str += m_col(2, tmp)
     str += m_row_end();
