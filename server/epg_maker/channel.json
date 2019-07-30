@@ -1,5 +1,5 @@
 {
-"time" : "2019-07-25 01:19:18.947000",
+"time" : "2019-07-26 16:30:20.485000",
 "list": [{
     "name" : "SBS",
     "category" : "지상파",
@@ -530,7 +530,8 @@
     "name" : "드라맥스",
     "category" : "드라마",
     "search_name_list" : [
-        "드라맥스"
+        "드라맥스",
+        "dramax"
     ],
     "site_info" : {
         "kt" : ["드라맥스", "47"],
@@ -1360,30 +1361,19 @@
     }
 },
 {
-    "name" : "SBS CNBC",
+    "name" : "MTN",
     "category" : "뉴스/경제",
     "search_name_list" : [
-        "sbscnbc"
+        "mtn",
+        "머니투데이방송"
     ],
     "site_info" : {
-        "kt" : ["SBS CNBC", "25"],
-        "skb" : ["SBS CNBC", "625"],
-        "lgu" : ["SBS CNBC", "616"],
-        "pooq" : ["SBS CNBC", "S06"],
-        "daum" : ["SBS CNBC", "SBS%20CNBC 편성표"]
-    }
-},
-{
-    "name" : "쿠키건강TV",
-    "category" : "뉴스/경제",
-    "search_name_list" : [
-        "쿠키건강tv"
-    ],
-    "site_info" : {
-        "kt" : ["쿠키건강TV", "220"],
-        "skb" : ["쿠키건강TV", "434"],
-        "lgu" : ["쿠키건강TV", "167"],
-        "daum" : ["쿠키건강TV", "%EC%BF%A0%ED%82%A4%EA%B1%B4%EA%B0%95TV 편성표"]
+        "oksusu" : ["MTN", "627"],
+        "skb" : ["MTN", "627"],
+        "kt" : ["머니투데이방송", "181"],
+        "daum" : ["MTN", "MTN 편성표"],
+        "everyon" : ["MTN", "18"],
+        "lgu" : ["MTN", "630"]
     }
 },
 {
@@ -1401,19 +1391,16 @@
     }
 },
 {
-    "name" : "MTN",
+    "name" : "쿠키건강TV",
     "category" : "뉴스/경제",
     "search_name_list" : [
-        "mtn",
-        "머니투데이방송"
+        "쿠키건강tv"
     ],
     "site_info" : {
-        "oksusu" : ["MTN", "627"],
-        "skb" : ["MTN", "627"],
-        "kt" : ["머니투데이방송", "181"],
-        "daum" : ["MTN", "MTN 편성표"],
-        "everyon" : ["MTN", "18"],
-        "lgu" : ["MTN", "630"]
+        "kt" : ["쿠키건강TV", "220"],
+        "skb" : ["쿠키건강TV", "434"],
+        "lgu" : ["쿠키건강TV", "167"],
+        "daum" : ["쿠키건강TV", "%EC%BF%A0%ED%82%A4%EA%B1%B4%EA%B0%95TV 편성표"]
     }
 },
 {
@@ -1458,6 +1445,16 @@
     }
 },
 {
+    "name" : "SBS CNBC,SBS CNB",
+    "category" : "뉴스/경제",
+    "search_name_list" : [
+        "sbscnbc,sbscnb"
+    ],
+    "site_info" : {
+        "daum" : ["SBS CNBC,SBS CNB", "SBS%20CNBC%2CSBS%20CNB 편성표"]
+    }
+},
+{
     "name" : "매일경제TV",
     "category" : "뉴스/경제",
     "search_name_list" : [
@@ -1480,9 +1477,8 @@
         "히스토리"
     ],
     "site_info" : {
-        "tving" : ["히스토리", "C17341"],
-        "skb" : ["History", "260"],
         "pooq" : ["HISTORY", "C5901"],
+        "skb" : ["History", "260"],
         "kt" : ["History", "169"],
         "daum" : ["히스토리채널", "%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%B1%84%EB%84%90 편성표"],
         "everyon" : ["히스토리", "551"],
@@ -1943,6 +1939,7 @@
     "site_info" : {
         "kt" : ["Tooniverse", "996"],
         "skb" : ["Tooniverse", "376"],
+        "tving" : ["투니버스", "C06941"],
         "lgu" : ["투니버스", "693"],
         "daum" : ["투니버스", "%ED%88%AC%EB%8B%88%EB%B2%84%EC%8A%A4 편성표"]
     }
@@ -2676,16 +2673,15 @@
     }
 },
 {
-    "name" : "코미디TV",
+    "name" : "SBS funE,SBS Fun",
     "category" : "연예/오락",
     "search_name_list" : [
-        "코미디tv"
+        "sbsfune,sbsfun",
+        "sbs퍼니"
     ],
     "site_info" : {
-        "kt" : ["코미디TV", "85"],
-        "skb" : ["코미디TV", "906"],
-        "lgu" : ["코미디TV", "803"],
-        "daum" : ["코미디TV", "%EC%BD%94%EB%AF%B8%EB%94%94TV 편성표"]
+        "lgu" : ["SBS퍼니", "615"],
+        "daum" : ["SBS funE,SBS Fun", "SBS%20funE%2CSBS%20Fun 편성표"]
     }
 },
 {
@@ -2769,20 +2765,16 @@
     }
 },
 {
-    "name" : "JTBC2",
+    "name" : "코미디TV",
     "category" : "연예/오락",
     "search_name_list" : [
-        "jtbc2"
+        "코미디tv"
     ],
     "site_info" : {
-        "oksusu" : ["JTBC2", "874"],
-        "tving" : ["JTBC2", "C15741"],
-        "skb" : ["JTBC2", "874"],
-        "videoportal" : ["JTBC2", "606"],
-        "pooq" : ["JTBC2", "C2303"],
-        "kt" : ["JTBC2", "39"],
-        "daum" : ["JTBC2", "JTBC2 편성표"],
-        "lgu" : ["JTBC2", "606"]
+        "kt" : ["코미디TV", "85"],
+        "skb" : ["코미디TV", "906"],
+        "lgu" : ["코미디TV", "803"],
+        "daum" : ["코미디TV", "%EC%BD%94%EB%AF%B8%EB%94%94TV 편성표"]
     }
 },
 {
@@ -2948,7 +2940,8 @@
     "search_name_list" : [
         "tvchosun2",
         "tv조선2",
-        "티브이조선2"
+        "티브이조선2",
+        "c'time"
     ],
     "site_info" : {
         "tving" : ["TV CHOSUN 2", "C00585"],
@@ -2993,18 +2986,20 @@
     }
 },
 {
-    "name" : "SBS funE",
+    "name" : "JTBC2",
     "category" : "연예/오락",
     "search_name_list" : [
-        "sbsfune",
-        "sbs퍼니"
+        "jtbc2"
     ],
     "site_info" : {
-        "kt" : ["SBS funE", "43"],
-        "skb" : ["SBS fun E", "882"],
-        "lgu" : ["SBS퍼니", "615"],
-        "pooq" : ["SBS funE", "S04"],
-        "daum" : ["SBS funE", "SBS%20funE 편성표"]
+        "oksusu" : ["JTBC2", "874"],
+        "tving" : ["JTBC2", "C15741"],
+        "skb" : ["JTBC2", "874"],
+        "videoportal" : ["JTBC2", "606"],
+        "pooq" : ["JTBC2", "C2303"],
+        "kt" : ["JTBC2", "39"],
+        "daum" : ["JTBC2", "JTBC2 편성표"],
+        "lgu" : ["JTBC2", "606"]
     }
 },
 {
@@ -3013,7 +3008,8 @@
     "search_name_list" : [
         "i.net",
         "아이넷tv",
-        "inet"
+        "inet",
+        "아이넷"
     ],
     "site_info" : {
         "kt" : ["아이넷TV", "92"],
@@ -3497,7 +3493,8 @@
     "category" : "음악",
     "search_name_list" : [
         "큐브tv",
-        "cubetv"
+        "cubetv",
+        "cube"
     ],
     "site_info" : {
         "oksusu" : ["CUBE TV", "905"],
@@ -3724,9 +3721,10 @@
     ],
     "site_info" : {
         "oksusu" : ["라이프타임", "271"],
-        "pooq" : ["LIFETIME", "C5902"],
+        "tving" : ["LIFETIME", "C00611"],
         "skb" : ["라이프타임", "271"],
         "videoportal" : ["라이프타임", "603"],
+        "pooq" : ["LIFETIME", "C5902"],
         "kt" : ["Lifetime", "78"],
         "daum" : ["라이프타임채널", "%EB%9D%BC%EC%9D%B4%ED%94%84%ED%83%80%EC%9E%84%EC%B1%84%EB%84%90 편성표"],
         "everyon" : ["라이프타임", "1015"],
@@ -4047,7 +4045,8 @@
     "category" : "홈쇼핑",
     "search_name_list" : [
         "현대홈쇼핑+샵",
-        "현대홈쇼핑+shop"
+        "현대홈쇼핑+shop",
+        "현대홈플러스샵"
     ],
     "site_info" : {
         "kt" : ["현대홈쇼핑+샵", "36"],
@@ -4075,7 +4074,8 @@
     "category" : "홈쇼핑",
     "search_name_list" : [
         "ns샵+",
-        "nsshop+"
+        "nsshop+",
+        "ns샵플러스"
     ],
     "site_info" : {
         "kt" : ["NS Shop+", "42"],
@@ -4121,7 +4121,8 @@
     "category" : "홈쇼핑",
     "search_name_list" : [
         "롯데onetv",
-        "롯데원티비"
+        "롯데원티비",
+        "롯데one"
     ],
     "site_info" : {
         "kt" : ["롯데원티비", "44"],
@@ -4152,7 +4153,8 @@
     "search_name_list" : [
         "gs마이샵",
         "gsmyshop",
-        "gs마이숍"
+        "gs마이숍",
+        "gsmys"
     ],
     "site_info" : {
         "pooq" : ["GS MY SHOP", "C4202"],
