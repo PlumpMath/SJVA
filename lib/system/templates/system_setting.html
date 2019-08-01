@@ -31,6 +31,10 @@
 
         {{ macros.setting_button([['setting_save', '저장']]) }}
       </form>
+    </form>
+      {{ macros.m_hr() }}
+      {{ macros.info_text('score', 'Point', arg['point']) }}
+      {{ macros.setting_input_text_and_buttons('command', 'Command', [['command_run_btn', 'Run']], value='', desc='') }}
       
     {{ macros.m_tab_content_end() }}   
 
