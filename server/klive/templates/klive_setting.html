@@ -6,7 +6,7 @@
       {{ macros.setting_scheduler_button(arg['scheduler'], arg['is_running']) }}
       <form id='setting' name='setting'>
 
-      {{ macros.setting_button([['setting_save', '저장']]) }}
+      {{ macros.setting_button([['global_setting_save', '저장']]) }}
       </form>
       {{ macros.m_hr() }}
       {{ macros.setting_button([['one_execute_btn', '1회 실행']], left='1회 실행' ) }}
@@ -38,29 +38,7 @@ $('#scheduler').change(function() {
   });
 });
 
-//설정 저장
-$("#setting_save").click(function(e) {
-  e.preventDefault();
-  var formData = get_formdata('#setting');
-  $.ajax({
-    url: '/'+package_name+'/ajax/setting_save',
-    type: "POST", 
-    cache: false,
-    data: formData,
-    dataType: "json",
-    success: function (ret) {
-      if (ret) {
-        $.notify('<strong>설정을 저장하였습니다.</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
+
 
 $('input[type=radio][name=download_mode]').change(function() {
   set_download_mode(this.value);
