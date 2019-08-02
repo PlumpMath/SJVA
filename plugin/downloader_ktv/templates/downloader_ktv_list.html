@@ -170,6 +170,31 @@ $("body").on('click', '#plex_refresh_btn', function(e) {
   });
 });
 
+$("body").on('click', '#remove_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id');
+  $.ajax({
+    url: '/'+package_name+'/ajax/remove',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>삭제되었습니다.</strong>', {
+          type: 'success'
+        });
+        request_search(current_data.paging.current_page, false)
+      } else {
+        $.notify('<strong>삭제 실패</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+
 
 
 
@@ -306,6 +331,7 @@ function make_list(data) {
     tmp += m_button('rss_search_btn', 'RSS 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
     tmp += m_button('self_search_btn', '목록 검색', [{'key':'id', 'value':data[i].feed.daum_title}]);
     tmp += m_button('plex_refresh_btn', 'PLEX 정보 새로고침', [{'key':'id', 'value':data[i].id}]);
+    tmp += m_button('remove_btn', '삭제', [{'key':'id', 'value':data[i].id}]);
     tmp2 = m_button_group(tmp)
 
     tmp = m_button('except_program_btn', '제외프로그램 추가', [{'key':'id', 'value':data[i].feed.daum_title}]);
