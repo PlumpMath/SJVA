@@ -8,45 +8,21 @@
   }
 </style>
 <div>
-    <form id="form_search" class="form-inline" style="text-align:left">
-      <div class="container-fluid">
-        <div class="row show-grid">
-          <span class="col-md-4">
-            <select id="order" name="order" class="form-control form-control-sm">
-              <option value="desc">최근순</option>
-              <option value="asc">오래된순</option>
-            </select>
-            <select id="option" name="option" class="form-control form-control-sm">
-              <option value="all">전체</option>
-              <option value="request_True">요청</option>
-              <option value="request_False">패스</option>
-              <option value="by_plex_on">PLEX 프로그램⭕</option>
-              <option value="by_plex_off">PLEX 프로그램❌</option>
-              <option value="by_plex_episode_off">PLEX 에피소드❌</option>
-            </select>
-          </span>
-          <span class="col-md-8">
-            <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="프로그램명" aria-label="Search">
-            <button id="search" class="btn btn-sm btn-outline-success">검색</button>
-            <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
-          </span>
-        </div>
-      </div>
-    </form>
-    <div id='page1'></div>
-    {{ macros.m_hr_head_top() }}
-    {{ macros.m_row_start('0') }}
-    {{ macros.m_col(2,  macros.m_strong('Info')) }}
-    {{ macros.m_col(1,  macros.m_strong('Status')) }}
-    {{ macros.m_col(5,  macros.m_strong('Title')) }}
-    {{ macros.m_col(2,  macros.m_strong('Time')) }}
-    {{ macros.m_col(2,  macros.m_strong('Path')) }}
-    {{ macros.m_row_end() }}
-    {{ macros.m_hr_head_bottom() }}
-    <div id="list_div"></div>
-    <div id='page2'></div>
-    
-   
+  <div class="btn-group btn-group-sm flex-wrap mr-2" role="group">
+    <button id="load_channel_btn" name="load_channel_btn" class="btn btn-sm btn-outline-success">채널로딩</button>
+  </div>
+  {{ macros.m_row_start('0') }}
+  {{ macros.m_row_end() }}
+
+  {{ macros.m_hr_head_top() }}
+  {{ macros.m_row_start('0') }}
+  {{ macros.m_col(2,  macros.m_strong('Info')) }}
+  {{ macros.m_col(1,  macros.m_strong('Status')) }}
+  {{ macros.m_col(5,  macros.m_strong('Title')) }}
+  {{ macros.m_col(2,  macros.m_strong('Time')) }}
+  {{ macros.m_col(2,  macros.m_strong('Path')) }}
+  {{ macros.m_row_end() }}
+  {{ macros.m_hr_head_bottom() }}
 </div>
 
 <script type="text/javascript">
@@ -57,16 +33,30 @@ var current_video_id = null
 var hls = null
 var current_url = null
 var error_count = 0
-/*
-$("body").on('click', '#web_play_btn', function(e) {
-  e.preventDefault();
-  source = $(this).data('source')
-  source_id = $(this).data('source_id')
-  url = ddns + "/klive/api/url?m=url&s=" + source + "&i=" + source_id
 
-  window.open(url, "_blank");
+$(document).ready(function(){
+  $.ajax({
+    url: '/' + package_name + '/ajax/channel_list',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      /*
+      if (move_top)
+        window.scrollTo(0,0);
+      make_list(data.list)
+      make_page_html(data.paging)
+      */
+      make_list(data)
+    }
+  });
 });
-*/
+
+
+
+
 
 $("body").on('click', '#web_play_btn', function(e) {
   e.preventDefault();
@@ -127,189 +117,6 @@ $("body").on('click', '#close_btn', function(e) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function(){
-  request_search('1');
-});
-
-$("#search").click(function(e) {
-  e.preventDefault();
-  request_search('1');
-});
-
-$("body").on('click', '#page', function(e){
-  e.preventDefault();
-  request_search($(this).data('page'));
-});
-
-$("#reset_btn").click(function(e) {
-  e.preventDefault();
-  document.getElementById("order").value = 'desc';
-  document.getElementById("option").value = 'all';
-  document.getElementById("search_word").value = '';
-  request_search('1')
-});
-
-$("body").on('click', '#json_btn', function(e){
-  e.preventDefault();
-  var id = $(this).data('id');
-  for (i in current_data.list) {
-    if (current_data.list[i].id == id) {
-      m_modal(current_data.list[i])
-    }
-  }
-});
-
-$("body").on('click', '#rss_search_btn', function(e){
-  e.preventDefault();
-  var search_word = $(this).data('id');
-  $(location).attr('href', '/rss/search?search_word=' + search_word)
-});
-
-$("body").on('click', '#self_search_btn', function(e){
-  e.preventDefault();
-  var search_word = $(this).data('id');
-  document.getElementById("search_word").value = search_word;
-  request_search('1')
-});
-
-$("body").on('click', '#except_program_btn', function(e){
-  e.preventDefault();
-  var program = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/add_program',
-    type: "POST", 
-    cache: false,
-    data: {except_program:program},
-    dataType: "json",
-    success: function (data) {
-      except_result_process(data);
-    }
-  });
-});
-
-$("body").on('click', '#whitelist_program_btn', function(e){
-  e.preventDefault();
-  var program = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/add_program',
-    type: "POST", 
-    cache: false,
-    data: {whitelist_program:program},
-    dataType: "json",
-    success: function (data) {
-      except_result_process(data);
-    }
-  });
-});
-
-
-
-
-$("body").on('click', '#add_download_btn', function(e) {
-  e.preventDefault();
-  id = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/add_download',
-    type: "POST", 
-    cache: false,
-    data: {id:id},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>다운로드 추가하였습니다.</strong>', {
-          type: 'success'
-        });
-        request_search(current_data.paging.current_page, false)
-      } else {
-        $.notify('<strong>다운로드 추가에 실패하였습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
-
-$("body").on('click', '#plex_refresh_btn', function(e) {
-  e.preventDefault();
-  id = $(this).data('id');
-  $.ajax({
-    url: '/'+package_name+'/ajax/plex_refresh',
-    type: "POST", 
-    cache: false,
-    data: {id:id},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>변경되었습니다.</strong>', {
-          type: 'success'
-        });
-        request_search(current_data.paging.current_page, false)
-      } else {
-        $.notify('<strong>변경되지 않았습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
-
-
-
-
-
-
-
-function request_search(page, move_top=true) {
-  var formData = get_formdata('#form_search')
-  formData += '&page=' + page;
-  $.ajax({
-    url: '/' + package_name + '/ajax/filelist',
-    type: "POST", 
-    cache: false,
-    data: formData,
-    dataType: "json",
-    success: function (data) {
-      current_data = data;
-      /*
-      if (move_top)
-        window.scrollTo(0,0);
-      make_list(data.list)
-      make_page_html(data.paging)
-      */
-      make_list(data)
-    }
-  });
-}
-
-function except_result_process(data) {
-  if ( data == 1) {
-    $.notify('<strong>추가하였습니다.</strong>', {
-      type: 'success'
-    });
-  } else if ( data == 0) {
-    $.notify('<strong>이미 설정되어 있습니다.</strong>', {
-      type: 'warning'
-    });
-  } else {
-    $.notify('<strong>Exception</strong>', {
-      type: 'warning'
-    });
-  }
-}
 
 function make_list(data) {
   //console.log(data)
