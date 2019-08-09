@@ -1,5 +1,5 @@
 {
-"time" : "2019-08-07 02:21:28.215000",
+"time" : "2019-08-10 00:00:57.068000",
 "list": [{
     "name" : "SBS",
     "category" : "지상파",
@@ -144,9 +144,10 @@
     ],
     "site_info" : {
         "oksusu" : ["MBN", "241", "http://image.oksusu.com:8080/thumbnails/image/0_0_F20/live/logo/387/nsepg_241.png"],
-        "pooq" : ["MBN", "C2401", "http://wchimg.pooq.co.kr/pooqlive/thumbnail/C2401.jpg"],
+        "tving" : ["MBN", "C00708", "http://image.tving.com/upload/cms/caic/CAIC1900/C00708.png"],
         "skb" : ["MBN", "241"],
         "videoportal" : ["MBN", "750", "http://210.182.60.11/image/MBN_H161012.png"],
+        "pooq" : ["MBN", "C2401", "http://wchimg.pooq.co.kr/pooqlive/thumbnail/C2401.jpg"],
         "kt" : ["MBN", "16"],
         "daum" : ["MBN", "MBN 편성표"],
         "everyon" : ["MBN", "17", "http://assets-cdn.everyon.co.kr/images/ch_sm_img/17.jpg"],
@@ -162,9 +163,10 @@
     ],
     "site_info" : {
         "oksusu" : ["JTBC", "240", "http://image.oksusu.com:8080/thumbnails/image/0_0_F20/live/logo/387/nsepg_240.png"],
-        "pooq" : ["JTBC", "C2301", "http://wchimg.pooq.co.kr/pooqlive/thumbnail/C2301.jpg"],
+        "tving" : ["JTBC", "C01582", "http://image.tving.com/upload/cms/caic/CAIC1900/C01582.png"],
         "skb" : ["JTBC", "240"],
         "videoportal" : ["JTBC", "747", "http://210.182.60.11/image/JTBC_H161012.png"],
+        "pooq" : ["JTBC", "C2301", "http://wchimg.pooq.co.kr/pooqlive/thumbnail/C2301.jpg"],
         "kt" : ["JTBC", "15"],
         "daum" : ["JTBC", "JTBC 편성표"],
         "lgu" : ["JTBC", "747"]
@@ -2428,6 +2430,7 @@
         "stn"
     ],
     "site_info" : {
+        "videoportal" : ["STN", "385", "http://210.182.60.11/image/STNsports_H190807.png"],
         "kt" : ["STN SPORTS", "131"],
         "everyon" : ["STN스포츠", "852", "http://assets-cdn.everyon.co.kr/images/ch_sm_img/852.jpg"],
         "lgu" : ["STN스포츠", "579"]
@@ -3945,11 +3948,12 @@
         "jtbc4"
     ],
     "site_info" : {
-        "kt" : ["JTBC4", "75"],
+        "tving" : ["JTBC4", "C22041", "http://image.tving.com/upload/cms/caic/CAIC1900/C22041.png"],
         "skb" : ["JTBC4", "259"],
-        "lgu" : ["JTBC4", "767"],
         "videoportal" : ["JTBC4", "767", "http://210.182.60.11/image/JTBC4_H180829.png"],
-        "daum" : ["JTBC4", "JTBC4 편성표"]
+        "kt" : ["JTBC4", "75"],
+        "daum" : ["JTBC4", "JTBC4 편성표"],
+        "lgu" : ["JTBC4", "767"]
     }
 },
 {
@@ -4883,7 +4887,7 @@
         "sbs파워fm"
     ],
     "site_info" : {
-        "pooq" : ["SBS 파워FM", "S07", "http://img.pooq.co.kr/BMS/201505/20150520/oliikfjkvichsdd.jpg"],
+        "pooq" : ["SBS 파워FM", "S07", "http://img.pooq.co.kr/201710/20171025/evneefffqxjvbwd.jpg"],
         "daum" : ["SBS파워FM", "SBS%ED%8C%8C%EC%9B%8CFM 편성표"]
     }
 },
@@ -4932,7 +4936,7 @@
         "kbs1라디오"
     ],
     "site_info" : {
-        "pooq" : ["KBS1RADIO", "K07", "http://img.pooq.co.kr/BMS/ChannelImg/수정됨_K07.jpg"],
+        "pooq" : ["KBS1RADIO", "K07", "http://img.pooq.co.kr/201810/20181001/syyksumwzmilvfz.jpg"],
         "daum" : ["KBS1R", "KBS1R 편성표"]
     }
 },
@@ -4944,19 +4948,19 @@
         "mbc표준fm"
     ],
     "site_info" : {
-        "pooq" : ["MBC 표준 FM", "M07", "http://img.pooq.co.kr/201804/20180405/wqgbynyqgyltezy.jpg"],
+        "pooq" : ["MBC 표준 FM", "M07", "http://img.pooq.co.kr/BMS/201603/20160321/nbmblhrlpudsqas.jpg"],
         "daum" : ["MBC표준FM", "MBC%ED%91%9C%EC%A4%80FM 편성표"]
     }
 },
 {
     "name" : "KISS - 발라드",
     "category" : "라디오",
-    "icon" : "http://img.pooq.co.kr/BMS/C2702/2016/C2702_KISS000000021/C2702_KISS000000021.jpg",
+    "icon" : "http://img.pooq.co.kr/BMS/C2702/2016/C2702_KISS000000020/C2702_KISS000000020.jpg",
     "search_name_list" : [
         "kiss발라드"
     ],
     "site_info" : {
-        "pooq" : ["KISS - 발라드", "C2702", "http://img.pooq.co.kr/BMS/C2702/2016/C2702_KISS000000021/C2702_KISS000000021.jpg"]
+        "pooq" : ["KISS - 발라드", "C2702", "http://img.pooq.co.kr/BMS/C2702/2016/C2702_KISS000000020/C2702_KISS000000020.jpg"]
     }
 },
 {
@@ -4973,12 +4977,12 @@
 {
     "name" : "KISS - 2000년대 인기가요",
     "category" : "라디오",
-    "icon" : "http://img.pooq.co.kr/BMS/C2705/2016/C2705_KISS000000021/C2705_KISS000000021.jpg",
+    "icon" : "http://img.pooq.co.kr/BMS/C2705/2016/C2705_KISS000000020/C2705_KISS000000020.jpg",
     "search_name_list" : [
         "kiss2000년대인기가요"
     ],
     "site_info" : {
-        "pooq" : ["KISS - 2000년대 인기가요", "C2705", "http://img.pooq.co.kr/BMS/C2705/2016/C2705_KISS000000021/C2705_KISS000000021.jpg"]
+        "pooq" : ["KISS - 2000년대 인기가요", "C2705", "http://img.pooq.co.kr/BMS/C2705/2016/C2705_KISS000000020/C2705_KISS000000020.jpg"]
     }
 },
 {
@@ -4989,19 +4993,19 @@
         "sbs러브fm"
     ],
     "site_info" : {
-        "pooq" : ["SBS 러브FM", "S08", "http://img.pooq.co.kr/201809/20180907/vpwjwfmrgjzslxc.jpg"],
+        "pooq" : ["SBS 러브FM", "S08", "http://img.pooq.co.kr/201907/20190704/xiwebfzhhhsdqhu.jpg"],
         "daum" : ["SBS러브FM", "SBS%EB%9F%AC%EB%B8%8CFM 편성표"]
     }
 },
 {
     "name" : "KISS - 최신인기가요",
     "category" : "라디오",
-    "icon" : "http://img.pooq.co.kr/BMS/C2701/2016/C2701_KISS000000021/C2701_KISS000000021.jpg",
+    "icon" : "http://img.pooq.co.kr/BMS/C2701/2016/C2701_KISS000000020/C2701_KISS000000020.jpg",
     "search_name_list" : [
         "kiss최신인기가요"
     ],
     "site_info" : {
-        "pooq" : ["KISS - 최신인기가요", "C2701", "http://img.pooq.co.kr/BMS/C2701/2016/C2701_KISS000000021/C2701_KISS000000021.jpg"]
+        "pooq" : ["KISS - 최신인기가요", "C2701", "http://img.pooq.co.kr/BMS/C2701/2016/C2701_KISS000000020/C2701_KISS000000020.jpg"]
     }
 },
 {
@@ -5023,19 +5027,19 @@
         "mbcfm4u"
     ],
     "site_info" : {
-        "pooq" : ["MBC FM4U", "M08", "http://img.pooq.co.kr/201904/20190401/xjdjqoxkwhuotzp.jpg"],
+        "pooq" : ["MBC FM4U", "M08", "http://img.pooq.co.kr/201810/20181008/qzroqjedwyebinx.jpg"],
         "daum" : ["MBCFM4U", "MBCFM4U 편성표"]
     }
 },
 {
     "name" : "KISS - 재즈 라운지",
     "category" : "라디오",
-    "icon" : "http://img.pooq.co.kr/BMS/C2706/2016/C2706_KISS000000021/C2706_KISS000000021.jpg",
+    "icon" : "http://img.pooq.co.kr/BMS/C2706/2016/C2706_KISS000000020/C2706_KISS000000020.jpg",
     "search_name_list" : [
         "kiss재즈라운지"
     ],
     "site_info" : {
-        "pooq" : ["KISS - 재즈 라운지", "C2706", "http://img.pooq.co.kr/BMS/C2706/2016/C2706_KISS000000021/C2706_KISS000000021.jpg"]
+        "pooq" : ["KISS - 재즈 라운지", "C2706", "http://img.pooq.co.kr/BMS/C2706/2016/C2706_KISS000000020/C2706_KISS000000020.jpg"]
     }
 },
 {
