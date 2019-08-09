@@ -277,12 +277,13 @@ function request_search(page, move_top=true) {
   var formData = get_formdata('#form_search')
   formData += '&page=' + page;
   $.ajax({
-    url: '/' + package_name + '/ajax/filelist',
+    url: '/' + package_name + '/ajax/custom',
     type: "POST", 
     cache: false,
     data: formData,
     dataType: "json",
     success: function (data) {
+      console.log(data)
       current_data = data;
       /*
       if (move_top)
