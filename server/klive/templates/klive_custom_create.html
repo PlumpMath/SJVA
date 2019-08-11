@@ -8,45 +8,19 @@
   }
 </style>
 <div>
-    <form id="form_search" class="form-inline" style="text-align:left">
-      <div class="container-fluid">
-        <div class="row show-grid">
-          <span class="col-md-4">
-            <select id="order" name="order" class="form-control form-control-sm">
-              <option value="desc">최근순</option>
-              <option value="asc">오래된순</option>
-            </select>
-            <select id="option" name="option" class="form-control form-control-sm">
-              <option value="all">전체</option>
-              <option value="request_True">요청</option>
-              <option value="request_False">패스</option>
-              <option value="by_plex_on">PLEX 프로그램⭕</option>
-              <option value="by_plex_off">PLEX 프로그램❌</option>
-              <option value="by_plex_episode_off">PLEX 에피소드❌</option>
-            </select>
-          </span>
-          <span class="col-md-8">
-            <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="프로그램명" aria-label="Search">
-            <button id="search" class="btn btn-sm btn-outline-success">검색</button>
-            <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
-          </span>
-        </div>
-      </div>
-    </form>
-    <div id='page1'></div>
-    {{ macros.m_hr_head_top() }}
-    {{ macros.m_row_start('0') }}
-    {{ macros.m_col(2,  macros.m_strong('Info')) }}
-    {{ macros.m_col(1,  macros.m_strong('Status')) }}
-    {{ macros.m_col(5,  macros.m_strong('Title')) }}
-    {{ macros.m_col(2,  macros.m_strong('Time')) }}
-    {{ macros.m_col(2,  macros.m_strong('Path')) }}
-    {{ macros.m_row_end() }}
-    {{ macros.m_hr_head_bottom() }}
-    <div id="list_div"></div>
-    <div id='page2'></div>
-    
-   
+  <div class="btn-group btn-group-sm flex-wrap mr-2" role="group">
+    <button id="load_channel_btn" name="load_channel_btn" class="btn btn-sm btn-outline-success">채널로딩</button>
+  </div>
+  {{ macros.m_hr_head_top() }}
+  {{ macros.m_row_start('0') }}
+  {{ macros.m_col(2,  macros.m_strong('Info')) }}
+  {{ macros.m_col(1,  macros.m_strong('Status')) }}
+  {{ macros.m_col(5,  macros.m_strong('Title')) }}
+  {{ macros.m_col(2,  macros.m_strong('Time')) }}
+  {{ macros.m_col(2,  macros.m_strong('Path')) }}
+  {{ macros.m_row_end() }}
+  {{ macros.m_hr_head_bottom() }}
+  <div id="list_div"></div>
 </div>
 
 <script type="text/javascript">
@@ -57,16 +31,7 @@ var current_video_id = null
 var hls = null
 var current_url = null
 var error_count = 0
-/*
-$("body").on('click', '#web_play_btn', function(e) {
-  e.preventDefault();
-  source = $(this).data('source')
-  source_id = $(this).data('source_id')
-  url = ddns + "/klive/api/url?m=url&s=" + source + "&i=" + source_id
 
-  window.open(url, "_blank");
-});
-*/
 
 $("body").on('click', '#web_play_btn', function(e) {
   e.preventDefault();
