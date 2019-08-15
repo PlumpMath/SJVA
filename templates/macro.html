@@ -383,7 +383,13 @@
   {% endif %}
 {% endmacro %}
 
-
+{% macro m_tab_head2(name, title, active) %}
+  {% if active %}
+    <a class="nav-item nav-link active" id="tab_{{name}}" data-toggle="tab" href="#{{name}}" role="tab">{{title}}</a>
+  {% else %}
+  <a class="nav-item nav-link" id="tab_{{name}}" data-toggle="tab" href="#{{name}}" role="tab">{{title}}</a>
+  {% endif %}
+{% endmacro %}
 
 
 
@@ -414,7 +420,6 @@
 </div>
 <!-- Modal end -->
 {% endmacro %}
-
 
 
 
