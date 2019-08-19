@@ -3,7 +3,7 @@
 
 
 <div>
-  {{ macros.m_button_group([['command_restart_scan_queue_btn', '스캔 정보 초기화'],['command_reload_section_btn', '폳더 정보 다시 읽기'],['command_get_setcion_btn', '폴더 정보 확인'],['command_self_update_btn', '플러그인 업데이트']])}}
+  {{ macros.m_button_group([['command_restart_scan_queue_btn', '스캔 정보 초기화'],['command_reload_section_btn', '폴더 정보 다시 읽기'],['command_get_setcion_btn', '폴더 정보 확인'],['command_self_update_btn', '플러그인 업데이트']])}}
   {{ macros.m_row_start('10') }}
   {{ macros.m_row_end() }}
   <nav>
@@ -434,7 +434,6 @@ function make_plugin_list(data) {
 
     tmp = ''
     tmp += m_button('install_plugin_confirm_btn', '설치 확인', [{'key':'identifier', 'value':data[i].identifier}]);
-    //url = ddns + "/klive/api/url.m3u8?m=url&s=" + data[i].source + "&i=" + data[i].source_id
     tmp += m_button('install_plugin_btn', '설치', [{'key':'identifier', 'value':data[i].identifier}]);
     tmp = m_button_group(tmp)
     str += m_col(2, tmp)

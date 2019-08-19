@@ -119,6 +119,14 @@
   {{ setting_bottom(desc, padding_top='-5') }}
 {% endmacro %}
 
+{% macro info_text_go(id, left, value='', desc=None) %}
+  {{ setting_top(left) }}
+    <div style="padding-left:20px; padding-top:-5px;">
+      <span id={{id}}><a href="{{value}}" target="_blank">{{value}}</a></span>
+    </div>
+  {{ setting_bottom(desc, padding_top='-5') }}
+{% endmacro %}
+
 <!-- 일반 텍스트 + 버튼 -->
 {% macro info_text_and_buttons(id, left, buttons, value='', desc=None) %}
   {{ setting_top(left) }}
