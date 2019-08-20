@@ -33,6 +33,7 @@ try:
             for t in os.listdir(tmp):
                 os.chmod(os.path.join(tmp, t), 0755)
                 print 'CHMOD : %s' % t
+    """
     try:
         import os
         epg_source_db = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'etc', 'epg.db')
@@ -46,6 +47,7 @@ try:
     except Exception as e:
         logger.error('Exception:%s', e)
         logger.error(traceback.format_exc()) 
+    """
 except Exception, e:
     print('Exception:%s', e)
 
