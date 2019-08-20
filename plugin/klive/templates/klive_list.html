@@ -37,15 +37,15 @@ var current_url = null
 var error_count = 0
 
 $(document).ready(function(){
-  load_channel_list()
+  load_channel_list(false)
 });
 
-function load_channel_list() {
+function load_channel_list(from_site) {
   $.ajax({
     url: '/' + package_name + '/ajax/channel_list',
     type: "POST", 
     cache: false,
-    data: {from_site:true},
+    data: {from_site:from_site},
     dataType: "json",
     success: function (data) {
       current_data = data;
@@ -58,7 +58,7 @@ function load_channel_list() {
 
 $("body").on('click', '#load_channel_btn', function(e) {
   e.preventDefault();
-  load_channel_list()
+  load_channel_list(true)
 });
 
 $("body").on('click', '#web_play_btn', function(e) {
