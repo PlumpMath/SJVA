@@ -17,6 +17,7 @@
           {{ macros.setting_input_text('pooq_id', 'pooq ID', col='3', value=arg['pooq_id']) }}
           {{ macros.setting_input_text('pooq_pw', 'pooq PW', col='3', value=arg['pooq_pw'], type='password') }}
           {{ macros.setting_select('pooq_quality', 'pooq 화질', [['FHD','FHD'], ['HD','HD'], ['SD', 'SD']], col='3', value=arg['pooq_quality'])}}
+          {{ macros.setting_radio('pooq_streaming_type', 'pooq 스트리밍 타입', ['직접연결', 'SJVA사용'], value=arg['pooq_streaming_type']) }}
         </div>
 
         {{ macros.setting_checkbox('use_tving', 'tving', value=arg['use_tving'], desc=None) }}

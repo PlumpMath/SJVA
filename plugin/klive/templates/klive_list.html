@@ -35,6 +35,8 @@ var current_video_id = null
 var hls = null
 var current_url = null
 var error_count = 0
+var token = "{{arg['token']}}"
+var use_token = ("{{arg['use_token']}}" == 'True')
 
 $(document).ready(function(){
   load_channel_list(false)
@@ -66,7 +68,7 @@ $("body").on('click', '#web_play_btn', function(e) {
   source = $(this).data('source')
   source_id = $(this).data('source_id')
   video_id = "video_"+source+"_"+source_id
-  url = ddns + "/klive/api/url.m3u8?m=web&s=" + source + "&i=" + source_id
+  url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + source + "&i=" + source_id
   //url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + source + "&i=" + source_id
   error_count = 0
   play_video(video_id, url, true)
@@ -144,7 +146,10 @@ function make_list(data) {
     //if (data[i].source != 'videoportal') {
       tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
     //}
-    url = ddns + "/klive/api/url.m3u8?m=web&s=" + data[i].source + "&i=" + data[i].source_id
+    url = ddns + "/klive/api/url.m3u8?m=url&s=" + data[i].source + "&i=" + data[i].source_id
+    if (use_token) {
+      url = url + '&token=' + token
+    } 
     tmp += m_button('global_link_btn', 'Open', [{'key':'url', 'value':url}]);
     tmp = m_button_group(tmp)
     str += m_col(2, tmp)
