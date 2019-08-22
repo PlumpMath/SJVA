@@ -76,7 +76,7 @@ function stop_video(by_user) {
   if (hls != null) {
     hls.destroy();
   }
-  if (by_user || error_count > 5) {
+  if (by_user || error_count > 3) {
     if (current_video_id != null) {
       $('#' + current_video_id + "_div").collapse('hide')
     }
