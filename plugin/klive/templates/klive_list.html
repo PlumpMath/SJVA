@@ -67,6 +67,7 @@ $("body").on('click', '#web_play_btn', function(e) {
   source_id = $(this).data('source_id')
   video_id = "video_"+source+"_"+source_id
   url = ddns + "/klive/api/url.m3u8?m=web&s=" + source + "&i=" + source_id
+  //url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + source + "&i=" + source_id
   error_count = 0
   play_video(video_id, url, true)
 });
@@ -75,7 +76,7 @@ function stop_video(by_user) {
   if (hls != null) {
     hls.destroy();
   }
-  if (by_user || error_count > -1) {
+  if (by_user || error_count > 5) {
     if (current_video_id != null) {
       $('#' + current_video_id + "_div").collapse('hide')
     }
@@ -140,7 +141,9 @@ function make_list(data) {
     }
     
     tmp = ''
-    tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
+    if (data[i].source != 'videoportal') {
+      tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
+    }
     url = ddns + "/klive/api/url.m3u8?m=web&s=" + data[i].source + "&i=" + data[i].source_id
     tmp += m_button('global_link_btn', 'Open', [{'key':'url', 'value':url}]);
     tmp = m_button_group(tmp)
