@@ -36,17 +36,17 @@ var current_data = null;
 var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
 
 $(document).ready(function(){
-  request_search('1');
+  request_search('1', true);
 });
 
 $("#search").click(function(e) {
   e.preventDefault();
-  request_search('1');
+  request_search('1', true);
 });
 
 $("body").on('click', '#page', function(e){
   e.preventDefault();
-  request_search($(this).data('page'));
+  request_search($(this).data('page'), true);
 });
 
 
@@ -61,7 +61,7 @@ $("body").on('click', '#download_btn', function(e) {
     data: {id:id},
     dataType: "json",
     success: function (data) {
-      request_search(current_data.paging.current_page);
+      request_search(current_data.paging.current_page, false);
     }
   });
 });
@@ -89,7 +89,7 @@ $("body").on('click', '#add_download_btn', function(e) {
   });
 });
 
-function request_search(page) {
+function request_search(page, scroll) {
   var formData = get_formdata('#form_search')
   formData += '&page=' + page;
   $.ajax({
@@ -100,7 +100,9 @@ function request_search(page) {
     dataType: "json",
     success: function (data) {  
       current_data = data;
-      window.scrollTo(0,0);
+      if (scroll) {
+        window.scrollTo(0,0);
+      }
       make_list(data.list)
       make_page_html(data.paging)
     }
