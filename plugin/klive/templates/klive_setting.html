@@ -42,11 +42,12 @@
       </form>
     {{ macros.m_tab_content_end() }}
     {{ macros.m_tab_content_start('api', false) }}
-      {{ macros.info_text_go('api_m3u', 'M3U for Normal', value=arg['api_m3u']) }}
-      {{ macros.info_text_go('api_m3utvh', 'M3U for Tvheadend', value=arg['api_m3utvh']) }}
-      {{ macros.info_text_go('api_m3uall', 'EPG for Normal', value=arg['api_m3uall']) }}
-      {{ macros.info_text_go('api_m3uall', 'XMLTV for Android LiveChannel', value=arg['api_m3uall']) }}
-      {{ macros.info_text_go('api_m3uall', '전체 채널의 M3U', value=arg['api_m3uall']) }}
+      {{ macros.info_text_go('api_m3u', 'M3U', value=arg['api_m3u'], desc=['Custom 채널에 대한 M3U']) }}
+      {{ macros.info_text_go('api_m3utvh', 'M3U for Tvheadend', value=arg['api_m3utvh'], desc=['Tvheand 채널 등록시 사용하는 M3U']) }}
+      {{ macros.info_text_go('api_m3uall', 'XMLTV', value=arg['xmltv'], desc=['일반 EPG']) }}
+      {{ macros.info_text_go('api_m3uall', 'XMLTV for Android LiveChannel', value=arg['xmltv_lc'], desc=['ATV LiveChannel 채널 소스 앱인 KLIVE 앱에서 사용하는 URL', '앱 다운로드 : ' + arg['atv_app']]) }}
+      {{ macros.info_text_go('api_m3uall', 'M3U (All)', value=arg['api_m3uall']) }}
+      
     {{ macros.m_tab_content_end() }}
 </div>
 
