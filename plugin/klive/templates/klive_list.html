@@ -37,6 +37,7 @@ var current_url = null
 var error_count = 0
 var token = "{{arg['token']}}"
 var use_token = ("{{arg['use_token']}}" == 'True')
+var pendingTimedMetadata = [];
 
 $(document).ready(function(){
   load_channel_list(false)
@@ -89,6 +90,23 @@ function stop_video(by_user) {
   }
 }
 
+function handleTimedMetadata(event, data) {
+  for (var i = 0; i < data.samples.length; i++) {
+    var pts = data.samples[i].pts;
+    var str =  new TextDecoder('utf-8').decode(data.samples[i].data.subarray(22));
+    pendingTimedMetadata.push({pts: pts, value: str});
+  }
+}
+
+function timeUpdateCallback() {
+  if (pendingTimedMetadata.length == 0 || pendingTimedMetadata[0].pts > video.currentTime) {
+    return;
+  }
+  var e = pendingTimedMetadata[0];
+  pendingTimedMetadata = pendingTimedMetadata.slice(1);
+  console.log('Metadata ' + e.value + " at " + e.pts + "s");
+}
+
 function play_video(video_id, url, by_user) {
   if (by_user) {
     stop_video(true)
@@ -113,6 +131,7 @@ function play_video(video_id, url, by_user) {
     hls.on(Hls.Events.MANIFEST_PARSED,function() {
       video.play();
     });
+    hls.on(Hls.Events.FRAG_PARSING_METADATA, handleTimedMetadata);
   }
 }
 
@@ -143,9 +162,9 @@ function make_list(data) {
     }
     
     tmp = ''
-    //if (data[i].source != 'videoportal') {
+    if (data[i].source != 'videoportal' && data[i].source != 'oksusu') {
       tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
-    //}
+    }
     url = ddns + "/klive/api/url.m3u8?m=url&s=" + data[i].source + "&i=" + data[i].source_id
     if (use_token) {
       url = url + '&token=' + token
