@@ -12,6 +12,8 @@
     {{ macros.m_tab_content_start('일반', true) }}
       {{ macros.info_text_go_button('tvheadend', 'EPG for Tvheadend', [['delete_tvh_btn', '삭제']], value=arg['tvheadend']) }}
       {{ macros.info_text_go_button('klive', 'EPG for KLive', [['delete_klive_btn', '삭제']], value=arg['klive']) }}
+      {{ macros.info_text_go_button('lc', 'EPG for Live Channels', [['delete_lc_btn', '삭제']], value=arg['lc']) }}
+      
     {{ macros.m_tab_content_end() }}
   </div><!--tab-content-->
 </div> <!--전체-->
@@ -32,6 +34,11 @@ $("body").on('click', '#delete_tvh_btn', function(e){
 $("body").on('click', '#delete_klive_btn', function(e){
   e.preventDefault();
   delete_xml('tvheadend')
+});
+
+$("body").on('click', '#delete_lc_btn', function(e){
+  e.preventDefault();
+  delete_xml('lc')
 });
 
 function delete_xml(filename) {
