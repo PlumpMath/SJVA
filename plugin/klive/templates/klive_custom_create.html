@@ -143,7 +143,7 @@ function make_list(ret, how) {
         } else {
           tmp = '<label class="checkbox-inline"><input type="checkbox" name="'+tmp_id +'">'+site[j][1]+'</label><br>'
         }
-        url = ddns + "/klive/api/url.m3u8?m=web&s=" + site[j][0] + "&i=" + site[j][2]
+        url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + site[j][0] + "&i=" + site[j][2]
         tmp2 = m_button('global_link_btn', 'Open', [{'key':'url', 'value':url}]);
         tmp2 = m_button_group(tmp2)
         str += m_col(2, tmp+tmp2);
@@ -154,7 +154,7 @@ function make_list(ret, how) {
     
     tmp = ''
     tmp += m_button('web_play_btn', 'Play', [{'key':'source', 'value':data[i].source}, {'key':'source_id', 'value':data[i].source_id}]);
-    url = ddns + "/klive/api/url.m3u8?m=web&s=" + data[i].source + "&i=" + data[i].source_id
+    url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + data[i].source + "&i=" + data[i].source_id
     tmp += m_button('global_link_btn', 'Open', [{'key':'url', 'value':url}]);
     tmp = m_button_group(tmp)
     //str += m_col(2, tmp)

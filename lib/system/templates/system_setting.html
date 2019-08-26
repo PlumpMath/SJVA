@@ -5,14 +5,16 @@
 <div>
   <nav>  
     {{ macros.m_tab_head_start() }}
-      {{ macros.m_tab_head('일반', true) }}
-      {{ macros.m_tab_head('웹', false) }}
+      {{ macros.m_tab_head2('normal', '일반', true) }}
+      {{ macros.m_tab_head2('web', '웹', false) }}
+      {{ macros.m_tab_head2('menu', '메뉴 구성', false) }}
+      {{ macros.m_tab_head2('download', '다운로드', false) }}
     {{ macros.m_tab_head_end() }}
   </nav>  
 
   <div class="tab-content" id="nav-tabContent">
     
-    {{ macros.m_tab_content_start('일반', true) }}
+    {{ macros.m_tab_content_start('normal', true) }}
       <form id='setting' name='setting'>
         {{ macros.setting_checkbox('use_login', '로그인 사용', value=arg['use_login']) }}
         <div id="use_login_false_div" class="collapse"></div>
@@ -38,12 +40,28 @@
       {{ macros.setting_input_text_and_buttons('command', 'Command', [['command_run_btn', 'Run']], value='', desc='') }}
       
     {{ macros.m_tab_content_end() }}   
+ 
 
-    {{ macros.m_tab_content_start('웹', false) }}
+    {{ macros.m_tab_content_start('web', false) }}
       <form id='setting2' name='setting2'>
         {{ macros.setting_select('theme', '테마 선택', [['Default','Default'], ['Cerulean','Cerulean'], ['Cosmo','Cosmo'], ['Cyborg','Cyborg'], ['Darkly','Darkly'], ['Flatly','Flatly'], ['Journal','Journal'], ['Litera','Litera'], ['Lumen','Lumen'], ['Lux','Lux'], ['Materia','Materia'], ['Minty','Minty'], ['Pulse','Pulse'], ['Sandstone','Sandstone'], ['Simplex','Simplex'], ['Sketchy','Sketchy'], ['Slate','Slate'], ['Solar','Solar'], ['Spacelab','Spacelab'], ['Superhero','Superhero'], ['United','United'], ['Yeti','Yeti']], value=arg['theme'], desc=['https://bootswatch.com'], col='6') }}
         {{ macros.setting_button([['setting_save2', '저장']]) }}
       </form>
+    {{ macros.m_tab_content_end() }} 
+
+
+    
+    {{ macros.m_tab_content_start('menu', false) }}
+    {{ macros.m_tab_content_end() }} 
+
+
+    {{ macros.m_tab_content_start('download', false) }}
+      {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/hdhomerun_scan.zip'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='HDHomerun Scan Tool', desc=['HDHomerun 스캔하여 TVH용 프리셋 파일을 만들어주는 Windows용 프로그램', '8VSB 지원 케이블용']) }}
+
+      {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/sjva_lc_0.1.1.apk'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='SJVA for Live Channels', desc=['Android TV Live Channels 앱에 채널 소스를 제공하는 앱.', 'Klive, Plex 지원']) }}
+
+      {{ macros.setting_button_with_info([['global_link_btn', '티빙 애드온', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/blob/master/kodi_plugin/plugin.video.tving.zip'}]]], left='KODI', desc=None) }}
+
     {{ macros.m_tab_content_end() }} 
 
   </div><!--tab-content-->

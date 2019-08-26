@@ -185,7 +185,7 @@ function make_list(data, how) {
     tmp += m_button('up_btn', 'UP', [{'key':'index', 'value':i}]);
     tmp += m_button('down_btn', 'DOWN', [{'key':'index', 'value':i}]);
     tmp += m_button('delete_btn', '삭제', [{'key':'id', 'value':tmp_id}]);
-    url = ddns + "/klive/api/url.m3u8?m=web&s=" + data[i].source + "&i=" + data[i].source_id + '&q=' + data[i].quality
+    url = ddns + "/klive/api/url.m3u8?m=web_play&s=" + data[i].source + "&i=" + data[i].source_id + '&q=' + data[i].quality
     tmp += m_button('global_link_btn', 'Open', [{'key':'url', 'value':url}]);
     tmp = m_button_group(tmp)
     str += m_col(3, tmp)
