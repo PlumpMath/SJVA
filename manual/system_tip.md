@@ -1,12 +1,16 @@
+###### 🟡 파일 업로드 <br> ######
+- 쉘 작업 시 파일 이동이 필요할 경우 쉘에서 바로 SJVA로 업로드<br>
+    - curl -F 'file=@파일경로' http://SJVA URL/upload
 
-###### 🔴 시놀 reverse proxy 적용시 웹소켓이 안될 때. (한시오분님, 이치로님 제보) <br> ######
+
+###### 🟡 시놀 reverse proxy 적용시 웹소켓이 안될 때. (한시오분님, 이치로님 제보) <br> ######
 - 현상 : 홈화면 스케쥴러가 1초마다 갱신이 안되며 rclone, ffmpeg 에서 실시간 상태를 확인 할 수 없음
 - 관련링크 
     - [(https://www.clien.net/service/board/cm_nas/12679201)](https://www.clien.net/service/board/cm_nas/12679201)
     - [(https://github.com/orobardet/dsm-reverse-proxy-websocket)](https://github.com/orobardet/dsm-reverse-proxy-websocket)
 
 <br>
-###### 🔴 윈도에 네이티브 실행중 자동종료 되는 현상. (안중현님 제보)<br> ######
+###### 🟡 윈도에 네이티브 실행중 자동종료 되는 현상. (안중현님 제보)<br> ######
 - 현상<br>
     기존 파이썬 2.7버전 64비트로 설치후 sjva 설치시 별다른 내용없이 설치 완료 <br>
     설치완료 후 실행시 일정시간 지난후 자동종료됨.
@@ -17,6 +21,6 @@
 - 업그레이드 방법 : pip install --upgrade setuptools
 
 <br>
-###### 🔴 외국 IP : 푹 안됨. 티빙은 proxy php 사용하여 가능함 ######
+###### 🟡 외국 IP : 푹 안됨. 티빙은 proxy php 사용하여 가능함 ######
 <br>
-###### 🔴 로그인 ID, 암호 비어있는 값 가능. 빈값일 경우 로그인 버튼만 누르면 로그인 함. ######<br>
+###### 🟡 로그인 ID, 암호 비어있는 값 가능. 빈값일 경우 로그인 버튼만 누르면 로그인 함. ######<br>
