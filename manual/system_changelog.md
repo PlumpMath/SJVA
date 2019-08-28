@@ -1,3 +1,12 @@
+##### <span style="color:red">■ 0.1.8.17 (2019-08-28)</span> #####
+- TV 메뉴 추가<br>
+
+- Plex - Live Channels 메뉴 추가<br>
+
+- 설정 - 다운로드 탭 추가<br>
+
+
+
 ##### ■ 0.1.7.22 (2019-08-15) #####
 - PLEX 플러그인 지원 안하는 문제 대응<br>
   [메뉴얼 : Plex SJVA 플러그인](https://soju6jan.com/archives/749)

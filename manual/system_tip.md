@@ -1,6 +1,10 @@
+###### 🟡 rclone mount<br> ######
+- rclone --config rclone.conf mount soju6janm:/ /mnt/soju6janm --daemon --allow-other --fast-list --drive-skip-gdocs --poll-interval=1m --buffer-size=32M --vfs-read-chunk-size=32M --vfs-read-chunk-size-limit 2048M --vfs-cache-mode writes --dir-cache-time=96h<br>
+
+
 ###### 🟡 파일 업로드 <br> ######
 - 쉘 작업 시 파일 이동이 필요할 경우 쉘에서 바로 SJVA로 업로드<br>
-    - curl -F 'file=@파일경로' http://SJVA URL/upload
+    - curl -F 'file=@파일경로' http://SJVA URL/upload<br>
 
 
 ###### 🟡 시놀 reverse proxy 적용시 웹소켓이 안될 때. (한시오분님, 이치로님 제보) <br> ######
