@@ -1,12 +1,12 @@
-###### 🟡 rclone mount<br> ######
+###### 🟡 rclone mount (Kim What님 제보)<br> ######
 - rclone --config rclone.conf mount soju6janm:/ /mnt/soju6janm --daemon --allow-other --fast-list --drive-skip-gdocs --poll-interval=1m --buffer-size=32M --vfs-read-chunk-size=32M --vfs-read-chunk-size-limit 2048M --vfs-cache-mode writes --dir-cache-time=96h<br>
 
-
+<br>
 ###### 🟡 파일 업로드 <br> ######
 - 쉘 작업 시 파일 이동이 필요할 경우 쉘에서 바로 SJVA로 업로드<br>
     - curl -F 'file=@파일경로' http://SJVA URL/upload<br>
 
-
+<br>
 ###### 🟡 시놀 reverse proxy 적용시 웹소켓이 안될 때. (한시오분님, 이치로님 제보) <br> ######
 - 현상 : 홈화면 스케쥴러가 1초마다 갱신이 안되며 rclone, ffmpeg 에서 실시간 상태를 확인 할 수 없음
 - 관련링크 
@@ -23,6 +23,7 @@
     - 여튼 설치 됐으니 그냥 실행-> 같은 증상으로 종료됨.
     - setuptools 36 버전으로 설치 후 실행 -> 3시간동안 정상적으로 실행중.
 - 업그레이드 방법 : pip install --upgrade setuptools
+- [(메뉴얼 : Windows10 Native 설치)](https://soju6jan.com/archives/695)
 
 <br>
 ###### 🟡 외국 IP : 푹 안됨. 티빙은 proxy php 사용하여 가능함 ######

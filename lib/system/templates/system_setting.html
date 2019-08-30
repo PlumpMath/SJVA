@@ -7,7 +7,7 @@
     {{ macros.m_tab_head_start() }}
       {{ macros.m_tab_head2('normal', '일반', true) }}
       {{ macros.m_tab_head2('web', '웹', false) }}
-      {{ macros.m_tab_head2('menu', '메뉴 구성', false) }}
+      {{ macros.m_tab_head2('menu', '메뉴', false) }}
       {{ macros.m_tab_head2('download', '다운로드', false) }}
     {{ macros.m_tab_head_end() }}
   </nav>  
@@ -37,7 +37,7 @@
       {{ macros.m_hr() }}
       {{ macros.info_text('unique', 'Token', arg['unique']) }}
       {{ macros.info_text('score', 'Point', arg['point']) }}
-      {{ macros.setting_input_text_and_buttons('command', 'Command', [['command_run_btn', 'Run']], value='', desc='') }}
+      {{ macros.setting_input_text_and_buttons('command_text', 'Command', [['command_run_btn', 'Run']], value='', desc='') }}
       
     {{ macros.m_tab_content_end() }}   
  
@@ -50,18 +50,76 @@
     {{ macros.m_tab_content_end() }} 
 
 
-    
     {{ macros.m_tab_content_start('menu', false) }}
+
+      <form id='setting3' name='setting3'>
+      {% if arg['use_category_torrent'] == 'True' %}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'torrent'}]]], left='Torrent', desc=None) }}
+          <div id="menu_torrent_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_rss', 'RSS', value=arg['use_plugin_rss']) }}
+            {{ macros.setting_checkbox('use_plugin_downloader', '다운로드', value=arg['use_plugin_downloader']) }}
+            {{ macros.setting_checkbox('use_plugin_downloader_ktv', '다운로드 국내TV', value=arg['use_plugin_downloader_ktv']) }}
+            {{ macros.setting_checkbox('use_plugin_downloader_movie', '다운로드 영화', value=arg['use_plugin_downloader_movie']) }}
+            {{ macros.setting_checkbox('use_plugin_offcloud', 'Offcloud', value=arg['use_plugin_offcloud']) }}
+          </div>
+      {% endif %}
+      {% if arg['use_category_vod'] == 'True' %}
+        {{ macros.m_hr() }}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'vod'}]]], left='VOD', desc=None) }}
+          <div id="menu_vod_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_ffmpeg', 'FFMPEG', value=arg['use_plugin_ffmpeg']) }}
+            {{ macros.setting_checkbox('use_plugin_pooq', '푹', value=arg['use_plugin_pooq']) }}
+            {{ macros.setting_checkbox('use_plugin_tving', '티빙', value=arg['use_plugin_tving']) }}
+          </div>
+      {% endif %}
+      {% if arg['use_category_file_process'] == 'True' %}
+        {{ macros.m_hr() }}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'file_process'}]]], left='파일처리', desc=None) }}
+          <div id="menu_file_process_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_ktv', '국내TV', value=arg['use_plugin_ktv']) }}
+            {{ macros.setting_checkbox('use_plugin_fileprocess_movie', '영화', value=arg['use_plugin_fileprocess_movie']) }}
+            {{ macros.setting_checkbox('use_plugin_av', 'AV', value=arg['use_plugin_av']) }}
+            {{ macros.setting_checkbox('use_plugin_smi2srt', 'SMI to SRT', value=arg['use_plugin_smi2srt']) }}
+          </div>
+      {% endif %}
+      {% if arg['use_category_plex'] == 'True' %}
+        {{ macros.m_hr() }}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'plex'}]]], left='PLEX', desc=None) }}
+          <div id="menu_plex_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_plex', 'PLEX', value=arg['use_plugin_plex']) }}
+            {{ macros.setting_checkbox('use_plugin_gdrive_scan', 'GDrive 스캔', value=arg['use_plugin_gdrive_scan']) }}
+            {{ macros.setting_checkbox('use_plugin_jav_agent', 'JAV Agent', value=arg['use_plugin_jav_agent']) }}
+          </div>
+      {% endif %}
+      {% if arg['use_category_tv'] == 'True' %}
+        {{ macros.m_hr() }}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'tv'}]]], left='TV', desc=None) }}
+          <div id="menu_tv_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_klive', 'KLive', value=arg['use_plugin_klive']) }}
+            {{ macros.setting_checkbox('use_plugin_tvheadend', 'Tvheadend', value=arg['use_plugin_tvheadend']) }}
+            {{ macros.setting_checkbox('use_plugin_epg', 'EPG', value=arg['use_plugin_epg']) }}
+          </div>
+      {% endif %}
+      {% if arg['use_category_tool'] == 'True' %}
+        {{ macros.m_hr() }}
+        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'tool'}]]], left='툴', desc=None) }}
+          <div id="menu_tool_div" class="collapse">
+            {{ macros.setting_checkbox('use_plugin_command', 'Command', value=arg['use_plugin_command']) }}
+            {{ macros.setting_checkbox('use_plugin_rclone', 'RClone', value=arg['use_plugin_rclone']) }}
+            {{ macros.setting_checkbox('use_plugin_daum_tv', 'Daum TV', value=arg['use_plugin_daum_tv']) }}
+            {{ macros.setting_checkbox('use_plugin_telegram_bot', 'Telegram Bot', value=arg['use_plugin_telegram_bot']) }}
+          </div>
+      {% endif %}
+
+        {{ macros.setting_button([['setting_save3', '저장']]) }}
+      </form>
     {{ macros.m_tab_content_end() }} 
 
 
     {{ macros.m_tab_content_start('download', false) }}
       {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/hdhomerun_scan.zip'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='HDHomerun Scan Tool', desc=['HDHomerun 스캔하여 TVH용 프리셋 파일을 만들어주는 Windows용 프로그램', '8VSB 지원 케이블용']) }}
-
       {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/sjva_lc_0.1.1.apk'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='SJVA for Live Channels', desc=['Android TV Live Channels 앱에 채널 소스를 제공하는 앱.', 'Klive, Plex 지원']) }}
-
       {{ macros.setting_button_with_info([['global_link_btn', '티빙 애드온', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/blob/master/kodi_plugin/plugin.video.tving.zip'}]]], left='KODI', desc=None) }}
-
     {{ macros.m_tab_content_end() }} 
 
   </div><!--tab-content-->
@@ -117,6 +175,15 @@ $(document).ready(function(){
     //
   });
 
+  $("#setting_save3").click(function(e) {
+    e.preventDefault();
+    var formData = get_formdata('#setting3');
+    setting_save_func(formData, true)
+    $.notify('<strong>재시작해야 적용됩니다.</strong>', {
+      type: 'success'
+    });
+  });
+
   $("body").on('click', '#ddns_test_btn', function(e){ 
     e.preventDefault();
     ddns = document.getElementById('ddns').value;
@@ -158,6 +225,37 @@ function set_use_login(ret) {
   }
 }
   
+
+$("body").on('click', '#menu_toggle_btn', function(e){ 
+  e.preventDefault();
+  category = $(this).data('category')
+  var div_name = '#menu_'+category+'_div'
+  $(div_name).collapse('toggle')
+});
+
+$("body").on('click', '#command_run_btn', function(e){ 
+  e.preventDefault();
+  command_text = document.getElementById('command_text').value;
+  $.ajax({
+    url: '/' + package_name + '/ajax/command_run',
+    type: "POST", 
+    cache: false,
+    data:{command_text:command_text},
+    dataType: "json",
+    success: function (data) {
+      if (data.ret == 'success') {
+        $.notify('<strong>성공 : '+ data.log +'</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>실패 : ' + data.log+'</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
 
 </script>    
 {% endblock %}

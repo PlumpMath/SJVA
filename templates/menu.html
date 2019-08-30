@@ -12,7 +12,8 @@
       <ul class="nav navbar-nav ml-auto">
       {% endif %}
           {% set menu = request.full_path | get_menu %}
-          {% for category in MENU_MAP %}
+          {% set menu_map = get_menu_map() %}
+          {% for category in menu_map %}
             {% if (i==0 and category['position'] == 'left') or (i==1 and category['position'] == 'right') %}
               <li class="nav-item dropdown">
                 {% if category['count'] == 0 %}
@@ -60,7 +61,8 @@
 
 {% macro left(endpoint) %}
   {% set menu = request.full_path | get_menu %}
-  {% for category in MENU_MAP %}
+  {% set menu_map = get_menu_map() %}
+  {% for category in menu_map %}
     {% for category_child in category['list'] %}
       {% if menu[0] == category_child['plugin'] %}
         <ul class="nav nav-pills  bg-light shadow text-dark" >
