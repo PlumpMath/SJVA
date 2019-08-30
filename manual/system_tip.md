@@ -1,3 +1,19 @@
+###### 🟡 Command<br> ######
+- 시스템 - 설정 하단 Command에 명령 입력 후 Run 버튼 누를 경우 실행<br>
+
+- 토큰 변경(새로운 SJVA 설치시 기존 토큰으로 교체). 재시작시 포인트 확인<br>
+  명령 : set token 기존SJVA토큰<br>
+
+- 토큰 초기화<br>
+  명령 : reset token<br>
+
+- 메뉴에 VOD 카테고리 선택 가능하게 변경. 재시작시 원복. 9월 한정<br>
+  명령 : set use_category_tv True<br>
+
+- 메뉴에 TV 카테고리 선택 가능하게 변경. 재시작시 원복. 9월 한정<br>
+  명령 : set use_category_vod True<br>
+    
+<br>
 ###### 🟡 rclone mount (Kim What님 제보)<br> ######
 - rclone --config rclone.conf mount soju6janm:/ /mnt/soju6janm --daemon --allow-other --fast-list --drive-skip-gdocs --poll-interval=1m --buffer-size=32M --vfs-read-chunk-size=32M --vfs-read-chunk-size-limit 2048M --vfs-cache-mode writes --dir-cache-time=96h<br>
 
