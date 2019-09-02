@@ -21,6 +21,7 @@
 
 {{ macros.m_hr_head_top() }}
 {{ macros.m_row_start('0') }}
+{{ macros.m_col(1,  macros.m_strong('NO')) }}
 {{ macros.m_col(1,  macros.m_strong('ID')) }}
 {{ macros.m_col(2,  macros.m_strong('Unique')) }}
 {{ macros.m_col(1,  macros.m_strong('Name')) }}
@@ -86,12 +87,13 @@ function make_list(data) {
   str = ''
   for (i in data) {
     str += m_row_start();
+    str += m_col(1, parseInt(i)+1);
     str += m_col(1, data[i].id);
     str += m_col(2, data[i].ip);
     str += m_col(1, data[i].user);
     str += m_col(1, data[i].count);    
     str += m_col(2, data[i].update_time);
-    str += m_col(2, data[i].created_time);
+    str += m_col(1, data[i].created_time);
     str += m_col(1, data[i].running_type);
     str += m_col(1, data[i].scheduler_count);
     tmp = m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
