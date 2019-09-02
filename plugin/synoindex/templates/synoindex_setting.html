@@ -15,6 +15,7 @@
         {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 스케쥴러에 등록됩니다.') }}
         {{ macros.setting_input_text_and_buttons('synoindex_server_url', 'URL', [['server_test_btn', '접속확인']], value=arg['synoindex_server_url'], col='9', placeholder='', desc=['Synology IP 나 도메인 또는 172.17.0.1(Docker), 127.0.0.1(Native)']) }}
         {{ macros.setting_input_text_and_buttons('test_filename', '', [['file_test_btn', '테스트']], col='9', placeholder='', desc=['re-index dirpath']) }}
+        {{ macros.setting_input_textarea('startswith_path', '명령 내릴 경로', value=arg['startswith_path'], row='9', desc=['이 경로로 시작하는 경우만 synoindex 명령 수행', '구분자 엔터', '값이 비어 있으면 모든 경로를 수행']) }}
         {{ macros.setting_button([['global_setting_save_btn', '저장']]) }}
       </form>
     {{ macros.m_tab_content_end() }}

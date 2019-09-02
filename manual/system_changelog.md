@@ -1,5 +1,5 @@
 ##### ■ 0.1.8.21 (2019-09-01)</span> #####
-- Custom - Synoindex 플러그인 추가 추가<br>
+- Custom - Synoindex 플러그인 추가<br>
   [메뉴얼 : Synoindex 플러그인](https://soju6jan.com/archives/1041)
 
 ##### ■ 0.1.8.19 (2019-08-31)</span> #####
