@@ -14,9 +14,11 @@
   {{ macros.m_col(1,  macros.m_strong('NO')) }}
   {{ macros.m_col(2,  macros.m_strong('Created Time')) }}
   {{ macros.m_col(2,  macros.m_strong('Command Time')) }}
+  {{ macros.m_col(1,  macros.m_strong('Plugin')) }}
+  {{ macros.m_col(1,  macros.m_strong('Type')) }}
   {{ macros.m_col(1,  macros.m_strong('Is File')) }}
   {{ macros.m_col(1,  macros.m_strong('Command')) }}
-  {{ macros.m_col(5,  macros.m_strong('Filepath')) }}
+  {{ macros.m_col(3,  macros.m_strong('Filepath')) }}
   {{ macros.m_row_end() }}
   {{ macros.m_hr_head_bottom() }}
   <div id="list_div"></div>
@@ -54,13 +56,13 @@ function make_list(data) {
     str += m_col(1, parseInt(i)+1);
     str += m_col(2, data[i].created_time)
 
-    
-
     if ( data[i].command == null) { 
       str += m_col(2, '--')
     } else {
       str += m_col(2, data[i].command_time)
     }
+    str += m_col(1, data[i].plugin)
+    str += m_col(1, data[i].type)
     str += m_col(1, data[i].is_file)
 
     if ( data[i].command == null) {
@@ -69,7 +71,7 @@ function make_list(data) {
       str += m_col(1, data[i].command)
     }
 
-    str += m_col(5, data[i].filepath)
+    str += m_col(3, data[i].filepath)
     str += m_row_end();
     if (i != data.length -1) str += m_hr(0);
   }
