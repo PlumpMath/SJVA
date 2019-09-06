@@ -33,6 +33,16 @@ try:
             for t in os.listdir(tmp):
                 os.chmod(os.path.join(tmp, t), 0755)
                 print 'CHMOD : %s' % t
+    try:
+        import os
+        syno = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'plugin', 'synoindex')
+        if os.path.exists(syno):
+            import shutil
+            shutil.rmtree(syno)
+    except Exception as e:
+        logger.error('Exception:%s', e)
+        logger.error(traceback.format_exc()) 
+
     """
     try:
         import os
