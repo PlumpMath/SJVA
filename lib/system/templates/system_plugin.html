@@ -10,177 +10,67 @@
 <div>
   <nav>  
     {{ macros.m_tab_head_start() }}
-      {{ macros.m_tab_head2('normal', '일반', true) }}
-      {{ macros.m_tab_head2('web', '웹', false) }}
-      {{ macros.m_tab_head2('menu', '메뉴', false) }}
-      {{ macros.m_tab_head2('link', '링크', false) }}
-      {{ macros.m_tab_head2('download', '다운로드', false) }}
+      {{ macros.m_tab_head2('normal', '일반', false) }}
+      {{ macros.m_tab_head2('list', '플러그인 목록', true) }}
     {{ macros.m_tab_head_end() }}
   </nav>  
 
   <div class="tab-content" id="nav-tabContent">
     
-    {{ macros.m_tab_content_start('normal', true) }}
+    {{ macros.m_tab_content_start('normal', false) }}
       <form id='setting' name='setting'>
-        {{ macros.setting_checkbox('use_login', '로그인 사용', value=arg['use_login']) }}
-        <div id="use_login_false_div" class="collapse"></div>
-        <div id="use_login_true_div" class="collapse">
-        {{ macros.setting_input_text('id', '로그인 ID', value=arg['id'], desc=['초기값은 sjva입니다.'], col='3') }}
-
-        {{ macros.setting_input_text('pw', '로그인 암호', value=arg['pw'], col='3', type='password', desc=['초기값은 sjva입니다.']) }}
-        </div>
-        {{ macros.setting_input_int('port', 'Port', value=arg['port'], min='1', placeholder='Port', desc=['포트 번호입니다.', '네이티브 설치시에만 반영되며, 도커 버전은 9999 고정입니다.', 'docker run -p 옵션에서 변경하시기 바랍니다.']) }}
-
-        {{ macros.setting_input_text_and_buttons('ddns', 'DDNS', [['ddns_test_btn', '테스트']], value=arg['ddns'], desc=['외부에서 접근시 사용할 DDNS', 'RSS, Plex Callback, KLive 등에서 URL생성시 사용합니다.', '테스트 버튼 클릭 후 버전을 확인 할 수 있어야 합니다.']) }}
-
-        {{ macros.setting_input_int('auto_restart_hour', '자동 재시작 시간', value=arg['auto_restart_hour'], min='0', desc=['자동 재시작 시간입니다.', '0이면 재시작 안함.']) }}
-
-        {{ macros.setting_select('log_level', '로그 레벨', [['10', 'DEBUG'],['20', 'INFO'],['30', 'WARNING'],['40', 'ERROR'], ['50', 'CRITICAL'] ], value=arg['log_level'], col='3') }}
-
+        {{ macros.setting_checkbox('plugin_auto_update', '플러그인 자동 업데이트', value=arg['plugin_auto_update']) }}
+        {{ macros.m_hr() }}
+        {{ macros.setting_input_text('plugin_dev_path', '개발용 플러그인 경로', value=arg['plugin_dev_path'], desc=['플러그인을 개발할 때 사용하는 경로'], col='9') }}
+        
         {{ macros.setting_button([['setting_save', '저장']]) }}
       </form>
     </form>
-      {{ macros.m_hr() }}
-      {{ macros.info_text('unique', 'Token', arg['unique']) }}
-      {{ macros.info_text('score', 'Point', arg['point']) }}
-      {{ macros.setting_input_text_and_buttons('command_text', 'Command', [['command_run_btn', 'Run']], value='', desc='') }}
-      
     {{ macros.m_tab_content_end() }}   
  
-
-    {{ macros.m_tab_content_start('web', false) }}
-      <form id='setting2' name='setting2'>
-        {{ macros.setting_select('theme', '테마 선택', [['Default','Default'], ['Cerulean','Cerulean'], ['Cosmo','Cosmo'], ['Cyborg','Cyborg'], ['Darkly','Darkly'], ['Flatly','Flatly'], ['Journal','Journal'], ['Litera','Litera'], ['Lumen','Lumen'], ['Lux','Lux'], ['Materia','Materia'], ['Minty','Minty'], ['Pulse','Pulse'], ['Sandstone','Sandstone'], ['Simplex','Simplex'], ['Sketchy','Sketchy'], ['Slate','Slate'], ['Solar','Solar'], ['Spacelab','Spacelab'], ['Superhero','Superhero'], ['United','United'], ['Yeti','Yeti']], value=arg['theme'], desc=['https://bootswatch.com'], col='6') }}
-        {{ macros.setting_button([['setting_save2', '저장']]) }}
-      </form>
-    {{ macros.m_tab_content_end() }} 
-
-
-    {{ macros.m_tab_content_start('menu', false) }}
-      <form id='setting3' name='setting3'>
-      {% if arg['use_category_torrent'] == 'True' %}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'torrent'}]]], left='Torrent', desc=None) }}
-          <div id="menu_torrent_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_rss', 'RSS', value=arg['use_plugin_rss']) }}
-            {{ macros.setting_checkbox('use_plugin_downloader', '다운로드', value=arg['use_plugin_downloader']) }}
-            {{ macros.setting_checkbox('use_plugin_downloader_ktv', '다운로드 국내TV', value=arg['use_plugin_downloader_ktv']) }}
-            {{ macros.setting_checkbox('use_plugin_downloader_movie', '다운로드 영화', value=arg['use_plugin_downloader_movie']) }}
-            {{ macros.setting_checkbox('use_plugin_offcloud', 'Offcloud', value=arg['use_plugin_offcloud']) }}
-          </div>
-      {% endif %}
-      {% if arg['use_category_vod'] == 'True' %}
-        {{ macros.m_hr() }}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'vod'}]]], left='VOD', desc=None) }}
-          <div id="menu_vod_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_ffmpeg', 'FFMPEG', value=arg['use_plugin_ffmpeg']) }}
-            {{ macros.setting_checkbox('use_plugin_pooq', '푹', value=arg['use_plugin_pooq']) }}
-            {{ macros.setting_checkbox('use_plugin_tving', '티빙', value=arg['use_plugin_tving']) }}
-          </div>
-      {% endif %}
-      {% if arg['use_category_file_process'] == 'True' %}
-        {{ macros.m_hr() }}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'file_process'}]]], left='파일처리', desc=None) }}
-          <div id="menu_file_process_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_ktv', '국내TV', value=arg['use_plugin_ktv']) }}
-            {{ macros.setting_checkbox('use_plugin_fileprocess_movie', '영화', value=arg['use_plugin_fileprocess_movie']) }}
-            {{ macros.setting_checkbox('use_plugin_av', 'AV', value=arg['use_plugin_av']) }}
-            {{ macros.setting_checkbox('use_plugin_smi2srt', 'SMI to SRT', value=arg['use_plugin_smi2srt']) }}
-          </div>
-      {% endif %}
-      {% if arg['use_category_plex'] == 'True' %}
-        {{ macros.m_hr() }}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'plex'}]]], left='PLEX', desc=None) }}
-          <div id="menu_plex_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_plex', 'PLEX', value=arg['use_plugin_plex']) }}
-            {{ macros.setting_checkbox('use_plugin_gdrive_scan', 'GDrive 스캔', value=arg['use_plugin_gdrive_scan']) }}
-            {{ macros.setting_checkbox('use_plugin_jav_agent', 'JAV Agent', value=arg['use_plugin_jav_agent']) }}
-          </div>
-      {% endif %}
-      {% if arg['use_category_tv'] == 'True' %}
-        {{ macros.m_hr() }}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'tv'}]]], left='TV', desc=None) }}
-          <div id="menu_tv_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_klive', 'KLive', value=arg['use_plugin_klive']) }}
-            {{ macros.setting_checkbox('use_plugin_tvheadend', 'Tvheadend', value=arg['use_plugin_tvheadend']) }}
-            {{ macros.setting_checkbox('use_plugin_epg', 'EPG', value=arg['use_plugin_epg']) }}
-          </div>
-      {% endif %}
-      {% if arg['use_category_tool'] == 'True' %}
-        {{ macros.m_hr() }}
-        {{ macros.setting_button_with_info([['menu_toggle_btn', 'Toggle', [{'key':'category', 'value':'tool'}]]], left='툴', desc=None) }}
-          <div id="menu_tool_div" class="collapse">
-            {{ macros.setting_checkbox('use_plugin_command', 'Command', value=arg['use_plugin_command']) }}
-            {{ macros.setting_checkbox('use_plugin_rclone', 'RClone', value=arg['use_plugin_rclone']) }}
-            {{ macros.setting_checkbox('use_plugin_daum_tv', 'Daum TV', value=arg['use_plugin_daum_tv']) }}
-            {{ macros.setting_checkbox('use_plugin_telegram_bot', 'Telegram Bot', value=arg['use_plugin_telegram_bot']) }}
-          </div>
-      {% endif %}
-        {{ macros.setting_button([['setting_save3', '저장']]) }}
-      </form>
-    {{ macros.m_tab_content_end() }} 
-
-
-    {{ macros.m_tab_content_start('link', false) }}
-      {{ macros.m_button_group([['link_add_btn', '추가'], ['link_add_divider_btn', 'Divider Line 추가'], ['link_save_btn', '저장'], ['link_reset_btn', '초기화']])}}
-      {{ macros.m_row_start('0') }}
-      {{ macros.m_row_end() }}
-
+    {{ macros.m_tab_content_start('list', true) }}
       {{ macros.m_hr_head_top() }}
       {{ macros.m_row_start('0') }}
-      {{ macros.m_col(1,  macros.m_strong('Idx')) }}
-      {{ macros.m_col(4,  macros.m_strong('Title')) }}
-      {{ macros.m_col(4,  macros.m_strong('URL')) }}
-      {{ macros.m_col(3,  macros.m_strong('Action')) }}
+      {{ macros.m_col(1,  macros.m_strong('Name')) }}
+      {{ macros.m_col(1,  macros.m_strong('Dev.')) }}
+      {{ macros.m_col(1,  macros.m_strong('Category')) }}
+      {{ macros.m_col(1,  macros.m_strong('Latest')) }}
+      {{ macros.m_col(1,  macros.m_strong('Installed')) }}
+      {{ macros.m_col(7,  macros.m_strong('Description')) }}
       {{ macros.m_row_end() }}
       {{ macros.m_hr_head_bottom() }}
-      <form id="link_form" name="link_form">
-        <div id="link_list_div"></div>
-      </form>
+      <div id="plugin_list_div"></div>
     {{ macros.m_tab_content_end() }} 
-
-    {{ macros.m_tab_content_start('download', false) }}
-      {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/hdhomerun_scan.zip'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='HDHomerun Scan Tool', desc=['HDHomerun 스캔하여 TVH용 프리셋 파일을 만들어주는 Windows용 프로그램', '8VSB 지원 케이블용']) }}
-      {{ macros.setting_button_with_info([['global_link_btn', '다운로드', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/raw/master/etc/sjva_lc_0.1.1.apk'}]], ['global_link_btn', '메뉴얼', [{'key':'url', 'value':'.'}]]], left='SJVA for Live Channels', desc=['Android TV Live Channels 앱에 채널 소스를 제공하는 앱.', 'Klive, Plex 지원']) }}
-      {{ macros.setting_button_with_info([['global_link_btn', '티빙 애드온', [{'key':'url', 'value':'https://github.com/soju6jan/soju6jan.github.io/blob/master/kodi_plugin/plugin.video.tving.zip'}]]], left='KODI', desc=None) }}
-    {{ macros.m_tab_content_end() }} 
-
   </div><!--tab-content-->
 </div> <!--전체-->
-
-<!-- 링크 모달 -->
-{{ macros.m_modal_start('link_edit_modal', '링크', 'modal-lg') }}
-  <form id="link_form">
-    <input type="hidden" id="link_edit_index" name="link_edit_index"/>
-    {{ macros.setting_input_text('link_edit_title', '제목') }}
-    {{ macros.setting_input_text('link_edit_url', 'URL') }}
-    {{ macros.setting_button([['link_edit_confirm_btn', '확인'], ['link_edit_cancel_btn', '취소']]) }}
-  </form>
-{{ macros.m_modal_end() }}
 
 
 <script type="text/javascript">
 var package_name = 'system';
 var current_data;
-var use_login = ("{{arg['use_login']}}" == 'True')
-var link_data;
 
 $(document).ready(function(){
-  $(function() {
-    set_use_login(use_login)
-  });
-
   $.ajax({
-    url: '/' + package_name + '/ajax/get_link_list',
+    url: '/' + package_name + '/ajax/plugin_list',
     type: "POST", 
     cache: false,
     data: {},
     dataType: "json",
     success: function (data) {
-      link_data = data
-      make_link_data();
+      current_data = data
+      make_plugin_list();
     }
   });
 });
+
+//설정 저장
+$("#setting_save").click(function(e) {
+  e.preventDefault();
+  var formData = get_formdata('#setting');
+  setting_save_func(formData, true)
+  //
+});
+
 
 function setting_save_func(formData, noti) {
   $.ajax({
@@ -207,134 +97,69 @@ function setting_save_func(formData, noti) {
   });
 }
 
-//설정 저장
-$("#setting_save").click(function(e) {
-  e.preventDefault();
-  var formData = get_formdata('#setting');
-  setting_save_func(formData, true)
-});
-
-//설정 저장
-$("#setting_save2").click(function(e) {
-  e.preventDefault();
-  var formData = get_formdata('#setting2');
-  setting_save_func(formData, false)
-  //
-});
-
-$("#setting_save3").click(function(e) {
-  e.preventDefault();
-  var formData = get_formdata('#setting3');
-  setting_save_func(formData, true)
-  $.notify('<strong>재시작해야 적용됩니다.</strong>', {
-    type: 'success'
-  });
-});
-
-
-$("body").on('click', '#ddns_test_btn', function(e){ 
-  e.preventDefault();
-  ddns = document.getElementById('ddns').value;
-  $.ajax({
-    url: '/' + package_name + '/ajax/ddns_test',
-    type: "POST", 
-    cache: false,
-    data:{ddns:ddns},
-    dataType: "json",
-    success: function (data) {
-      console.log(data)
-      if (data == 'fail') {
-        $.notify('<strong>접속에 실패하였습니다.</strong>', {
-          type: 'warning'
-        });
-      } else {
-        $.notify('<strong>Version:'+ data+'</strong>', {
-          type: 'success'
-        });
-      }
+function make_plugin_list() {
+  str = ''
+  for (i in current_data) {
+    str += m_row_start();
+    str += m_col(1, current_data[i].name)
+    str += m_col(1, current_data[i].info.developer)
+    str += m_col(1, current_data[i].info.catogory_name)
+    str += m_col(1, current_data[i].info.version)
+    if (current_data[i].local_info != null) {
+      str += m_col(1, current_data[i].local_info.version)
+    } else {
+      str += m_col(1, 'NO')
     }
-  });
-});
 
-// 사용 on / off
-$('#use_login').change(function() {
-  var ret = $(this).prop('checked');
-  set_use_login(ret)
-});
 
-function set_use_login(ret) {
-  if (ret) {
-    $('#use_login_true_div').collapse('show')
-    $('#use_login_flase_div').collapse('hide')
-  } else {
-    $('#use_login_true_div').collapse('hide')
-    $('#use_login_flase_div').collapse('show')
+    tmp = ''
+    if (current_data[i].status != 'latest') {
+      tmp += m_button('plugin_install_btn', '설치', [{'key':'plugin_name', 'value':current_data[i].plugin_name}]);
+    }
+    if (current_data[i].status != 'no') {
+      tmp += m_button('plugin_uninstall_btn', '삭제', [{'key':'plugin_name', 'value':current_data[i].plugin_name}]);
+    }
+    tmp += m_button('global_link_btn', 'HOME', [{'key':'url', 'value':current_data[i].info.home}]);
+    tmp += m_button('global_link_btn', 'MORE', [{'key':'url', 'value':current_data[i].info.more}]);
+
+
+    tmp = m_button_group(tmp)
+
+    str += m_col(7, current_data[i].info.description +'<br><br>'+ tmp)
+
+    //str += m_col(3, tmp)
+    str += m_row_end();
+    if (i != current_data.length -1) str += m_hr(0);
   }
+  document.getElementById("plugin_list_div").innerHTML = str;
 }
-  
 
-$("body").on('click', '#menu_toggle_btn', function(e){ 
+
+
+$("body").on('click', '#plugin_install_btn', function(e){ 
   e.preventDefault();
-  category = $(this).data('category')
-  var div_name = '#menu_'+category+'_div'
-  $(div_name).collapse('toggle')
+  plugin_name = $(this).data('plugin_name')
+  send_data = {'plugin_name':plugin_name, 'is_install':true}
+  plugin_install(send_data)
 });
 
-$("body").on('click', '#command_run_btn', function(e){ 
+$("body").on('click', '#plugin_uninstall_btn', function(e){ 
   e.preventDefault();
-  command_text = document.getElementById('command_text').value;
+  plugin_name = $(this).data('plugin_name')
+  send_data = {'plugin_name':plugin_name, 'is_install':false}
+  plugin_install(send_data)
+});
+
+function plugin_install(send_data) {
   $.ajax({
-    url: '/' + package_name + '/ajax/command_run',
+    url: '/' + package_name + '/ajax/plungin_install',
     type: "POST", 
     cache: false,
-    data:{command_text:command_text},
+    data:send_data,
     dataType: "json",
     success: function (data) {
-      if (data.ret == 'success') {
-        $.notify('<strong>성공 : '+ data.log +'</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>실패 : ' + data.log+'</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
-
-//////////////////////////////////////////////////////////////////////////////
-// 링크
-//////////////////////////////////////////////////////////////////////////////
-
-// 화면 상단 버튼 START
-$("body").on('click', '#link_add_btn', function(e){ 
-  e.preventDefault();
-  document.getElementById("link_edit_index").value = -1;
-  document.getElementById('link_edit_title').value = '';
-  document.getElementById('link_edit_url').value = '';
-  $('#link_edit_modal').modal();
-});
-
-$("body").on('click', '#link_add_divider_btn', function(e){ 
-  e.preventDefault();
-  tmp = {}
-  tmp['type'] = 'divider'
-  link_data.splice(link_data.length, 0, tmp);
-  make_link_data()
-});
-
-$("body").on('click', '#link_save_btn', function(e){ 
-  e.preventDefault();
-  $.ajax({
-    url: '/' + package_name + '/ajax/link_save',
-    type: "POST", 
-    cache: false,
-    data:{link_data:JSON.stringify(link_data)},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>저장 후 적용하였습니다.</strong>', {
+      if (data == 'success') {
+        $.notify('<strong>성공하였습니다. 재시작시 적용됩니다.</strong>', {
           type: 'success'
         });
       } else {
@@ -343,117 +168,8 @@ $("body").on('click', '#link_save_btn', function(e){
         });
       }
     }
-  });
-});
-
-$("body").on('click', '#link_reset_btn', function(e){ 
-  e.preventDefault();
-  link_data = []
-  make_link_data()
-});
-// 화면 상단 버튼 END
-
-// 리스트 각 항목 별 버튼 START
-$("body").on('click', '#link_item_up_btn', function(e){
-  e.preventDefault();
-  target_id = $(this).data('index')
-  target = link_data[target_id]
-  if (target_id != 0) {
-    link_data.splice(target_id, 1);
-    link_data.splice(target_id-1, 0, target);
-  }
-  make_link_data()
-});
-
-$("body").on('click', '#link_item_down_btn', function(e){
-  e.preventDefault();
-  target_id = $(this).data('index')
-  target = link_data[target_id]
-  if (link_data.length -1 != target_id) {
-    link_data.splice(target_id, 1);
-    link_data.splice(target_id+1, 0, target);
-  }
-  make_link_data()
-});
-
-$("body").on('click', '#link_item_delete_btn', function(e){
-  e.preventDefault();
-  target_id = $(this).data('index')
-  target = link_data[target_id]
-  link_data.splice(target_id, 1);
-  make_link_data()
-});
-
-$("body").on('click', '#link_item_edit_btn', function(e){
-  e.preventDefault();
-  target_id = $(this).data('index')
-  target = link_data[target_id]
-  document.getElementById('link_edit_index').value = target_id
-  document.getElementById('link_edit_title').value = target.title
-  document.getElementById('link_edit_url').value = target.url
-  $('#link_edit_modal').modal();
-});
-// 리스트 각 항목 별 버튼 END
-
-// START 모달 버튼
-$("body").on('click', '#link_edit_confirm_btn', function(e){
-  e.preventDefault();
-  edit_index = parseInt(document.getElementById('link_edit_index').value)
-  tmp = {}
-  tmp['type'] = 'link'
-  tmp['title'] = document.getElementById('link_edit_title').value
-  tmp['url'] = document.getElementById('link_edit_url').value
-  if (edit_index == -1) {
-    link_data.splice(link_data.length, 0, tmp);
-  } else {
-    link_data.splice(target_id, 1);
-    link_data.splice(target_id-1, 0, tmp);
-  }
-  make_link_data()
-  $('#link_edit_modal').modal('hide');  
-});
-
-$("body").on('click', '#link_edit_cancel_btn', function(e){
-  e.preventDefault();
-  $('#link_edit_modal').modal('hide');  
-});
-// END 모달 버튼
-
-
-
-function make_link_data() {
-  str = ''
-  for (i in link_data) {
-    console.log(link_data[i])
-    str += m_row_start_hover();
-    str += m_col(1, parseInt(i)+1);
-
-    if (link_data[i].type == 'link') {
-      str += m_col(4, link_data[i].title)
-      str += m_col(4, link_data[i].url)
-    } else {
-      str += m_col(8, '---Divider Line---')        
-    }
-    tmp = ''
-    tmp += m_button('link_item_up_btn', 'UP', [{'key':'index', 'value':i}]);
-    tmp += m_button('link_item_down_btn', 'DOWN', [{'key':'index', 'value':i}]);
-    tmp += m_button('link_item_delete_btn', '삭제', [{'key':'index', 'value':i}]);
-    if (link_data[i].type == 'link') {
-      tmp += m_button('link_item_edit_btn', '편집', [{'key':'index', 'value':i}]);
-      tmp += m_button('global_link_btn', 'Go', [{'key':'url', 'value':link_data[i].url}]);
-    }
-    tmp = m_button_group(tmp)
-    str += m_col(3, tmp)
-    str += m_row_end();
-    if (i != link_data.length -1) str += m_hr(0);
-  }
-  document.getElementById("link_list_div").innerHTML = str;
-
-    
-    
-
+  });  
 }
-
 
 
 
