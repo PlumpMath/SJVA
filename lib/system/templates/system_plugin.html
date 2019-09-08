@@ -159,7 +159,7 @@ function plugin_install(send_data) {
     dataType: "json",
     success: function (data) {
       if (data == 'success') {
-        $.notify('<strong>성공하였습니다. 재시작시 적용됩니다.</strong>', {
+        $.notify('<strong>재시작시 적용됩니다.</strong>', {
           type: 'success'
         });
       } else {
