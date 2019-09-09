@@ -5,8 +5,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib'))
-#sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'plugin'))
-# 반드시 필요. websocket. 없는 경우 ping_interval 주기로만 통신함. thread=false 넣으면 안됨.
+
 try:
     from gevent import monkey;monkey.patch_all()
 except:
@@ -27,6 +26,7 @@ try:
         sys.exit("1")
     else:
         print 'site.db file exist!!'
+
     if sys.argv[0].startswith('sjva.py'):
         tmp = '/app/bin/Linux'
         if os.path.exists(tmp):
@@ -65,24 +65,8 @@ except Exception, e:
 
 import framework
 import system
-
-
    
 app = framework.app
-#celery = framework.celery
-#socketio = framework.socketio
- 
-"""
-try:
-    from ddtrace import patch_all
-    patch_all()
-except:
-    pass
-"""
-# update:1
-# restart:2
-
-
 
 def start_app():
     for i in range(10):
@@ -94,7 +78,6 @@ def start_app():
                 break
             else:
                 print 'framework.exit_code is -1'
-            
             break
         except Exception as e:
             print e
