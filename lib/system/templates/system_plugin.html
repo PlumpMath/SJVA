@@ -19,8 +19,6 @@
     
     {{ macros.m_tab_content_start('normal', false) }}
       <form id='setting' name='setting'>
-        {{ macros.setting_checkbox('plugin_auto_update', '플러그인 자동 업데이트', value=arg['plugin_auto_update']) }}
-        {{ macros.m_hr() }}
         {{ macros.setting_input_text('plugin_dev_path', '개발용 플러그인 경로', value=arg['plugin_dev_path'], desc=['플러그인을 개발할 때 사용하는 경로'], col='9') }}
         
         {{ macros.setting_button([['setting_save', '저장']]) }}
@@ -139,24 +137,29 @@ function make_plugin_list() {
 $("body").on('click', '#plugin_install_btn', function(e){ 
   e.preventDefault();
   plugin_name = $(this).data('plugin_name')
-  send_data = {'plugin_name':plugin_name, 'is_install':true}
-  plugin_install(send_data)
+  $.ajax({
+    url: '/' + package_name + '/ajax/plugin_install',
+    type: "POST", 
+    cache: false,
+    data:{plugin_name:plugin_name},
+    dataType: "json",
+    success: function (data) {
+      m_modal(data)
+      $.notify('<strong>재시작시 적용됩니다.</strong>', {
+        type: 'success'
+      });
+    }
+  });  
 });
 
 $("body").on('click', '#plugin_uninstall_btn', function(e){ 
   e.preventDefault();
   plugin_name = $(this).data('plugin_name')
-  send_data = {'plugin_name':plugin_name, 'is_install':false}
-  plugin_install(send_data)
-});
-
-function plugin_install(send_data) {
   $.ajax({
-    url: '/' + package_name + '/ajax/plungin_install',
+    url: '/' + package_name + '/ajax/plugin_uninstall',
     type: "POST", 
     cache: false,
-    data:send_data,
-    dataType: "json",
+    data:{plugin_name:plugin_name},
     success: function (data) {
       if (data == 'success') {
         $.notify('<strong>재시작시 적용됩니다.</strong>', {
@@ -169,7 +172,7 @@ function plugin_install(send_data) {
       }
     }
   });  
-}
+});
 
 
 
