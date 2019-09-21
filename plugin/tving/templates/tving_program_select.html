@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block content %}
+<style type="text/css">
+  .my_hover:hover{
+    background-color: #ffff00;
+    transition: all 0.01s ease-in-out;
+  }
+</style>
+
+
+<ul class="nav nav-pills bg-light shadow text-dark" >
+  <li class="nav-item"><a class="nav-link active" href="/tving/program/select">선택</a></li>
+  <li class="nav-item"><a class="nav-link" href="/tving/program/list">목록</a></li>
+</ul>
+<div class="d-inline-block"></div>
+
+<form>
+{{ macros.setting_input_text_and_buttons('url', 'URL or Code', [['analyze', '분석'], ['go_tving', '티빙']], desc='URL & Program Code & Episode Code') }}
+</form>
+<form id="program_auto_form">
+<div id='detail1'></div>
+<div id="more"></div>
+<form>
+ 
+
+<script type="text/javascript">
+var package_name = 'tving';
+var current_data = null;
+
+$(document).ready(function(){
+  //$('input[name=login_type]')[0].checked = true;
+  if ( "{{arg['code']}}" != "None" ) {
+    episode = $(this).data('episode');
+    document.getElementById("url").value = "{{arg['code']}}";
+    document.getElementById("analyze").click();
+  }
+});
+
+
+$("body").on('click', '#go_tving', function(e){
+  e.preventDefault();
+  window.open('https://www.tving.com', '_blank'); 
+});
+
+//분석
+$("#analyze").click(function(e) {
+  e.preventDefault();
+  if ($("#url").val() == "") {
+    $.notify('<strong>URL이나 Code를 입력하세요.</strong>', {
+      type: 'warning'
+    });
+    return;
+  }
+  $.ajax({
+    url: '/' + package_name + '/ajax/analyze',
+    type: "POST", 
+    cache: false,
+    data: {url: $("#url").val()},
+    dataType: "json",
+    success: function (data) {
+      if (data['url_type'] == 'None') {
+        $.notify('<strong>유효한 값이 아닙니다.</strong>', {
+          type: 'warning'
+        });
+      } else if (data['url_type'] == 'episode') {
+        if (data.ret) {
+          e.preventDefault();
+          program = data.data.program_code
+          document.getElementById("url").value = program;
+          document.getElementById("analyze").click();
+        } else {
+          $.notify('<strong>'+data.data.message+'</strong>', {
+            type: 'warning'
+          });
+        }
+      } else if (data['url_type'] == 'program') {
+        make_program_page(data);
+      }
+    }
+  });
+});
+
+
+// 프로그램 More 버튼
+$("body").on('click', '#more_btn', function(e){
+  e.preventDefault();
+  code = $(this).data('code');
+  page = parseInt($(this).data('page')) + 1;
+  $.ajax({
+    url: '/' + package_name + '/ajax/program_page',
+    type: "POST", 
+    cache: false,
+    data: {code:code, page:page},
+    dataType: "json",
+    success: function (data) {
+      make_program_page(data);
+    }
+  });
+});
+
+
+
+function make_program_page(ret) {
+  str = '';
+  if (ret.page == '1') {
+    tmp = m_button('all_select_btn', '전체선택', [{'key':'url', 'value':'11'}]);
+    tmp += m_button('refresh_btn', '선택 다운로드 추가', [{'key':'title', 'value':'22'}]);
+    tmp = m_button_group(tmp)
+    str += tmp
+  }
+
+  data = ret.data.body.result
+  str += '<hr>';
+  for (i in data) {
+    str += m_row_start();
+
+    //str += '<hr>';
+    //str += '<div class="row">';
+    //str += '<div class="col-sm-3">'
+    tmp = '<img src="http://image.tving.com' + data[i].episode.image[0].url + '" class="img-fluid">'
+    str += m_col(3, tmp)
+
+
+    //str += '</div>';
+    //str += '<div class="col-sm-9">'
+    //str += '<div>';
+    tmp = '<strong>' + data[i].vod_name.ko+ '</strong>';
+    tmp += '<br>';
+    tmp += data[i].episode.broadcast_date + '<br><p></p>';
+    if ( data[i].episode.synopsis.ko != null)
+      tmp += '<p>' + data[i].episode.synopsis.ko.replace('\n', '<br>') + '</p>';
+    //str += '</div>';
+    //str += '<div>';
+    tmp += '<button id="episode_search" name="submit" class="btn btn-sm  btn-outline-success" data-episode="'+data[i].episode.code + '">에피소드</button>';
+    
+    //tmp += '<input type="checkbox" class="form-check-input" id="'+data[i].episode.code+'+"  name="'+data[i].episode.code+'" />'
+    //tmp += '<label class="form-check-label" for="'+data[i].episode.code+'">선택</label>'
+
+    
+    //tmp += '<input id="'+data[i].episode.code+'" name="'+data[i].episode.code+'" class="form-control form-control-sm" type="checkbox" data-toggle="toggle" checked><label class="form-check-label" for="'+data[i].episode.code+'">선택</label>'
+
+    //tmp += '<input id="'+data[i].episode.code+'" type="checkbox" data-toggle="toggle">'
+
+    tmp += '<input id="checkbox_'+data[i].episode.code+'" type="checkbox" checked data-toggle="toggle" data-on="선택중" data-off="Off" data-onstyle="success" data-offstyle="danger" data-size="small">'
+
+
+    str += m_col(9, tmp)
+    str += m_row_end();
+    
+    if (i != data.length -1) str += m_hr(0);
+
+  }
+  str += "<div id='detail"+(ret.page+1)+"'></div>"
+  /*
+  if (ret.page == '1') {
+    document.getElementById("detail").innerHTML = str;
+  } else {
+    document.getElementById("detail").innerHTML += str;
+  }
+  */
+  document.getElementById("detail"+ret.page).innerHTML = str;
+
+
+  
+  
+  
+  if (ret.data.body.has_more == 'Y') {
+    str = '<div class="d-inline-block"></div><form>';
+    str += '<button id="more_btn" class="btn btn-outline-secondary btn-lg btn-block" type="button" data-code="'+ret.code+'" data-page="'+ret.page+'">More</button>'
+    str += '</form>';
+    document.getElementById("more").innerHTML = str;
+  } else {
+    document.getElementById("more").innerHTML = '';
+  }
+  $('input[id^="checkbox_"]').bootstrapToggle()
+}
+  
+</script>    
+{% endblock %}
