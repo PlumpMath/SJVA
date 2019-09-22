@@ -1,3 +1,7 @@
+##### <span style="color:red">■ 0.1.9.2 (2019-09-22)</span> #####
+- point 초기화. point 관련 제한 삭제<br>
+
+
 ##### <span style="color:red">■ 0.1.9.0 (2019-09-20)</span> #####
 - 커스텀 플러그인도 재시작시 자동 업데이트<br>
 

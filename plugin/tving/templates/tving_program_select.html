@@ -103,8 +103,9 @@ $("body").on('click', '#more_btn', function(e){
 function make_program_page(ret) {
   str = '';
   if (ret.page == '1') {
-    tmp = m_button('all_select_btn', '전체선택', [{'key':'url', 'value':'11'}]);
-    tmp += m_button('refresh_btn', '선택 다운로드 추가', [{'key':'title', 'value':'22'}]);
+    tmp = m_button('refresh_btn', '선택 다운로드 추가', []);
+    tmp += m_button('all_select_btn', '전체선택', [{'key':'url', 'value':'11'}]);
+    
     tmp = m_button_group(tmp)
     str += tmp
   }
@@ -112,37 +113,40 @@ function make_program_page(ret) {
   data = ret.data.body.result
   str += '<hr>';
   for (i in data) {
+    m_modal(data[i])
     str += m_row_start();
-
-    //str += '<hr>';
-    //str += '<div class="row">';
-    //str += '<div class="col-sm-3">'
     tmp = '<img src="http://image.tving.com' + data[i].episode.image[0].url + '" class="img-fluid">'
     str += m_col(3, tmp)
-
-
-    //str += '</div>';
-    //str += '<div class="col-sm-9">'
-    //str += '<div>';
     tmp = '<strong>' + data[i].vod_name.ko+ '</strong>';
     tmp += '<br>';
     tmp += data[i].episode.broadcast_date + '<br><p></p>';
     if ( data[i].episode.synopsis.ko != null)
       tmp += '<p>' + data[i].episode.synopsis.ko.replace('\n', '<br>') + '</p>';
-    //str += '</div>';
-    //str += '<div>';
-    tmp += '<button id="episode_search" name="submit" class="btn btn-sm  btn-outline-success" data-episode="'+data[i].episode.code + '">에피소드</button>';
     
-    //tmp += '<input type="checkbox" class="form-check-input" id="'+data[i].episode.code+'+"  name="'+data[i].episode.code+'" />'
-    //tmp += '<label class="form-check-label" for="'+data[i].episode.code+'">선택</label>'
+    tmp += '<div class="form-inline">'
+    tmp += '<input id="checkbox_'+data[i].episode.code+'" type="checkbox" checked data-toggle="toggle" data-on="선 택" data-off="-" data-onstyle="success" data-offstyle="danger" data-size="small">&nbsp;&nbsp;&nbsp;&nbsp;'
+
+    if (data[i].episode.stream_meta_info != null) {
+      console.log(data[i].episode.code+data[i].episode.stream_meta_info)
+      tmp += '<select id="select_'+data[i].episode.code+'" name="'+data[i].episode.code+'" class="form-control form-control-sm">'
+      if (data[i].episode.stream_meta_info.indexOf('stream70') != -1) 
+        tmp += `<option value="stream70">2160p</option>`
+      if (data[i].episode.stream_meta_info.indexOf('stream50') != -1) 
+        tmp += `<option value="stream50">1080p</option>`
+      if (data[i].episode.stream_meta_info.indexOf('stream40') != -1) 
+        tmp += `<option value="stream40">720p</option>`
+      if (data[i].episode.stream_meta_info.indexOf('stream30') != -1) 
+        tmp += `<option value="stream30">480p</option>`
+      if (data[i].episode.stream_meta_info.indexOf('stream25') != -1) 
+        tmp += `<option value="stream25">270p</option>`
+      tmp += `</select>&nbsp;&nbsp;&nbsp;&nbsp;`
+    }
 
     
-    //tmp += '<input id="'+data[i].episode.code+'" name="'+data[i].episode.code+'" class="form-control form-control-sm" type="checkbox" data-toggle="toggle" checked><label class="form-check-label" for="'+data[i].episode.code+'">선택</label>'
+    tmp += m_button('insert_download_btn', '다운로드 추가', [{'key':'code', 'value':data[i].episode.code}])
+    //tmp += '<button id="" name="submit" class="btn btn-sm  btn-outline-success" data-episode="'+data[i].episode.code + '">다운로드 추가</button>';
 
-    //tmp += '<input id="'+data[i].episode.code+'" type="checkbox" data-toggle="toggle">'
-
-    tmp += '<input id="checkbox_'+data[i].episode.code+'" type="checkbox" checked data-toggle="toggle" data-on="선택중" data-off="Off" data-onstyle="success" data-offstyle="danger" data-size="small">'
-
+    tmp += '</div>'
 
     str += m_col(9, tmp)
     str += m_row_end();
@@ -150,19 +154,8 @@ function make_program_page(ret) {
     if (i != data.length -1) str += m_hr(0);
 
   }
-  str += "<div id='detail"+(ret.page+1)+"'></div>"
-  /*
-  if (ret.page == '1') {
-    document.getElementById("detail").innerHTML = str;
-  } else {
-    document.getElementById("detail").innerHTML += str;
-  }
-  */
-  document.getElementById("detail"+ret.page).innerHTML = str;
-
-
-  
-  
+  str += "<div id='detail"+(parseInt(ret.page)+1)+"'></div>"
+  document.getElementById("detail"+parseInt(ret.page)).innerHTML = str;
   
   if (ret.data.body.has_more == 'Y') {
     str = '<div class="d-inline-block"></div><form>';
@@ -174,6 +167,27 @@ function make_program_page(ret) {
   }
   $('input[id^="checkbox_"]').bootstrapToggle()
 }
-  
+
+
+// 하나씩 다운로드 추가
+$("body").on('click', '#insert_download_btn', function(e){
+  e.preventDefault();
+  code = $(this).data('code');
+  quality = document.getElementById('select_'+code).value
+  $.ajax({
+    url: '/' + package_name + '/ajax/download_program',
+    type: "POST", 
+    cache: false,
+    data: {code:code, quality:quality},
+    dataType: "json",
+    success: function (data) {
+      //make_program_page(data);
+      m_modal(data)
+    }
+  });
+});
+
+
+
 </script>    
 {% endblock %}
