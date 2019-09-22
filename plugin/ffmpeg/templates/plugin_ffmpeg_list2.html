@@ -118,7 +118,7 @@ $(document).ready(function(){
       dataType: "json",
       success: function (data) {
         console.log(data);
-        var url = '/open_file' + data;  
+        var url = '/open_file/' + data;  
         window.open(url, "_blank");
       }
     });

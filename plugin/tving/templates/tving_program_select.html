@@ -113,7 +113,7 @@ function make_program_page(ret) {
   data = ret.data.body.result
   str += '<hr>';
   for (i in data) {
-    m_modal(data[i])
+    //m_modal(data[i])
     str += m_row_start();
     tmp = '<img src="http://image.tving.com' + data[i].episode.image[0].url + '" class="img-fluid">'
     str += m_col(3, tmp)
