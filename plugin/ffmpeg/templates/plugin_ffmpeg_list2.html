@@ -118,7 +118,11 @@ $(document).ready(function(){
       dataType: "json",
       success: function (data) {
         console.log(data);
-        var url = '/open_file/' + data;  
+        if (data.startsWith('/')) {
+          var url = '/open_file' + data;
+        } else {
+          var url = '/open_file/' + data;
+        }
         window.open(url, "_blank");
       }
     });
