@@ -1,6 +1,9 @@
 ##### ■ 0.1.9.9 (2019-09-25) #####
 - 비로그인시 메뉴에서 링크 표시 하지 않음<br>
 
+- jav agent 장르 관련 건의사항 적용<br>
+  [게시판](https://soju6jan.com/sjva?board_name=sjva&order_by=fn_pid&order_type=desc&vid=258)
+
 ##### ■ 0.1.9.7 (2019-09-25) #####
 - 푹 스트리밍타입에 Redirect 방식 추가<br>
   예전 방식이며, player에 따라 10분 시청 후 끊길 수 있음.<br>
