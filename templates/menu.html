@@ -13,7 +13,12 @@
       {% endif %}
           {% set menu = request.full_path | get_menu %}
           {% set menu_map = get_menu_map() %}
+          {% set login_status = get_login_status() %}
           {% for category in menu_map %}
+            
+            {% if category['type'] == 'link' and login_status == False %}
+              {% continue %}
+            {% endif %}
             {% if (i==0 and category['position'] == 'left') or (i==1 and category['position'] == 'right') %}
               <li class="nav-item dropdown">
                 {% if category['count'] == 0 %}
