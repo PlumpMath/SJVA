@@ -5,15 +5,16 @@
 <div>
   <nav>
     {{ macros.m_tab_head_start() }}
-      {{ macros.m_tab_head('일반', false) }}
-      {{ macros.m_tab_head('Remotes', true) }}
-      {{ macros.m_tab_head('작업', false) }}
+      {{ macros.m_tab_head2('normal', '일반', false) }}
+      {{ macros.m_tab_head2('remotes', 'Remotes', true) }}
+      {{ macros.m_tab_head2('job', '작업', false) }}
+      {{ macros.m_tab_head2('rc', 'Remote Control', false) }}
       
     {{ macros.m_tab_head_end() }}
   </nav>
   <div class="tab-content" id="nav-tabContent">
     <!-- Remotes -->
-    {{ macros.m_tab_content_start('Remotes', true) }}
+    {{ macros.m_tab_content_start('remotes', true) }}
       {{ macros.setting_input_text_and_buttons('path_rclone', 'RCLONE Path', [['rclone_path_test_btn', '버전확인'], ['rclone_config_btn', 'Config']], value=arg['path_rclone'], disabled=True) }}
       {{ macros.m_hr_head_top() }}
       {{ macros.m_row_start('0') }}
@@ -27,7 +28,7 @@
     {{ macros.m_tab_content_end() }}
 
     <!-- 작업 -->
-    {{ macros.m_tab_content_start('작업', false) }}
+    {{ macros.m_tab_content_start('job', false) }}
       {{ macros.m_row_start() }}  
       {{ macros.m_button('job_add_btn', '작업 추가') }}
       {{ macros.m_row_end() }}  
@@ -49,19 +50,27 @@
     {{ macros.m_tab_content_end() }}
 
     <!-- 일반 -->
-    {{ macros.m_tab_content_start('일반', false) }}
-      {{ macros.setting_scheduler_button(arg['is_include'], arg['is_running']) }}
+    {{ macros.m_tab_content_start('normal', false) }}
+      {{ macros.setting_global_scheduler_button(arg['scheduler'], arg['is_running']) }}
       <form id='setting' name='setting'>
         {{ macros.setting_input_int('interval', '스케쥴링 실행 주기', value=arg['interval'], min='1', placeholder='10', desc='minute 단위') }}
     
         {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 스케쥴러에 등록됩니다.') }}
         {{ macros.setting_input_int('web_page_size', '웹 페이지당 게시물 수', value=arg['web_page_size'], min='1', placeholder='30') }}
-        {{ macros.setting_button([['setting_save_btn', '저장']]) }}
+        {{ macros.setting_button([['global_setting_save_btn', '저장']]) }}
         {{ macros.m_hr() }}
         {{ macros.setting_button([['global_reset_db_btn', '목록 전체 지우기']], left='DB정리' ) }}
-      
       </form>
     {{ macros.m_tab_content_end() }}
+
+    {{ macros.m_tab_content_start('rc', false) }}
+      {{ macros.setting_checkbox('rc_current_process', '실행 상태', value=arg['rc_current_process'], desc='On : 실행중') }}
+      <form id='setting' name='setting'>
+        {{ macros.setting_checkbox('auro_start_rcd', '시작시 자동실행', value=arg['auro_start_rcd'], desc='On : 시작시 자동으로 실행합니다.') }}
+        {{ macros.setting_button([['global_setting_save_btn', '저장']]) }}
+      </form>
+    {{ macros.m_tab_content_end() }}
+
 
   </div><!--tab-content-->
 </div> <!--전체-->
@@ -366,50 +375,8 @@ $(document).ready(function(){
   $('#job_command').change(function() {
     set_command_type(this.value);
   });
-  
-  
-  
-  
-  /******************************************************
-    일반 (스케쥴링)
-  *******************************************************/
-  //설정 저장
-  $("#setting_save_btn").click(function(e) {
-    e.preventDefault();
-    var formData = get_formdata('#setting');
-    $.ajax({
-      url: '/' + package_name + '/ajax/setting_save',
-      type: "POST", 
-      cache: false,
-      data: formData,
-      dataType: "json",
-      success: function (ret) {
-        if (ret) {
-          $.notify('<strong>설정을 저장하였습니다.</strong>', {
-	          type: 'success'
-          });
-        } else {
-          $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
-	          type: 'warning'
-          });
-        }
-      }
-    });
-  });
-  // 스케쥴링 on / off
-  $('#scheduler').change(function() {
-    var ret = $(this).prop('checked');
-    $.ajax({
-      url: '/' + package_name + '/ajax/scheduler',
-      type: "POST", 
-      cache: false,
-      data: {scheduler : ret},
-      dataType: "json",
-      success: function (list) {
-      }
-    });
-  });
 });
+
 function make_remotes_list(data) {
   str = ''
   for (i in data) {
@@ -482,5 +449,20 @@ function set_command_type(type) {
   //$('input[name=job_command]')[parseInt(type)].checked = true;
   document.getElementById("job_option_user").value = user + ' ' + data[type];
 }
+
+
+$('#rc_current_process').change(function() {
+  var ret = $(this).prop('checked');
+  $.ajax({
+    url: '/'+package_name+'/ajax/rc_process',
+    type: "POST", 
+    cache: false,
+    data: {rc_process : ret},
+    dataType: "json",
+    success: function (list) {
+    }
+  });
+});
+
 </script>    
 {% endblock %}
