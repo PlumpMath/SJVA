@@ -65,9 +65,9 @@
 
     {{ macros.m_tab_content_start('rc', false) }}
       {{ macros.setting_checkbox('rc_current_process', '실행 상태', value=arg['rc_current_process'], desc='On : 실행중') }}
-      <form id='setting' name='setting'>
+      <form id='setting2' name='setting2'>
         {{ macros.setting_checkbox('auro_start_rcd', '시작시 자동실행', value=arg['auro_start_rcd'], desc='On : 시작시 자동으로 실행합니다.') }}
-        {{ macros.setting_button([['global_setting_save_btn', '저장']]) }}
+        {{ macros.setting_button([['global_setting_save_btn2', '저장']]) }}
       </form>
     {{ macros.m_tab_content_end() }}
 
@@ -460,6 +460,30 @@ $('#rc_current_process').change(function() {
     data: {rc_process : ret},
     dataType: "json",
     success: function (list) {
+    }
+  });
+});
+
+$("#global_setting_save_btn2").click(function(e) {
+  e.preventDefault();
+  var formData = get_formdata('#setting2');
+  console.log(package_name)
+  $.ajax({
+    url: '/'+package_name+'/ajax/setting_save',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>설정을 저장하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
     }
   });
 });
