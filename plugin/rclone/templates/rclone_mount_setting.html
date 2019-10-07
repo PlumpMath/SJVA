@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+<ul class="nav nav-pills bg-light shadow text-dark" >
+    <li class="nav-item"><a class="nav-link active" href="/rclone/mount_setting">설정</a></li>
+    <li class="nav-item"><a class="nav-link " href="/rlcone/mount_log">로그</a></li>
+  </ul>
+<div class="d-inline-block"></div>
+
+{{ macros.m_row_start() }}  
+{{ macros.m_button('mount_add_btn', '작업 추가') }}
+{{ macros.m_row_end() }}  
+
+{{ macros.m_hr_head_top() }}
+{{ macros.m_row_start('0') }}
+{{ macros.m_col(1, macros.m_strong('NO')) }}
+{{ macros.m_col(1, macros.m_strong('Name')) }}
+{{ macros.m_col(1, macros.m_strong('Type')) }}
+{{ macros.m_col(1, macros.m_strong('CMD')) }}
+{{ macros.m_col(3, macros.m_strong('Path')) }}
+{{ macros.m_col(2, macros.m_strong('Last Run')) }}
+{{ macros.m_col(1, macros.m_strong('스케쥴링')) }}
+{{ macros.m_col(2, macros.m_strong('Action')) }}
+{{ macros.m_row_end() }}
+{{ macros.m_hr_head_bottom() }}
+
+<div id="job_list_div"></div>
+</div>
+
+<!-- 마운트 모달 -->
+{{ macros.m_modal_start('mount_add_modal', 'Mount Setting', 'modal-lg') }}
+  <form id='mount_setting'>
+  {{ macros.setting_input_text('mount_name', 'Name', desc='로그 파일 이름. 없을시 ID') }}
+  {{ macros.setting_select('mount_remote', 'Remote', [], col='6')}}
+  {{ macros.setting_input_text_and_buttons('mount_remote_path', 'Remote Path', [['mount_ls_btn', '폴더확인'], ['mount_ls_toggle_btn', 'Toggle']], value='/') }}
+
+  {{ macros.setting_top(padding='0') }}
+  <div id="ls_div" class="collapse" style="padding-left:20px;"></div>
+  {{ macros.setting_bottom(padding_top='0') }}
+
+  {{ macros.setting_input_text_and_buttons('mount_local_path', 'Local Path', [['mount_local_ls_btn', '폴더확인'], ['mount_local_ls_toggle_btn', 'Toggle']], value='/') }}
+
+  {{ macros.setting_top(padding='0') }}
+  <div id="local_ls_div" class="collapse" style="padding-left:20px;"></div>
+  {{ macros.setting_bottom(padding_top='0') }}
+
+  {{ macros.setting_input_textarea('job_option_static', '고정 옵션', value='') }}
+  {{ macros.setting_input_textarea('job_option_user', '옵션') }}
+  
+  {{ macros.setting_checkbox('auto_start', '시작시 마운트', 'true', desc='스케쥴링 작업에 포함할 경우 체크') }}  
+
+  {{ macros.setting_button([['mount_save_btn', '저장'], ['job_remove_btn', '삭제']]) }}
+
+  </form>
+{{ macros.m_modal_end() }}
+<!-- END 작업추가 모달 -->
+
+
+<script type="text/javascript">
+var package_name = 'rclone';
+var current_data = null;
+$(document).ready(function(){
+  $('#mount_ls_btn').attr("data-target", "#ls_div");
+  $('#mount_ls_toggle_btn').attr("data-target", "#ls_div");
+  $('#mount_local_ls_btn').attr("data-target", "#local_ls_div");
+  $('#mount_local_ls_toggle_btn').attr("data-target", "#local_ls_div");
+  //('#job_option_static').attr("readonly", "readonly");
+  //set_command_type('move')
+  
+  // 페이지 로딩
+  $.ajax({
+    url: '/' + package_name + '/ajax/load_remotes',
+    type: "POST", 
+    cache: false,
+    data:{},
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      //make_remotes_list(data.remotes);
+      //make_job_list(data.jobs);
+    }
+  });
+});
+
+
+// 작업추가 버튼
+$("body").on('click', '#mount_add_btn', function(e){
+  e.preventDefault();
+  $('#mount_save_btn').data("id", "-1");
+  var str = '';
+  for (i in current_data.remotes) {
+    str += '<option value="'+current_data.remotes[i].name+'">'+current_data.remotes[i].name+'</option>'
+  }
+  tmp = document.querySelectorAll('[id^="job_type"]')
+  console.log(tmp)
+  for (i in tmp)
+    tmp[i].disabled = true;
+  //document.getElementById('job_remote').innerHTML = str;
+  //document.getElementById('job_remove_btn').disabled = true; 
+  //document.getElementById('job_save_btn').disabled = false;
+  //document.getElementById('job_add_modal_title').innerHTML = "작업 추가"   
+  $("#mount_add_modal").modal();
+}); 
+
+</script>    
+{% endblock %}
