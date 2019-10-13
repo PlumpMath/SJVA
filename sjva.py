@@ -34,7 +34,7 @@ try:
                 os.chmod(os.path.join(tmp, t), 0755)
                 print 'CHMOD : %s' % t
             #os.system("apk add chromium-chromedriver")
-            os.system("apk add fuse")
+            #os.system("apk add fuse")
     try:
         import os
         syno = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'plugin', 'synoindex')
