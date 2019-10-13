@@ -1,3 +1,8 @@
+##### ■ 0.1.9.19 (2019-10-13) #####
+- Selenium 설정 추가<br>
+  마나모아 다운로더 정상화.<br>
+  [메뉴얼 : Selenium 설정](https://soju6jan.com/archives/1380)
+
 ##### <span style="color:red">■ 0.1.9.12 (2019-09-29)</span> #####
 - Custom 플러그인 : noname님의 manamoa 추가<br>
 
