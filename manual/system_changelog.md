@@ -1,6 +1,5 @@
 ##### ■ 0.1.9.19 (2019-10-13) #####
-- Selenium 설정 추가<br>시즌1
-- Selenium 설정 추가<br>시즌1er4rfdds    n
+- Selenium 설정 추가<br>
   마나모아 다운로더 정상화.<br>
   [메뉴얼 : Selenium 설정](https://soju6jan.com/archives/1380)
 
