@@ -99,7 +99,7 @@ function make_plugin_list() {
   str = ''
   for (i in current_data) {
     str += m_row_start();
-    str += m_col(1, current_data[i].name)
+    str += m_col(2, current_data[i].name)
     str += m_col(1, current_data[i].info.developer)
     str += m_col(1, current_data[i].info.category_name)
     str += m_col(1, current_data[i].info.version)
@@ -123,7 +123,7 @@ function make_plugin_list() {
 
     tmp = m_button_group(tmp)
 
-    str += m_col(7, current_data[i].info.description +'<br><br>'+ tmp)
+    str += m_col(6, current_data[i].info.description +'<br><br>'+ tmp)
 
     //str += m_col(3, tmp)
     str += m_row_end();
