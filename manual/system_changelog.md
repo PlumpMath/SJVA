@@ -1,6 +1,6 @@
 ##### ■ 0.1.9.22 (2019-10-16) #####
-- Plex DVR에서 SJVA 연결 지원<br>
-  [메뉴얼 : Plex DVR에서 SJVA 연결](https://soju6jan.com/archives/1380)
+- Plex DVR에 KLive 직접 연결 지원<br>
+  [메뉴얼 : Plex DVR에 KLive 직접 연결](https://soju6jan.com/archives/1403)
 
 ##### ■ 0.1.9.19 (2019-10-13) #####
 - Selenium 설정 추가<br>
