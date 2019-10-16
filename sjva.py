@@ -28,14 +28,19 @@ try:
         print 'site.db file exist!!'
 
     if sys.argv[0].startswith('sjva.py'):
-        tmps = ['/app/bin/Linux', '/app/data/custom']
-        for tmp in tmps:
-            if os.path.exists(tmp):
-                for t in os.listdir(tmp):
-                    os.chmod(os.path.join(tmp, t), 0755)
-                    #print 'CHMOD : %s' % t
-                #os.system("apk add chromium chromium-chromedriver fuse")
-                os.system("apk add fuse")
+        tmp = '/app/bin/Linux'
+        if os.path.exists(tmp):
+            for t in os.listdir(tmp):
+                os.chmod(os.path.join(tmp, t), 0755)
+                print 'CHMOD : %s' % t
+            #os.system("apk add chromium chromium-chromedriver fuse")
+            os.system("apk add fuse")
+        try:
+            if platform.system() != 'Windows':
+                custom = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'custom')    
+                os.system("chmod 777 -R %s" % custom)
+        except:
+            pass
     try:
         import os
         syno = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'plugin', 'synoindex')
