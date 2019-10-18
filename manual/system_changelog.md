@@ -1,6 +1,9 @@
 
 ##### ■ 0.1.9.26 (2019-10-18) #####
-- [메뉴얼 : RClone Mount 기능 추가 및 파일처리](https://soju6jan.com/archives/1433)
+- [메뉴얼 : RClone Mount 기능 추가 및 파일처리](https://soju6jan.com/archives/1433)<br>
+- PLEX 직접연결시 ffmpeg 명령 수정. (devlegna님 제보)<br>
+  안드 앱에서 소리 안나는 문제 수정<br>
+
 
 ##### ■ 0.1.9.22 (2019-10-16) #####
 - Plex DVR에 KLive 직접 연결 지원<br>
