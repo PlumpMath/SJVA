@@ -177,7 +177,9 @@ $(document).ready(function(){
   // 웹 접속
   $("body").on('click', '#web_connect_btn', function(e){
     e.preventDefault();
-    url = 'https://app.plex.tv/desktop#!/server/' + document.getElementById("machineIdentifier").value
+    //url = 'https://app.plex.tv/desktop#!/server/' + document.getElementById("machineIdentifier").value
+    //https://app.plex.tv/desktop#!/media/2dc7e04aea6799873e010c58689235d44eb82c5d
+    url = 'https://app.plex.tv/desktop#!/media/' + document.getElementById("machineIdentifier").value + '/com.plexapp.plugins.library?key=%2Fhubs&pageType=hub'
     window.open(url, "_blank");
   });
   
