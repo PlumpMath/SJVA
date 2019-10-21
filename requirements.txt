@@ -47,6 +47,6 @@ transmissionrpc==0.11
 tzlocal==1.5.1
 urllib3==1.24.1
 websocket-client==0.56.0
-Werkzeug==0.15.2
+Werkzeug==0.15.3
 youtube-dl==2019.5.11
 selenium>=3.141.0
