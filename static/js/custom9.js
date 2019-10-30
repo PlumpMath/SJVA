@@ -96,6 +96,8 @@ function get_formdata(form_id) {
       return $(this).prop('checked') === false 
     }), 
     function(idx, el) { 
+      if ($(el).attr('name') == 'global_scheduler') 
+        return
       var emptyVal = "False"; 
       formData += '&' + $(el).attr('name') + '=' + emptyVal; 
     }
