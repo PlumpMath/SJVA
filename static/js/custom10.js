@@ -96,11 +96,13 @@ function get_formdata(form_id) {
       return $(this).prop('checked') === false 
     }), 
     function(idx, el) { 
-      if ($(el).attr('name') == 'global_scheduler') 
-        return
       var emptyVal = "False"; 
       formData += '&' + $(el).attr('name') + '=' + emptyVal; 
     }
   );
+  formData = formData.replace("&global_scheduler=True", "")
+  formData = formData.replace("&global_scheduler=False", "")
+  formData = formData.replace("global_scheduler=True&", "")
+  formData = formData.replace("global_scheduler=False&", "")
   return formData;
 }
