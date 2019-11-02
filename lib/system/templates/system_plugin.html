@@ -29,12 +29,12 @@
     {{ macros.m_tab_content_start('list', true) }}
       {{ macros.m_hr_head_top() }}
       {{ macros.m_row_start('0') }}
-      {{ macros.m_col(1,  macros.m_strong('Name')) }}
+      {{ macros.m_col(2,  macros.m_strong('Name')) }}
       {{ macros.m_col(1,  macros.m_strong('Dev.')) }}
       {{ macros.m_col(1,  macros.m_strong('Category')) }}
       {{ macros.m_col(1,  macros.m_strong('Latest')) }}
       {{ macros.m_col(1,  macros.m_strong('Installed')) }}
-      {{ macros.m_col(7,  macros.m_strong('Description')) }}
+      {{ macros.m_col(6,  macros.m_strong('Description')) }}
       {{ macros.m_row_end() }}
       {{ macros.m_hr_head_bottom() }}
       <div id="plugin_list_div"></div>
@@ -118,7 +118,8 @@ function make_plugin_list() {
       tmp += m_button('plugin_uninstall_btn', '삭제', [{'key':'plugin_name', 'value':current_data[i].plugin_name}]);
     }
     tmp += m_button('global_link_btn', 'HOME', [{'key':'url', 'value':current_data[i].info.home}]);
-    tmp += m_button('global_link_btn', 'MORE', [{'key':'url', 'value':current_data[i].info.more}]);
+    if (current_data[i].info.home != current_data[i].info.more && current_data[i].info.more.startsWith('http'))
+      tmp += m_button('global_link_btn', 'MORE', [{'key':'url', 'value':current_data[i].info.more}]);
 
 
     tmp = m_button_group(tmp)
