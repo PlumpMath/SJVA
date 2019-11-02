@@ -266,6 +266,7 @@ function make_mount_list(data) {
     } else {
       tmp += m_button('mount_stop_btn', '마운트 중지', [{'key':'id', 'value':data[i].id}]);
     }
+    tmp += m_button('mount_log_btn', 'Log', [{'key':'id', 'value':data[i].id}]);
     tmp = m_button_group(tmp)
     str += m_col(2, tmp);
     
@@ -374,7 +375,27 @@ $("body").on('click', '#mount_setting_btn', function(e) {
   
 });
 
-
+// 로그
+$("body").on('click', '#mount_log_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id')
+  $.ajax({
+    url: '/' + package_name + '/ajax/get_log',
+    type: "POST", 
+    cache: false,
+    data:{type:'mount', id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data.ret == 'success') {
+        m_modal(data.data, '로그')
+      } else {
+        $.notify('<strong>실패</strong><br>'+data.data, {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
 
 
 </script>    
