@@ -1,5 +1,5 @@
 ##### ■ 0.1.9.31 (2019-11-02) #####
-- [메뉴얼 : RClone Mount 기능 추가 및 활용](https://soju6jan.com/archives/1462)<br>
+- [메뉴얼 : RClone Mount 기능 추가 & 활용 예](https://soju6jan.com/archives/1462)<br>
 - 마나모아 플러그인 0.2 버전 대응<br>
 
 ##### ■ 0.1.9.29 (2019-10-30) #####
