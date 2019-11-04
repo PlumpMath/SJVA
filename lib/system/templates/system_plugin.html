@@ -100,15 +100,14 @@ function make_plugin_list() {
   for (i in current_data) {
     str += m_row_start();
     str += m_col(2, current_data[i].name)
-    str += m_col(1, current_data[i].info.developer)
-    str += m_col(1, current_data[i].info.category_name)
-    str += m_col(1, current_data[i].info.version)
+    str += m_col(1, (current_data[i].info != null) ? current_data[i].info.developer : "")
+    str += m_col(1, (current_data[i].info != null) ? current_data[i].info.category_name : "")
+    str += m_col(1, (current_data[i].info != null) ? current_data[i].info.version : "")
     if (current_data[i].local_info != null) {
       str += m_col(1, current_data[i].local_info.version)
     } else {
       str += m_col(1, 'NO')
     }
-
 
     tmp = ''
     if (current_data[i].status != 'latest') {
@@ -117,14 +116,19 @@ function make_plugin_list() {
     if (current_data[i].status != 'no') {
       tmp += m_button('plugin_uninstall_btn', '삭제', [{'key':'plugin_name', 'value':current_data[i].plugin_name}]);
     }
+    if (current_data[i].info != null) {
     tmp += m_button('global_link_btn', 'HOME', [{'key':'url', 'value':current_data[i].info.home}]);
     if (current_data[i].info.home != current_data[i].info.more && current_data[i].info.more.startsWith('http'))
       tmp += m_button('global_link_btn', 'MORE', [{'key':'url', 'value':current_data[i].info.more}]);
+    }
 
 
     tmp = m_button_group(tmp)
-
-    str += m_col(6, current_data[i].info.description +'<br><br>'+ tmp)
+    if (current_data[i].info != null) {
+      str += m_col(6, current_data[i].info.description +'<br><br>'+ tmp)
+    } else {
+      str += m_col(6, tmp)
+    }
 
     //str += m_col(3, tmp)
     str += m_row_end();
@@ -149,8 +153,12 @@ $("body").on('click', '#plugin_install_btn', function(e){
         $.notify('<strong>재시작시 적용됩니다.</strong>', {
           type: 'success'
         });
-      } else if (data == 'not_support') {
+      } else if (data == 'not_support_os') {
         $.notify('<strong>지원하지 않는 OS입니다.</strong>', {
+          type: 'warning'
+        });
+      } else if (data == 'not_support_running_type') {
+        $.notify('<strong>지원하지 않는 실행 환경입니다.</strong>', {
           type: 'warning'
         });
       }
