@@ -145,10 +145,15 @@ $("body").on('click', '#plugin_install_btn', function(e){
     data:{plugin_name:plugin_name},
     dataType: "json",
     success: function (data) {
-      //m_modal(data)
-      $.notify('<strong>재시작시 적용됩니다.</strong>', {
-        type: 'success'
-      });
+      if (data == 'success') {
+        $.notify('<strong>재시작시 적용됩니다.</strong>', {
+          type: 'success'
+        });
+      } else if (data == 'not_support') {
+        $.notify('<strong>지원하지 않는 OS입니다.</strong>', {
+          type: 'warning'
+        });
+      }
     }
   });  
 });
