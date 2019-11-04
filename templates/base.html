@@ -22,6 +22,7 @@
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bootstrap-notify.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/custom10.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/sjva_ui2.js') }}"></script>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.6/socket.io.js"></script>
         <!-- 토글 -->
@@ -42,6 +43,24 @@
                 type: data['type'],
               });
             });
+
+            socket.on('command_modal_add_text', function(data){
+              document.getElementById("command_modal_textarea").innerHTML += data ;
+              document.getElementById("command_modal_textarea").scrollTop = document.getElementById("command_modal_textarea").scrollHeight;
+            });
+
+            socket.on('command_modal_show', function(data){
+              command_modal_show(data)
+            });
+
+            socket.on('command_modal_clear', function(data){
+              document.getElementById("command_modal_textarea").innerHTML = ""
+            });
+
+            
+
+
+            
           });
         </script>          
         <!--
@@ -105,7 +124,7 @@
     <body class="body ">
       <!-- Modal -->
       <div class="modal fade" id="large_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" id="modal_title"></h4>
@@ -155,6 +174,13 @@
           </div>
         </div>
       </div>
+      <!--command modal-->
+      {{ macros.m_modal_start('command_modal', '', 'modal-xl') }}
+        <div>
+          <textarea id="command_modal_textarea" class="col-md-12" rows="30" disabled style="visibility:visible"></textarea>
+        </div>
+      {{ macros.m_modal_end() }}
+      <!--command modal end-->
       <!-- Modal end -->
 
       
@@ -182,121 +208,170 @@ $(document).ready(function(){
     url = $(this).data('url')
     window.open(url, "_blank");
   });
+  
 });
 
+///////////////////////////////////////////////////////////////////////////////
+// 공용 버튼
+///////////////////////////////////////////////////////////////////////////////
 
+$("body").on('click', '#global_link_btn', function(e) {
+  e.preventDefault();
+  url = $(this).data('url')
+  window.open(url, "_blank");
+});
 
-function m_row_start(padding='10', align='center') {
-  var str = '<div class="row" style="padding-top: '+padding+'px; padding-bottom:'+padding+'px; align-items:'+align+';">';
-  return str;
+  
+$("body").on('click', '#global_cache_confirm_btn', function(e){
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $.ajax({
+    url: '/offcloud/ajax/hash',
+    type: "POST", 
+    cache: false,
+    data:{hash:hash},
+    dataType: "json",
+    success: function (data) {
+      if (data == 'true') {
+        $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
+          type: 'success'
+        });
+      } else if (data == 'false') {
+        $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
+          type: 'warning'
+        });
+      } else if (data == 'fail') {
+        $.notify('<strong>캐쉬 확인 실패</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+  //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
+});
+  
+$("body").on('click', '#global_add_remote_btn', function(e) {
+  e.preventDefault();
+  hash = $(this).data('hash');
+  $.ajax({
+    url: '/offcloud/ajax/cache_download_bot',
+    type: "POST", 
+    cache: false,
+    data: {hash:hash},
+    dataType: "json",
+    success: function (data) {
+      m_modal(data)
+    }
+  });
+});
+  
+// 사용 on / off
+$('#global_scheduler').change(function() {
+  var ret = $(this).prop('checked');
+  $.ajax({
+    url: '/'+package_name+'/ajax/scheduler',
+    type: "POST", 
+    cache: false,
+    data: {scheduler : ret},
+    dataType: "json",
+    success: function (list) {
+    }
+  });
+});
+
+//설정 저장
+$("#global_setting_save_btn").click(function(e) {
+  e.preventDefault();
+  var formData = get_formdata('#setting');
+  console.log(package_name)
+  $.ajax({
+    url: '/'+package_name+'/ajax/setting_save',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>설정을 저장하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+$("#global_one_execute_btn").click(function(e) {
+//$("body").on('click', '#one_execute_btn', function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/' + package_name + '/ajax/one_execute',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (ret) {
+      if (ret=='scheduler' || ret=='thread') {
+        $.notify('<strong>작업을 시작하였습니다. ('+ret+')</strong>', {
+          type: 'success'
+        });
+      } else if (ret == 'is_running') {
+        $.notify('<strong>작업중입니다.</strong>', {
+          type: 'warning'
+        });
+      } else {
+        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+  
+  
+$("body").on('click', '#global_reset_db_btn', function(e){
+  e.preventDefault();
+  document.getElementById("confirm_title").innerHTML = "DB 삭제";
+  document.getElementById("confirm_body").innerHTML = "전체 목록을 삭제 하시겠습니까?";
+  $('#confirm_button').attr('onclick', "global_db_delete();");
+  $("#confirm_modal").modal();
+  return;
+});
+  
+function global_db_delete() {
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_db',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>삭제하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>삭제에 실패하였습니다.</strong>',{
+          type: 'warning'
+        });
+      }
+    }
+  });
 }
-function m_row_start_hover(padding='10', align='center') {
-  var str = '<div class="row my_hover" style="padding-top: '+padding+'px; padding-bottom:'+padding+'px; align-items:'+align+';">';
-  return str;
+
+
+
+
+function command_modal_show(title) {
+  ClientHeight = window.innerHeight
+  document.getElementById("command_modal_title").innerHTML = title
+  $("#command_modal").height(ClientHeight-100);
+  $("#command_modal_textarea").height(ClientHeight-380);
+  $("#command_modal").modal();
 }
-function m_row_start_top(padding='10') {
-  return m_row_start(padding, 'top');
-}
-
-function m_row_end() {
-  var str = '</div>';
-  return str;
-}
-
-//border
-function m_col(w, h, align='left') {
-  var str = '<div class="col-sm-' + w + ' " style="text-align: '+align+'; word-break:break-all;">';
-  str += h
-  str += '</div>';
-  return str
-}
-
-function m_col2(w, h, align='left') {
-  var str = '<div class="col-sm-' + w + ' " style="padding:5px; margin:0px; text-align: '+align+'; word-break:break-all;">';
-  str += h
-  str += '</div>';
-  return str
-}
-
-
-function m_button_group(h) {
-  var str = '<div class="btn-group btn-group-sm flex-wrap mr-2" role="group">';
-  str += h
-  str += '</div>';
-  return str;
-}
-
-function m_button(id, text, data) {
-  var str = '<button id="'+id+'" name="'+id+'" class="btn btn-sm btn-outline-success" '
-  for ( var i in data) {
-    str += ' data-' + data[i].key + '="' + data[i].value+ '" '
-  }
-  str += '>' + text + '</button>';
-  return str;
-}
-
-function m_hr(margin='5') {
-  var str = '<hr style="width: 100%; margin:'+margin+'px;" />';
-  return str;
-}
-
-
-function m_hr_black() {
-  var str = '<hr style="width: 100%; color: black; height: 2px; background-color:black;" />';
-  return str;
-}
-// 체크박스는 자바로 하면 on/off 스크립트가 안먹힘.
-
-
-function m_modal(data='EMPTY', title='JSON') {
-  document.getElementById("modal_title").innerHTML = title;
-  document.getElementById("modal_body").innerHTML = "<pre>"+JSON.stringify(data, null, 2) + "</pre>";
-  $("#large_modal").modal();
-}
-
-function m_tab_head(name, active) {
-  if (active) {
-    var str = '<a class="nav-item nav-link active" id="id_'+name+'" data-toggle="tab" href="#'+name+'" role="tab">'+name+'</a>';
-  } else {
-    var str = '<a class="nav-item nav-link" id="id_'+name+'" data-toggle="tab" href="#'+name+'" role="tab">'+name+'</a>';
-  }
-  return str;
-}
-
-function m_tab_content(name, content, active) {
-  if (active) {
-    var str = '<div class="tab-pane fade show active" id="'+name+'" role="tabpanel" >';
-  } else {
-    var str = '<div class="tab-pane fade show" id="'+name+'" role="tabpanel" >';
-  }
-  str += content;
-  str += '</div>'
-  return str;
-}
-
-function m_progress(id, width, label) {
-  var str = '';
-  str += '<div class="progress" style="height: 25px;">'
-  str += '<div id="'+id+'" class="progress-bar"  style="background-color:yellow;width:'+width+'%"></div>';
-  str += '<div id="'+id+'_label" class="justify-content-center d-flex w-100 position-absolute" style="margin-top:2px">'+label+'</div>';
-  str += '</div>'
-  return str;
-}
-
-
-function m_progress2(id, width, label) {
-  var str = '';
-  str += '<div class="progress" style="height: 25px;">'
-  str += '<div id="'+id+'" class="progress-bar"  style="background-color:yellow;width:'+width+'%"></div>';
-  str += '<div id="'+id+'_label" class="justify-content-center d-flex w-100 position-absolute" style="margin:0px; margin-top:2px">'+label+'</div>';
-  str += '</div>'
-  return str;
-}
-
-
-
-
-
 
 
 function FormatNumberLength(num, length) {
@@ -305,54 +380,6 @@ function FormatNumberLength(num, length) {
       r = "0" + r;
   }
   return r;
-}
-
-function make_page_html(data) {
-  str = ' \
-    <div class="d-inline-block"></div> \
-      <div class="row"> \
-        <div class="col-sm-12"> \
-          <div class="btn-toolbar" style="justify-content: center;" role="toolbar" aria-label="Toolbar with button groups" > \
-            <div class="btn-group btn-group-sm mr-2" role="group" aria-label="First group">'
-  if (data.prev_page) {
-    str += '<button id="page" data-page="' + (data.start_page-1) + '" type="button" class="btn btn-secondary">&laquo;</button>'
-  }
-
-  for (var i = data.start_page ; i <= data.last_page ; i++) {
-    str += '<button id="page" data-page="' + i +'" type="button" class="btn btn-secondary" ';
-    if (i == data.current_page) {
-      str += 'disabled';
-    }
-    str += '>'+i+'</button>';
-  }
-  if (data.next_page) {
-    str += '<button id="page" data-page="' + (data.last_page+1) + '" type="button" class="btn btn-secondary">&raquo;</button>'
-  }
-
-  str += '</div> \
-    </div> \
-    </div> \
-    </div> \
-  '
-  document.getElementById("page1").innerHTML = str;
-  document.getElementById("page2").innerHTML = str;  
-}
-
-function use_collapse(div, reverse=false) {
-  var ret = $('#' + div).prop('checked'); 
-  if (reverse) {
-    if (ret) {
-      $('#' + div + '_div').collapse('hide')
-    } else {
-      $('#' + div + '_div').collapse('show')
-    }
-  } else {
-    if (ret) {
-      $('#' + div + '_div').collapse('show')
-    } else {
-      $('#' + div + '_div').collapse('hide')
-    }
-  }
 }
 
 
@@ -404,173 +431,7 @@ function humanFileSize(bytes) {
 }
 
 
-/*
-function humanFileSize(bytes, si) {
-    var thresh = si ? 1000 : 1024;
-    if(Math.abs(bytes) < thresh) {
-        return bytes + ' B';
-    }
-    var units = si
-        ? ['KB','MB','GB','TB','PB','EB','ZB','YB']
-        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
-    var u = -1;
-    do {
-        bytes /= thresh;
-        ++u;
-    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1)+' '+units[u];
-}
-*/
-
-///////////////////////////////////////////////////////////////////////////////
-// 공용 버튼
-///////////////////////////////////////////////////////////////////////////////
-
-$("body").on('click', '#global_link_btn', function(e) {
-  e.preventDefault();
-  url = $(this).data('url')
-  window.open(url, "_blank");
-});
 
 
-$("body").on('click', '#global_cache_confirm_btn', function(e){
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/hash',
-    type: "POST", 
-    cache: false,
-    data:{hash:hash},
-    dataType: "json",
-    success: function (data) {
-      if (data == 'true') {
-        $.notify('<strong>캐쉬 되어 있습니다.</strong>', {
-          type: 'success'
-        });
-      } else if (data == 'false') {
-        $.notify('<strong>캐쉬 되어 있지 않습니다.</strong>', {
-          type: 'warning'
-        });
-      } else if (data == 'fail') {
-        $.notify('<strong>캐쉬 확인 실패</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-  //$(location).attr('href', '/offcloud/cache?magnet=' + hash)
-});
-
-$("body").on('click', '#global_add_remote_btn', function(e) {
-  e.preventDefault();
-  hash = $(this).data('hash');
-  $.ajax({
-    url: '/offcloud/ajax/cache_download_bot',
-    type: "POST", 
-    cache: false,
-    data: {hash:hash},
-    dataType: "json",
-    success: function (data) {
-      m_modal(data)
-    }
-  });
-});
-
-// 사용 on / off
-$('#global_scheduler').change(function() {
-  var ret = $(this).prop('checked');
-  $.ajax({
-    url: '/'+package_name+'/ajax/scheduler',
-    type: "POST", 
-    cache: false,
-    data: {scheduler : ret},
-    dataType: "json",
-    success: function (list) {
-    }
-  });
-});
-
-//설정 저장
-$("#global_setting_save_btn").click(function(e) {
-  e.preventDefault();
-  var formData = get_formdata('#setting');
-  //console.log(package_name)
-  $.ajax({
-    url: '/'+package_name+'/ajax/setting_save',
-    type: "POST", 
-    cache: false,
-    data: formData,
-    dataType: "json",
-    success: function (ret) {
-      if (ret) {
-        $.notify('<strong>설정을 저장하였습니다.</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>설정 저장에 실패하였습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
-
-$("#global_one_execute_btn").click(function(e) {
-//$("body").on('click', '#one_execute_btn', function(e){
-  e.preventDefault();
-  $.ajax({
-    url: '/' + package_name + '/ajax/one_execute',
-    type: "POST", 
-    cache: false,
-    data: {},
-    dataType: "json",
-    success: function (ret) {
-      if (ret=='scheduler' || ret=='thread') {
-        $.notify('<strong>작업을 시작하였습니다. ('+ret+')</strong>', {
-          type: 'success'
-        });
-      } else if (ret == 'is_running') {
-        $.notify('<strong>작업중입니다.</strong>', {
-          type: 'warning'
-        });
-      } else {
-        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
-          type: 'warning'
-        });
-      }
-    }
-  });
-});
-
-
-$("body").on('click', '#global_reset_db_btn', function(e){
-  e.preventDefault();
-  document.getElementById("confirm_title").innerHTML = "DB 삭제";
-  document.getElementById("confirm_body").innerHTML = "전체 목록을 삭제 하시겠습니까?";
-  $('#confirm_button').attr('onclick', "global_db_delete();");
-  $("#confirm_modal").modal();
-  return;
-});
-
-function global_db_delete() {
-  $.ajax({
-    url: '/' + package_name + '/ajax/reset_db',
-    type: "POST", 
-    cache: false,
-    data: {},
-    dataType: "json",
-    success: function (data) {
-      if (data) {
-        $.notify('<strong>삭제하였습니다.</strong>', {
-          type: 'success'
-        });
-      } else {
-        $.notify('<strong>삭제에 실패하였습니다.</strong>',{
-          type: 'warning'
-        });
-      }
-    }
-  });
-}
 
 </script>

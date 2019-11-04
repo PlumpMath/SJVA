@@ -176,7 +176,6 @@ $(document).ready(function(){
       str += '<option value="'+current_data.remotes[i].name+'">'+current_data.remotes[i].name+'</option>'
     }
     tmp = document.querySelectorAll('[id^="job_type"]')
-    console.log(tmp)
     for (i in tmp)
       tmp[i].disabled = true;
     document.getElementById('job_remote').innerHTML = str;
@@ -198,7 +197,6 @@ $(document).ready(function(){
       }
     }
     if (select_job == null) return;
-    console.log(select_job)
     $('#job_save_btn').data("id", id);
     if (select_job.job_type == 0) {
       $('input[name=job_type]')[0].checked = true;
@@ -322,7 +320,6 @@ $(document).ready(function(){
     } else {
       formData += '1'
     }
-    console.log(formData);
     $.ajax({
       url: '/' + package_name + '/ajax/job_save',
       type: "POST", 
@@ -401,7 +398,6 @@ function make_remotes_list(data) {
   document.getElementById("remotes_list_div").innerHTML = str;
 }
 function make_job_list(data) {
-  console.log(data)
   str = ''
   for (i in data) {
     str += m_row_start();
@@ -468,7 +464,6 @@ $('#rc_current_process').change(function() {
 $("#global_setting_save_btn2").click(function(e) {
   e.preventDefault();
   var formData = get_formdata('#setting2');
-  console.log(package_name)
   $.ajax({
     url: '/'+package_name+'/ajax/setting_save',
     type: "POST", 
