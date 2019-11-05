@@ -26,7 +26,7 @@
 
 </div> <!--전체-->
 
-{{ macros.m_modal_start('command_modal', '', 'modal-lg') }}
+{{ macros.m_modal_start('this_command_modal', '', 'modal-lg') }}
   <div>
     <textarea id="add_textarea" class="col-md-12" rows="30" disabled style="visibility:visible"></textarea>
   </div>
@@ -59,7 +59,7 @@ var current_data = null;
 
 function ResizeTextArea() {
   ClientHeight = window.innerHeight
-  $("#command_modal").height(ClientHeight-100);
+  $("#this_command_modal").height(ClientHeight-100);
   $("#add_textarea").height(ClientHeight-380);
 }
 
@@ -83,13 +83,13 @@ function start_socketio() {
   });
 }
 
-function show_command_modal(title) {
+function show_this_command_modal(title) {
     document.getElementById("add_textarea").innerHTML = '';
     document.getElementById("process_command").value = '';
     document.getElementById("process_command").disabled = false;
     document.getElementById("send_process_command_btn").disabled = false;
-    document.getElementById("command_modal_title").innerHTML = title;
-    $("#command_modal").modal();
+    document.getElementById("this_command_modal_title").innerHTML = title;
+    $("#this_command_modal").modal();
     start_socketio();  
   }
 
@@ -213,7 +213,7 @@ $(document).ready(function(){
     });
   });
 
-  $('#command_modal').on('hidden.bs.modal', function (e) {
+  $('#this_command_modal').on('hidden.bs.modal', function (e) {
     e.preventDefault();
     socket.close();
     $.ajax({
@@ -239,7 +239,7 @@ $(document).ready(function(){
       dataType: "json",
       success: function (data) {
         if (data == 'success')  {
-          show_command_modal(command)
+          show_this_command_modal(command)
         } else {
           $.notify('<strong>실행 실패</strong>', {
             type: 'warning'
