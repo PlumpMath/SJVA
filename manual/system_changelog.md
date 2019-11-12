@@ -1,3 +1,6 @@
+##### ■ 0.1.10.2 (2019-11-07) #####
+- Guacamole 런처 플러그인 추가에 따른 일부 수정<br>
+  [[런처 플러그인] Guacamole](https://soju6jan.com/archives/1490)<br> 
 
 ##### <span style="color:red">■ 0.1.10.0 (2019-11-04)</span> #####
 - 런처 메뉴 & 플러그인 추가<br>
