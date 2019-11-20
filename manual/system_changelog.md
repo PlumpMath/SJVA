@@ -1,4 +1,7 @@
 ##### ■ 0.1.10.6 (2019-11-19) #####
+- 마나모아 : Fate / strange fake 1권 2-1화 류 파싱 오류 수정<br>
+- xteve : ARM 32bit 용 실행파일추가<br>
+- torrssen2 : 실행 옵션에 UTF8 추가. 윈도우 한글 깨지는 문제 수정. DB삭제 후 재실행해야 함.<br>
 - javdb 사이트 변경 반영<br>
 - 🐞: jav_agent VR 컨텐츠 제목, 장르 오류 수정<br>
 
