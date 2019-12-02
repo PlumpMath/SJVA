@@ -24,6 +24,6 @@ do
     else
         echo 'FINISH....'
         break
-    fi
+    fi 
     COUNT=`expr $COUNT + 1`
 done

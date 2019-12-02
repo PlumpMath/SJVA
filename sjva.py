@@ -75,7 +75,6 @@ import framework
 import system
    
 app = framework.app
-#huey = framework.huey
 
 def start_app():
     for i in range(10):
